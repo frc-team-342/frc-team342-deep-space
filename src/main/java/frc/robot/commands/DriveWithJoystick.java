@@ -15,17 +15,17 @@ import frc.robot.subsystems.DriveSystem;
 public class DriveWithJoystick extends Command {
   
   private double speed_y_left;
-	private double speed_x_left;
-	private double speed_y_right;
-	private double speed_x_right;
+  private double speed_y_right;
+  private static final double DEADZONE = 0.2;
+	
   
   private OI oi;
-  private DriveSystem drive;
+  private DriveSystem Bob;
 
     public DriveWithJoystick() {
    
       oi = OI.getInstance();
-      drive = DriveSystem.getInstance();
+      Bob = DriveSystem.getInstance();
       
     requires(Robot.m_subsystem);
   }
@@ -41,11 +41,16 @@ public class DriveWithJoystick extends Command {
 
     //gets and assigns the values and speed's of the axis's and outputs 
       speed_y_left = oi.getJoystickDriveLeftYAxis() * -1.0;
-      speed_x_left = oi.getJoystickDriveLeftXAxis();
+		  speed_y_right = oi.getJoystickDriveRightYAxis();
 
-		speed_y_right = oi.getJoystickDriveRightYAxis() * -1.0;
-		speed_x_right = oi.getJoystickDriveRightXAxis();
-
+      if(Math.abs(speed_y_left) > DEADZONE || Math.abs(speed_y_right) > DEADZONE) {
+        
+        Bob.drive(speed_y_left, speed_y_right);
+      }
+      else {
+        Bob.drive(0.0,0.0);
+      }
+      
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -58,7 +63,7 @@ public class DriveWithJoystick extends Command {
   @Override
   protected void end() {
       
-          drive.stopDrive();
+          Bob.stopDrive();
   }
 
   // Called when another command which requires one or more of the same

@@ -24,6 +24,17 @@ public class RobotMap {
    public static final int RIGHT_Y_AXIS = 5;
    public static final int RIGHT_X_AXIS = 4;
    
+
+  // Talon ID's
+  public static final int LEFTMASTER = 3;
+  public  static final int RIGHTMASTER = 1;
+  public  static final int LEFTSLAVE1 = 4;
+  public  static final int LEFTSLAVE2 = 11;
+  public  static final int LEFTSLAVE3 = 12;
+  public  static final int RIGHTSLAVE1 = 2;
+  public  static final int RIGHTSLAVE2 = 13;
+  public  static final int RIGHTSLAVE3 = 14;
+
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
