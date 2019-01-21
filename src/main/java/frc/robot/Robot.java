@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 
@@ -28,7 +29,7 @@ public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   private Command driveNow;
-
+  private Command liftNow;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
+    liftNow = new LiftWithJoystick(); 
 
     //getWatchdog().setEnable(true);
   }
@@ -126,6 +128,8 @@ public class Robot extends TimedRobot {
 
     
     driveNow.start();
+    liftNow.start(); 
+
   }
 
   /**

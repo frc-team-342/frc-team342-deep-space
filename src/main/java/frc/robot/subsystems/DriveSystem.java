@@ -166,7 +166,7 @@ public class DriveSystem extends Subsystem {
 
   public void drive(Double LeftSpeed, Double RightSpeed) {
    
-    System.out.println(RightSpeed);
+   // System.out.println(RightSpeed);
     RightSpeed = RightSpeed * .75;
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave1.set(ControlMode.PercentOutput, RightSpeed);

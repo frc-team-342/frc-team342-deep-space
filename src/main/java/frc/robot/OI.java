@@ -8,22 +8,30 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-
     private static final OI INSTANCE = new OI();
+    
+    private Joystick xbox_drive;
+    private Button xbox_leftBumper;
+        
 
-    private Joystick xbox_drive = new Joystick(0);
+
+    
+
+    
 
     private OI() {
-
         xbox_drive = new Joystick(0);
-    }
 
+        xbox_leftBumper = new JoystickButton(xbox_drive,5);
+    }
     public static OI getInstance() {
         return INSTANCE;
     }
@@ -47,5 +55,13 @@ public class OI {
     public double getJoystickDriveRightXAxis() {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
+    }
+
+    public double getJoystickDriveLeftTrigger() {
+       return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);
+    }
+    
+    public double getJoystickDriveRightTrigger() {
+        return xbox_drive.getRawAxis(RobotMap.RIGHT_TRIGGER);
     }
 }
