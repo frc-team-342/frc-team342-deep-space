@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 
 /**
@@ -30,10 +31,10 @@ public class DriveSystem extends Subsystem {
     private TalonSRX rightMaster;
     private TalonSRX leftSlave1;
     private TalonSRX leftSlave2;
-    private TalonSRX leftSlave3;
+    //private TalonSRX leftSlave3;
     private TalonSRX rightSlave1;
     private TalonSRX rightSlave2;
-    private TalonSRX rightSlave3;
+    //private TalonSRX rightSlave3;
 
     // Current Variables
     private static final int AMPS = 35;
@@ -54,10 +55,10 @@ public class DriveSystem extends Subsystem {
       rightMaster = new TalonSRX(RobotMap.RIGHTMASTER);
       leftSlave1 = new TalonSRX(RobotMap.LEFTSLAVE1);
       leftSlave2 = new TalonSRX(RobotMap.LEFTSLAVE2);
-      leftSlave3 = new TalonSRX(RobotMap.LEFTSLAVE3);
+      //leftSlave3 = new TalonSRX(RobotMap.LEFTSLAVE3);
       rightSlave1 = new TalonSRX(RobotMap.RIGHTSLAVE1);
       rightSlave2 = new TalonSRX(RobotMap.RIGHTSLAVE2);
-      rightSlave3 = new TalonSRX(RobotMap.RIGHTSLAVE3);
+      //rightSlave3 = new TalonSRX(RobotMap.RIGHTSLAVE3);
 
 
       inititalizeDriveSystem();
@@ -93,10 +94,10 @@ public class DriveSystem extends Subsystem {
     leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     leftSlave2.enableCurrentLimit(true);
 
-    leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
-    leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
-    leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    leftSlave3.enableCurrentLimit(true);
+    //leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
+    //leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
+    //leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+    //leftSlave3.enableCurrentLimit(true);
 
     rightMaster.configPeakCurrentLimit(ZERO, ZERO);
     rightMaster.configPeakCurrentDuration(ZERO, ZERO);
@@ -113,22 +114,22 @@ public class DriveSystem extends Subsystem {
     rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     rightSlave2.enableCurrentLimit(true);
 
-    rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
-    rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
-    rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    rightSlave3.enableCurrentLimit(true);
+    //rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
+    //rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
+    //rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+    //rightSlave3.enableCurrentLimit(true);
     
     //Configures the open loop ramp to set the motor to ramp up to speed after a
     // specifiec time other tha jerking to full speed.
     leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
-    leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
+    //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     rightMaster.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
-    rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
+    //rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     // Setting the PID loop for the master controllers
 		rightMaster.config_kP(0, TIMEOUT_MS);
@@ -146,18 +147,19 @@ public class DriveSystem extends Subsystem {
     leftSlave1.follow(leftMaster);
     leftSlave2.set(ControlMode.PercentOutput, 0.0);
     leftSlave2.follow(leftMaster);
-    leftSlave3.set(ControlMode.PercentOutput, 0.0);
-    leftSlave3.follow(leftMaster);
+    //leftSlave3.set(ControlMode.PercentOutput, 0.0);
+    ///leftSlave3.follow(leftMaster);
     
 		
 		rightMaster.set(ControlMode.PercentOutput, 0.0);
 		rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.follow(rightMaster);
     rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    leftSlave2.follow(leftMaster);
-    leftSlave3.set(ControlMode.PercentOutput, 0.0);
-    leftSlave3.follow(leftMaster);
-    
+    rightSlave2.follow(leftMaster);
+    //rightSlave3.set(ControlMode.PercentOutput, 0.0);
+    //rightSlave3.follow(leftMaster);
+
+
 
   }
 
@@ -167,20 +169,19 @@ public class DriveSystem extends Subsystem {
   public void drive(Double LeftSpeed, Double RightSpeed) {
    
     System.out.println(RightSpeed);
-    RightSpeed = RightSpeed * .75;
+    RightSpeed = RightSpeed * 1;
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
-    rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
+    //rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
 
-    LeftSpeed = LeftSpeed * .75;
+    LeftSpeed = LeftSpeed * 1;
     leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
     leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
     leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
-    leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
+    //leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
 
   }
-
 
 
 
@@ -190,13 +191,30 @@ public class DriveSystem extends Subsystem {
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    rightSlave3.set(ControlMode.PercentOutput, 0.0);
+    //rightSlave3.set(ControlMode.PercentOutput, 0.0);
 
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    leftSlave3.set(ControlMode.PercentOutput, 0.0);
+    //leftSlave3.set(ControlMode.PercentOutput, 0.0);
    }
+  
+   public void driveSetSpeed(double Left_Speed, double Right_Speed) {
+    
+    //argument is in position change per 100ms
+    rightMaster.set(ControlMode.Velocity, Right_Speed);
+    leftMaster.set(ControlMode.Velocity, Left_Speed);
+  
+  }
+  
+    public int getLeftMasterEncoder() {
 
+		return leftMaster.getSensorCollection().getPulseWidthPosition();
+	}
+
+	public int getRightMasterEncoder() {
+
+		return rightMaster.getSensorCollection().getPulseWidthPosition();
+	}
 
 }
