@@ -215,6 +215,10 @@ public class DriveSystem extends Subsystem {
 	public int getRightMasterEncoder() {
 
 		return rightMaster.getSensorCollection().getPulseWidthPosition();
-	}
+  }
+   public static double toMeters() {
+
+    
+   }
 
 }
