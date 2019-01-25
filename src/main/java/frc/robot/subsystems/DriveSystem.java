@@ -44,6 +44,11 @@ public class DriveSystem extends Subsystem {
     private static final int ZERO = 0;
     private static final double RAMP_TIME = 0.2;
     private static final double SLOW_DOWN = 2.0;
+    
+    //
+    public static int init_Left;
+    public static int init_Right;
+    
 
 
 
@@ -67,6 +72,7 @@ public class DriveSystem extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
+
 
 
   }
@@ -159,6 +165,8 @@ public class DriveSystem extends Subsystem {
     //rightSlave3.set(ControlMode.PercentOutput, 0.0);
     //rightSlave3.follow(leftMaster);
 
+    init_Left = getLeftMasterEncoder();
+    init_Right = getRightMasterEncoder();
 
 
   }
@@ -216,9 +224,13 @@ public class DriveSystem extends Subsystem {
 
 		return rightMaster.getSensorCollection().getPulseWidthPosition();
   }
-   public static double toMeters() {
-
+   public double toMeters() {
     
+    double current = getRightMasterEncoder() - init_Right;
+    //Conversion    Enc Value per wheel Rotation = 1.4
+    //              meters per wheel rotation = 0.31415
+    return (current * 1.4 )/ 0.31415;
+  
    }
 
 }
