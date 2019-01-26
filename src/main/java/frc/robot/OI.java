@@ -8,6 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.commands.TogglePneumatics; 
+import frc.robot.subsystems.PneumaticClaw;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,9 +24,17 @@ public class OI {
 
     private Joystick xbox_drive = new Joystick(0);
 
+    private Command togglePneumatics = new TogglePneumatics(); 
+
+    private Button
+        xbox_drive_rightBumper;
+
     private OI() {
 
         xbox_drive = new Joystick(0);
+        xbox_drive_rightBumper = new JoystickButton(xbox_drive, 6);
+        xbox_drive_rightBumper.whenPressed(togglePneumatics); 
+
     }
 
     public static OI getInstance() {
@@ -47,5 +60,15 @@ public class OI {
     public double getJoystickDriveRightXAxis() {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
+    }
+
+    public double getJoystickDriveLeftTrigger() {
+
+        return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);
+    }
+
+    public double getJoystickDriveRightTrigger() {
+
+        return xbox_drive.getRawAxis(RobotMap.RIGHT_TRIGGER); 
     }
 }

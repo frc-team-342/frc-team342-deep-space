@@ -40,8 +40,10 @@ public class LiftWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    //TODO make piston activated by a button
     leftTriggerValue = oi.getJoystickDriveLeftTrigger();
     rightTriggerValue = oi.getJoystickDriveRightTrigger(); 
+        
 
     if (leftTriggerValue > DEADZONE && rightTriggerValue > DEADZONE){
       lift.liftStop();
