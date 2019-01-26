@@ -8,6 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.commands.ToggleSlowDrive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -18,11 +22,17 @@ public class OI {
     private static final OI INSTANCE = new OI();
 
     private Joystick xbox_drive = new Joystick(0);
-
+    private Command toggleSlowDrive = new ToggleSlowDrive();
+    private Button xbox_drive_leftBumper;
+    
     private OI() {
 
         xbox_drive = new Joystick(0);
+        xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
+        xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
     }
+
+
 
     public static OI getInstance() {
         return INSTANCE;
@@ -48,4 +58,7 @@ public class OI {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
     }
+
+    
+    
 }

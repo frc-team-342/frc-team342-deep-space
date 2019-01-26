@@ -37,15 +37,20 @@ public class DriveSystem extends Subsystem {
     //private TalonSRX rightSlave3;
 
     // Current Variables
+
     private static final int AMPS = 35;
     private static final int TIMEOUT_MS = 1;
     private static final int PEAK_DURATION = 200;
     private static final int AMPS_CENTER = 35;
     private static final int ZERO = 0;
     private static final double RAMP_TIME = 0.2;
-    private static final double SLOW_DOWN = 2.0;
     
-    //
+    
+    //Stuff For Slow Button
+    private static final double SLOW_DOWN_SCALAR = 2.0;
+    private boolean slow;
+    
+    //Encoder Positions
     public static int init_Left;
     public static int init_Right;
     
@@ -165,6 +170,8 @@ public class DriveSystem extends Subsystem {
     //rightSlave3.set(ControlMode.PercentOutput, 0.0);
     //rightSlave3.follow(leftMaster);
 
+    slow = false;
+
     init_Left = getLeftMasterEncoder();
     init_Right = getRightMasterEncoder();
 
@@ -176,7 +183,13 @@ public class DriveSystem extends Subsystem {
 
   public void drive(Double LeftSpeed, Double RightSpeed) {
    
-    System.out.println(RightSpeed);
+    if(slow) {
+      System.out.println("Changing Speeds to Slow Speeds");
+      LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;
+      RightSpeed = RightSpeed / SLOW_DOWN_SCALAR;
+    }
+
+    //System.out.println(RightSpeed);
     RightSpeed = RightSpeed * 1;
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
@@ -224,6 +237,22 @@ public class DriveSystem extends Subsystem {
 
 		return rightMaster.getSensorCollection().getPulseWidthPosition();
   }
+
+  public void setSlow(boolean slowSetting) {
+
+    this.slow = slowSetting;
+  }
+
+  public boolean isInSlowMode() {
+   
+    return slow;
+  }
+
+
+
+
+
+
    public double toMeters() {
     
     double current = getRightMasterEncoder() - init_Right;
