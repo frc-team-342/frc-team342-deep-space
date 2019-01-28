@@ -25,7 +25,7 @@ public class ToggleSlowDrive extends Command {
       
         Bob = DriveSystem.getInstance();
 
-    requires(Robot.m_subsystem);
+    //requires(Robot.m_subsystem);
   }
 
   // Called just before this Command runs the first time
@@ -37,13 +37,13 @@ public class ToggleSlowDrive extends Command {
   @Override
   protected void execute() {
       if(Bob.isInSlowMode()) {
-        System.out.println("Setting Slow to False");
+        System.out.println("Setting Slow to " + Bob.isInSlowMode());
         Bob.setSlow(false);  
 
       }else {
 
         Bob.setSlow(true);
-        System.out.println("Setting Slow to True");
+        System.out.println("Setting Slow to "+ Bob.isInSlowMode());
       }
   }
 
