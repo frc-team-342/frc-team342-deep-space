@@ -48,4 +48,11 @@ public class OI {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
     }
+    
+    public double getJoystickDriveLeftTrigger(){
+        return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);
+    }
+    public double getJoystickDriveRightTrigger(){
+        return xbox_drive.getRawAxis(RobotMap.RIGHT_TRIGGER);
+    }
 }
