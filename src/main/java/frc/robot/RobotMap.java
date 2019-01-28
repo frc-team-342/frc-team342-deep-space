@@ -35,6 +35,8 @@ public class RobotMap {
   public  static final int RIGHTSLAVE1 = 2;
   public  static final int RIGHTSLAVE2 = 13;
   public  static final int RIGHTSLAVE3 = 14;
+  public static final int LIFTMASTER = 8;
+  public static final int LIFTFOLLOW = 9;
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
@@ -45,7 +47,8 @@ public class RobotMap {
   public static final int X_LEFT_AXIS = 0; 
   public static final int Y_LEFT_AXIS = 1;
   public static final int X_RIGHT_AXIS = 4;
-  public static final int X_LEFT_AXIS = 5;
+  public static final int LEFT_TRIGGER = 2;
+  public static final int RIGHT_TRIGGER = 3;
 
   /* 
   //this is stuff for logitech that we might not use this year
