@@ -25,7 +25,6 @@ public class ToggleSlowDrive extends Command {
       
         Bob = DriveSystem.getInstance();
 
-    //requires(Robot.m_subsystem);
   }
 
   // Called just before this Command runs the first time
