@@ -68,30 +68,15 @@ public class LiftSystem extends Subsystem {
   public void liftDown(double speed) {
     liftMaster.set(ControlMode.PercentOutput, speed * -1.0); 
   }
-  public double[] getLiftEncoder() {
-		
-		double[] testvalues = new double[5];
-		
-		testvalues[0] = liftMaster.getSelectedSensorPosition(0);
-		testvalues[1] = liftMaster.getSensorCollection().getAnalogIn();
-		testvalues[2] = liftMaster.getSensorCollection().getAnalogInRaw();
-		testvalues[3] = liftMaster.getSensorCollection().getPulseWidthPosition();
-		testvalues[4] = liftMaster.getSensorCollection().getQuadraturePosition();
-		
-		return testvalues;
-	}
+  
 	
-	public double[] getLiftEncoderS() {
+	public double getLiftEncoders() {
 		
-		double[] testvalues = new double[5];
+		//String encoderposition = liftMaster.getSensorCollection().toString();
 		
-		testvalues[0] = liftFollow.getSelectedSensorPosition(0);
-		testvalues[1] = liftFollow.getSensorCollection().getAnalogIn();
-		testvalues[2] = liftFollow.getSensorCollection().getAnalogInRaw();
-		testvalues[3] = liftFollow.getSensorCollection().getPulseWidthPosition();
-		testvalues[4] = liftFollow.getSensorCollection().getQuadraturePosition();
+    double encoderposition = liftMaster.getSensorCollection().getPulseWidthPosition();
 		
-		return testvalues;
+		return encoderposition;
 	}
   public void liftStop(){
     liftMaster.set(ControlMode.PercentOutput, 0.0);
