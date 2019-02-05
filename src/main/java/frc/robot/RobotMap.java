@@ -69,8 +69,7 @@ public class RobotMap {
   public static final int PNEUMATICCLAW_CLOSED = 1; 
   public static final int PNEUMATICCLAW_RELEASE_OPEN = 4;
 
-  public static final int LEFT_TRIGGER = 2;
-  public static final int RIGHT_TRIGGER = 3; 
+
   
 
 
