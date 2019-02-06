@@ -15,16 +15,15 @@ package frc.robot;
  */
 
 public class RobotMap {
-  //Motors
-   public static final int LEFT_MOTOR = 1;
-   public static final int RIGHT_MOTOR = 2;
+  // Motors
+  public static final int LEFT_MOTOR = 1;
+  public static final int RIGHT_MOTOR = 2;
 
-   //Joystick Axis
-   public static final int LEFT_Y_AXIS = 1;
-   public static final int LEFT_X_AXIS = 0;
-   public static final int RIGHT_Y_AXIS = 5;
-   public static final int RIGHT_X_AXIS = 4;
-   
+  // Joystick Axis
+  public static final int LEFT_Y_AXIS = 1;
+  public static final int LEFT_X_AXIS = 0;
+  public static final int RIGHT_Y_AXIS = 5;
+  public static final int RIGHT_X_AXIS = 4;
 
   // Talon ID's
   public static final int LEFTMASTER = 3;
@@ -36,7 +35,7 @@ public class RobotMap {
   public static final int RIGHTSLAVE2 = 13;
   public static final int RIGHTSLAVE3 = 14;
   public static final int LIFTMASTER = 8;
-  public static final int LIFTFOLLOW = 9; 
+  public static final int LIFTFOLLOW = 9;
   public static final int PNEUMATICS = 5;
 
   // If you are using multiple modules, make sure to define both the port
@@ -45,33 +44,26 @@ public class RobotMap {
   // public static int rangefinderModule = 1;
 
   // JoystickAxis
-  public static final int X_LEFT_AXIS = 0; 
+  public static final int X_LEFT_AXIS = 0;
   public static final int Y_LEFT_AXIS = 1;
   public static final int LEFT_TRIGGER = 2;
   public static final int RIGHT_TRIGGER = 3;
   public static final int X_RIGHT_AXIS = 4;
   public static final int Y_RIGHT_AXIS = 5;
 
-  /* 
-  //this is stuff for logitech that we might not use this year
-  public static final int X_AXIS_LOGITECH = 0;
-	public static final int Y_AXIS_LOGITECH = 1;
-	public static final int Z_AXIS_LOGITECH = 2;
-  public static final int SLIDER_AXIS_LOGITECH = 3;
-  
-  //Logitech Axis
-	public static final int X_AXIS = 0;
-  public static final int Y_AXIS = 1;
-   */ 
-  
-  //basic pneumatic stuff
+  /*
+   * //this is stuff for logitech that we might not use this year public static
+   * final int X_AXIS_LOGITECH = 0; public static final int Y_AXIS_LOGITECH = 1;
+   * public static final int Z_AXIS_LOGITECH = 2; public static final int
+   * SLIDER_AXIS_LOGITECH = 3;
+   * 
+   * //Logitech Axis public static final int X_AXIS = 0; public static final int
+   * Y_AXIS = 1;
+   */
+
+  // basic pneumatic stuff
   public static final int PNEUMATICCLAW_OPEN = 0;
-  public static final int PNEUMATICCLAW_CLOSED = 1; 
+  public static final int PNEUMATICCLAW_CLOSED = 1;
   public static final int PNEUMATICCLAW_RELEASE_OPEN = 4;
-
-  public static final int LEFT_TRIGGER = 2;
-  public static final int RIGHT_TRIGGER = 3; 
-  
-
 
 }
