@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
     liftNow = new LiftWithJoystick();
-    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();0
 
     // getWatchdog().setEnable(true);
   }
