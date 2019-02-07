@@ -63,7 +63,7 @@ public class LiftSystem extends Subsystem {
   }
 
   public void liftUp(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed * 1.0);
+    liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
   }
 
   public void liftDown(double speed) {
@@ -75,7 +75,7 @@ public class LiftSystem extends Subsystem {
 		
 		//String encoderposition = liftMaster.getSensorCollection().toString();
 		
-    double encoderposition = liftMaster.getSensorCollection().getAnalogIn();
+    double encoderposition = liftMaster.getSensorCollection().getQuadraturePosition();
 		
 		return encoderposition;
 	}

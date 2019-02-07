@@ -50,12 +50,12 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
-    //driveNow = new DriveToDistance(0);
+    //driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
     //liftNow = new LiftToHeight(LiftHeight.LowRocket);
     //CameraServer.getInstance().startAutomaticCapture();
 
-    // getWatchdog().setEnable(true);
+     //getWatchdog().setEnable(true);
   }
 
   /**
