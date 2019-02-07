@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
     liftNow = new LiftWithJoystick();
-    CameraServer.getInstance().startAutomaticCapture();0
+    CameraServer.getInstance().startAutomaticCapture();
 
     // getWatchdog().setEnable(true);
   }
