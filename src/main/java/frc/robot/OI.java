@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.commands.ToggleSlowDrive;
+import frc.robot.commands.TogglePneumatics;
+import frc.robot.subsystems.PneumaticClaw;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -24,15 +26,16 @@ public class OI {
     private Joystick xbox_drive = new Joystick(0);
     private Command toggleSlowDrive = new ToggleSlowDrive();
     private Button xbox_drive_leftBumper;
-    
+    private Command togglePneumatics = new TogglePneumatics();
+    private Button xbox_drive_rightBumper;
+
     private OI() {
 
         xbox_drive = new Joystick(0);
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
+
     }
-
-
 
     public static OI getInstance() {
         return INSTANCE;
@@ -58,11 +61,14 @@ public class OI {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
     }
-    
-    public double getJoystickDriveLeftTrigger(){
+
+    public double getJoystickDriveLeftTrigger() {
+
         return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);
     }
-    public double getJoystickDriveRightTrigger(){
+
+    public double getJoystickDriveRightTrigger() {
+
         return xbox_drive.getRawAxis(RobotMap.RIGHT_TRIGGER);
     }
 }

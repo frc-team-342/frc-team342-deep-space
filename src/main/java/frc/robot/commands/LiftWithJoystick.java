@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.OI;
@@ -40,17 +41,21 @@ public class LiftWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    //TODO make piston activated by a button
     leftTriggerValue = oi.getJoystickDriveLeftTrigger();
     rightTriggerValue = oi.getJoystickDriveRightTrigger(); 
+        
 
     if (leftTriggerValue > DEADZONE && rightTriggerValue > DEADZONE){
       lift.liftStop();
     } else if (leftTriggerValue > DEADZONE && rightTriggerValue < DEADZONE){
       lift.liftUp(Math.abs(leftTriggerValue));
+      SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
       System.out.println("encoder: " + lift.getLiftEncoders());
      
     } else if (leftTriggerValue < DEADZONE && rightTriggerValue > DEADZONE){
       lift.liftDown(-1*Math.abs(rightTriggerValue));
+      SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
       System.out.println("encoder: " + lift.getLiftEncoders());
     } else {
       lift.liftStop(); 

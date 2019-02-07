@@ -7,14 +7,19 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.LiftWithJoystick;
+import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.LiftToHeight;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.commands.LiftWithJoystick;
@@ -31,7 +36,6 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
   private Command driveNow;
   private Command liftNow;
-
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -46,8 +50,12 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
+    //driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
-    //getWatchdog().setEnable(true);
+    //liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    //CameraServer.getInstance().startAutomaticCapture();
+
+     //getWatchdog().setEnable(true);
   }
 
   /**
@@ -112,7 +120,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
- 
+
   }
 
   @Override
@@ -125,9 +133,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    
-
-    
     driveNow.start();
     liftNow.start();
   }
