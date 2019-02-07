@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.LiftSystem;
 
@@ -18,12 +19,15 @@ import frc.robot.subsystems.LiftSystem;
 public class LiftToHeight extends Command {
 
   private LiftSystem lift;
-  private double CurrentHeight;
+  private double CurrentHeight = 0;
   private double Goal;
-  private boolean GoalAccomplished;
+  private boolean GoalNotAccomplished;
+  private double init_Lift;
+  
+
 
   public enum LiftHeight {
-    LowRocket(50), MiddleRocket(100), HighRocket(150);
+    LowRocket(1500), MiddleRocket(3000), HighRocket(3500);
     public final int value;
 
 		LiftHeight(int InitValue) {
@@ -35,22 +39,38 @@ public class LiftToHeight extends Command {
   public LiftToHeight(LiftHeight Height){
     lift=LiftSystem.getInstance();
     Goal= Height.value;
+    requires(lift);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    GoalAccomplished= CurrentHeight<= Goal;
+    init_Lift = lift.getLiftEncoders();
+    GoalNotAccomplished= CurrentHeight<= Goal;
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (GoalAccomplished){
-      lift.liftUp(.15);
-    }else {
-      lift.liftDown(.15);
+    
+    CurrentHeight = lift.getLiftEncoders() - init_Lift;
+
+    
+
+    if (GoalNotAccomplished){
+      lift.liftUp(.5);
+
+      SmartDashboard.putNumber("Height", CurrentHeight);
+      System.out.println("height " + CurrentHeight);
+    }else { 
+      lift.liftDown(.5);
+
+      SmartDashboard.putNumber("Height: ", CurrentHeight);
+      System.out.println("Height: " + CurrentHeight);
+     
     }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

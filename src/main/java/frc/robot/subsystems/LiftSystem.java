@@ -58,6 +58,7 @@ public class LiftSystem extends Subsystem {
 		liftFollow.configPeakCurrentDuration(milliseconds, timeout);
 		liftFollow.configContinuousCurrentLimit(amps, timeout);
     liftFollow.enableCurrentLimit(true);
+
     
   }
 
@@ -74,7 +75,7 @@ public class LiftSystem extends Subsystem {
 		
 		//String encoderposition = liftMaster.getSensorCollection().toString();
 		
-    double encoderposition = liftMaster.getSensorCollection().getPulseWidthPosition();
+    double encoderposition = liftMaster.getSensorCollection().getQuadraturePosition();
 		
 		return encoderposition;
 	}

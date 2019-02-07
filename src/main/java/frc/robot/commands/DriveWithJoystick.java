@@ -41,7 +41,7 @@ public class DriveWithJoystick extends Command {
   protected void execute() {
     if(arcade)
     {
-      arcadeDrive();
+      //arcadeDrive();
     }
     else
     {
