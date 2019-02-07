@@ -58,11 +58,12 @@ public class LiftSystem extends Subsystem {
 		liftFollow.configPeakCurrentDuration(milliseconds, timeout);
 		liftFollow.configContinuousCurrentLimit(amps, timeout);
     liftFollow.enableCurrentLimit(true);
+
     
   }
 
   public void liftUp(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+    liftMaster.set(ControlMode.PercentOutput, speed * 1.0);
   }
 
   public void liftDown(double speed) {
@@ -74,7 +75,7 @@ public class LiftSystem extends Subsystem {
 		
 		//String encoderposition = liftMaster.getSensorCollection().toString();
 		
-    double encoderposition = liftMaster.getSensorCollection().getPulseWidthPosition();
+    double encoderposition = liftMaster.getSensorCollection().getAnalogIn();
 		
 		return encoderposition;
 	}

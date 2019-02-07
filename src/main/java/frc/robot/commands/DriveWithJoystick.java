@@ -23,7 +23,7 @@ public class DriveWithJoystick extends Command {
 
     public DriveWithJoystick() {
       
-      arcade = true;
+      arcade = false;
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
 
@@ -41,7 +41,7 @@ public class DriveWithJoystick extends Command {
   protected void execute() {
     if(arcade)
     {
-      arcadeDrive();
+      //arcadeDrive();
     }
     else
     {
