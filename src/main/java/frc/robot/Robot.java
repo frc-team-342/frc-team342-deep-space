@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -48,6 +49,9 @@ public class Robot extends TimedRobot {
     m_oi = OI.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
+    arcade_chooser.setDefaultOption("Off", false);
+    arcade_chooser.addOption("Arcade", true);
+    SmartDashboard.putData("Arcade Mode", arcade_chooser);
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
     //driveNow = new DriveToDistance();
@@ -132,7 +136,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
+    
     driveNow.start();
     liftNow.start();
   }

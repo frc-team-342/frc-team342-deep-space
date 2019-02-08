@@ -18,7 +18,7 @@ import frc.robot.subsystems.DriveSystem;
 
 public class DriveToDistance extends Command {
 
-	private DriveSystem drive;
+	private DriveSystem Bob;
 
 	private double goal;
 	
@@ -63,8 +63,8 @@ public class DriveToDistance extends Command {
     
     */
 
-		drive = DriveSystem.getInstance();
-		requires(drive);
+		Bob = DriveSystem.getInstance();
+		requires(Bob);
 
 		goal = distance;
     /*
@@ -78,8 +78,8 @@ public class DriveToDistance extends Command {
 
 	protected void initialize() {
 		
-		init_Left = drive.getLeftMasterEncoder();
-		init_Right = drive.getRightMasterEncoder(); 
+		init_Left = Bob.getLeftMasterEncoder();
+		init_Right = Bob.getRightMasterEncoder(); 
 		
     }
     
@@ -88,19 +88,19 @@ public class DriveToDistance extends Command {
         left_speed = SPEED_CONST;
         right_speed = SPEED_CONST;
 
-        current_Left = drive.getLeftMasterEncoder() - init_Left;
-        current_Right = drive.getRightMasterEncoder() - init_Right;
+        current_Left = Bob.getLeftMasterEncoder() - init_Left;
+        current_Right = Bob.getRightMasterEncoder() - init_Right;
 
         left_rotation_count = Math.abs(current_Left / 4096);
         right_rotation_count = Math.abs(current_Right / 4096);
 
     /*    if(backwards) {
-			drive.driveSetSpeed(left_speed * -1.0, right_speed * -1.0);
+			Bob.driveSetSpeed(left_speed * -1.0, right_speed * -1.0);
 		}else {               
-			drive.driveSetSpeed(left_speed, right_speed);
+			Bob.driveSetSpeed(left_speed, right_speed);
         }
     */
-        drive.drive(left_speed, right_speed * -1);
+        Bob.drive(left_speed, right_speed * -1);
 
         SmartDashboard.putNumber("left", left_rotation_count);
         SmartDashboard.putNumber("right", right_rotation_count);
@@ -124,7 +124,7 @@ public class DriveToDistance extends Command {
 
     protected void end() {
         
-        drive.stopDrive();
+        Bob.stopDrive();
     }
 
     protected void interrupted() {
