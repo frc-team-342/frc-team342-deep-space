@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   private Command driveNow;
+  private Command driveToDistance;
   private Command liftNow;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Arcade Mode", arcade_chooser);
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
-    //driveNow = new DriveToDistance();
+    driveToDistance = new DriveToDistance(50);
     liftNow = new LiftWithJoystick();
     //liftNow = new LiftToHeight(LiftHeight.LowRocket);
     //CameraServer.getInstance().startAutomaticCapture();
@@ -137,8 +138,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
-    
-    driveNow.start();
+
+    driveToDistance.start();
+    //driveNow.start();
+    System.out.println("DriveNow just initiated.");
     liftNow.start();
   }
 

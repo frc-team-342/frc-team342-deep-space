@@ -64,30 +64,42 @@ public class DriveWithJoystick extends Command {
 
     public void arcadeDrive () 
     {
+      System.out.println("In arcade drive");
       double speed_y_axis = oi.getJoystickDriveLeftYAxis();
       double speed_x_axis = oi.getJoystickDriveRightXAxis();
       double leftSpeed;
       double rightSpeed;
 
+     if (Math.abs(speed_y_axis) > DEADZONE || Math.abs(speed_x_axis) > DEADZONE) {
       if(speed_y_axis > 0.0) {
+        
         if(speed_x_axis > 0.0) {
+          
           leftSpeed = speed_y_axis - speed_x_axis;
           rightSpeed = Math.max(speed_y_axis, speed_x_axis);
         } else {
-          leftSpeed = Math.max(speed_y_axis, speed_x_axis);
+          
+          leftSpeed = Math.max(speed_y_axis, -speed_x_axis);
           rightSpeed = speed_y_axis + speed_x_axis;
         }
       } else {
+        
         if(speed_x_axis > 0.0) {
+          
           leftSpeed = -Math.max(-speed_y_axis, speed_x_axis);
           rightSpeed = speed_y_axis + speed_x_axis;
         } else {
+          
           leftSpeed = speed_y_axis - speed_x_axis;
           rightSpeed = -Math.max(-speed_y_axis, -speed_x_axis);
         }
       }
-      Bob.drive(-leftSpeed, rightSpeed);
-    }
+      Bob.drive(-1*leftSpeed,rightSpeed);
+      } else {
+      Bob.drive(0.0, 0.0);
+        }
+      }
+
   
 
   
