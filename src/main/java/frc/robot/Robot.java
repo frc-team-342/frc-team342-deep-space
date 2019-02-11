@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
     driveNow = new DriveWithJoystick();
     //driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
-    //liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    //liftNow = new LiftToHeight(LiftHeight.HighRocket);
     //CameraServer.getInstance().startAutomaticCapture();
 
      //getWatchdog().setEnable(true);

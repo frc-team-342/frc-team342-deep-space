@@ -67,7 +67,7 @@ public class LiftSystem extends Subsystem {
   }
 
   public void liftDown(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed * -1.0); 
+    liftMaster.set(ControlMode.PercentOutput, speed); 
   }
   
 	

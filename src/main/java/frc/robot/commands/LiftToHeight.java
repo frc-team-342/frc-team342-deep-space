@@ -21,13 +21,13 @@ public class LiftToHeight extends Command {
   private LiftSystem lift;
   private double CurrentHeight = 0;
   private double Goal;
-  private boolean GoalNotAccomplished;
+  private boolean UnderGoal;
   private double init_Lift;
   
 
 
   public enum LiftHeight {
-    LowRocket(1500), MiddleRocket(3000), HighRocket(3500);
+    LowRocket(15000), MiddleRocket(30000), HighRocket(35000);
     public final int value;
 
 		LiftHeight(int InitValue) {
@@ -39,36 +39,35 @@ public class LiftToHeight extends Command {
   public LiftToHeight(LiftHeight Height){
     lift=LiftSystem.getInstance();
     Goal= Height.value;
-    requires(lift);
+    //requires(lift);
   }
   
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     init_Lift = lift.getLiftEncoders();
-    GoalNotAccomplished= CurrentHeight<= Goal;
+    UnderGoal= CurrentHeight <= Goal;
     
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
     CurrentHeight = lift.getLiftEncoders() - init_Lift;
+    System.out.println("Current Height: " + CurrentHeight);
 
-    
+    //System.out.println("Goal is " + Goal);
+    UnderGoal= (CurrentHeight<= Goal);
 
-    if (GoalNotAccomplished){
+    if (UnderGoal){
       lift.liftUp(.5);
-
       SmartDashboard.putNumber("Height", CurrentHeight);
-      System.out.println("height " + CurrentHeight);
+      //System.out.println("height " + CurrentHeight);
     }else { 
-      lift.liftDown(.5);
+      lift.liftDown(.25);
 
       SmartDashboard.putNumber("Height: ", CurrentHeight);
-      System.out.println("Height: " + CurrentHeight);
-     
+      //System.out.println("Height: " + CurrentHeight);
     }
 
   }
@@ -77,7 +76,9 @@ public class LiftToHeight extends Command {
   @Override
   protected boolean isFinished() {
     boolean IsInDeadzone = CurrentHeight > (Goal -1000.0) && CurrentHeight < (Goal+ 1000.0);
+    //System.out.println("Checking Deadzone: " + IsInDeadzone);
     return IsInDeadzone;
+
   }
 
   // Called once after isFinished returns true
