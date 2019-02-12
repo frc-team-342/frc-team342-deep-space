@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.sun.jdi.Value;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
@@ -17,12 +19,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.LiftWithJoystick;
+import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.commands.LiftWithJoystick;
+
+import frc.robot.commands.Autonomous.DriveOffPlatform;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,7 +39,7 @@ public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   private Command driveNow;
-  private Command driveToDistance;
+  private Command drive_off_platform;
   private Command liftNow;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -55,7 +59,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Arcade Mode", arcade_chooser);
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
-    driveToDistance = new DriveToDistance(50);
+     drive_off_platform = new DriveOffPlatform();
     liftNow = new LiftWithJoystick();
     //liftNow = new LiftToHeight(LiftHeight.LowRocket);
     //CameraServer.getInstance().startAutomaticCapture();
@@ -106,6 +110,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
 
+
+  //drive_off_platform.start();
+  driveNow.start();
+  
+  
+
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
      * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -125,9 +135,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-
+   
+  
   }
-
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -139,8 +149,8 @@ public class Robot extends TimedRobot {
     }
     ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
 
-    driveToDistance.start();
-    //driveNow.start();
+    
+    driveNow.start();
     System.out.println("DriveNow just initiated.");
     liftNow.start();
   }

@@ -39,20 +39,6 @@ public class DriveToDistance extends Command {
     private static final double SPEED_CONST = 0.25;
     public static final double TEST_DISTANCE = 1.5;
 	
-	/* public enum Distance {
-        
-        CENTER_SWITCH_LEFT(10 * 0.95), CENTER_SWITCH_RIGHT(10.2 * 0.95), SCALE_ACROSS_PLATFORM_ZONE(19.3 * 0.95), PLATFORM_ZONE_WALL(25.05 * 0.95), SCALE_FROM_PLATFORM_ZONE(0 * 0.95), SIDE_SWITCH(17.316 * 0.95), SCALE_DISTANCE(37.179 * 0.95), DRIVE_IN_DISTANCE_SCALE(0.5 * 0.95),
-		DRIVE_IN_DISTANCE_SWITCH(3 * 0.95), DRIVE_OFF_WALL(1 * 0.95), DRIVE_FORWARD_DISTANCE(13 * 0.95), DRIVE_OFF_SWITCH_WALL(2 * 0.95), DRIVE_TO_PLATFORM_ZONE_FROM_SWITCH(3.66 * 0.95),
-		DRIVE_TO_CUBE_SWITCH(2.87 * 0.95), DRIVE_TO_CUBES(5 * 0.95);
-
-		//SIDE_SWITCH(13.5)
-		public final double value;
-
-		Distance(double initValue) {
-			this.value = initValue;
-        }
-    }   
-    */
 
 
     public DriveToDistance(double distance) {
@@ -64,7 +50,7 @@ public class DriveToDistance extends Command {
     */
 
 		Bob = DriveSystem.getInstance();
-		requires(Bob);
+		//requires(Bob);
 
 		goal = distance;
     /*
