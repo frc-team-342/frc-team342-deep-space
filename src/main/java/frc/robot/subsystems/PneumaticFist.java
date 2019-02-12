@@ -14,28 +14,28 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI;
 
-public class PneumaticClaw extends Subsystem {
+/**
+ * Sets up the fist(the thing that grabs the hatch)
+ */
 
+public class PneumaticFist extends Subsystem {
   private DoubleSolenoid pneumaticSuspension;
-  private static final PneumaticClaw INSTANCE = new PneumaticClaw();
+  private static final PneumaticFist INSTANCE = new PneumaticFist();
 
-  public PneumaticClaw() {
+  public PneumaticFist() {
     initializePneumatics();
   }
 
   @Override
   public void initDefaultCommand() {
-
   }
 
-  public static PneumaticClaw getInstance() {
-
+  public static PneumaticFist getInstance() {
     return INSTANCE;
   }
 
-  // @Override
   private void initializePneumatics() {
-    pneumaticSuspension = new DoubleSolenoid(RobotMap.PNEUMATICCLAW_OPEN, RobotMap.PNEUMATICCLAW_CLOSED);
+    pneumaticSuspension = new DoubleSolenoid(RobotMap.GRIPPER_EXTRACT, RobotMap.GRIPPER_RETRACT);
   }
 
   public void pneumaticIn() {

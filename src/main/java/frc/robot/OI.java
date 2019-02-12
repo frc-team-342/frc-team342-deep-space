@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.commands.ToggleFist;
+import frc.robot.subsystems.PneumaticFist;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.subsystems.LiftSystem;
-
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -30,6 +32,9 @@ public class OI {
 
     private Joystick xbox_drive = new Joystick(0);
     private Joystick logitech_manipulator = new Joystick(1);
+    private Command togglePneuamtics = new TogglePneumatics();
+    private Button manipulator_leftstickButton;
+
     private Command toggleSlowDrive = new ToggleSlowDrive();
     private Button xbox_drive_leftBumper;
     private Command togglePneumatics = new TogglePneumatics();
@@ -37,6 +42,7 @@ public class OI {
     private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
     private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
     private Button xbox_drive_rightBumper;
+    private Command toggleFist = new ToggleFist();
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
     private Button logitech_manipulator_Y;
@@ -48,6 +54,12 @@ public class OI {
         logitech_manipulator = new Joystick(1);
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
+
+        manipulator_leftstickButton = new JoystickButton(logitech_manipulator, 9);
+        // instantiating manipulator commands
+        toggleFist = new ToggleFist();
+        // setting the manipulator buttons to do what we say
+        manipulator_leftstickButton.whenPressed(toggleFist);
         logitech_manipulator_A = new JoystickButton(logitech_manipulator, 1);
         logitech_manipulator_B = new JoystickButton(logitech_manipulator,2);
         logitech_manipulator_X =new JoystickButton(logitech_manipulator, 3);
