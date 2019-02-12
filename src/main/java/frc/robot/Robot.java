@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,12 +29,14 @@ import frc.robot.commands.LiftWithJoystick;
  * project.
  */
 public class Robot extends TimedRobot {
+
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   private Command driveNow;
   private Command liftNow;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  DigitalInput limitSwitch;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,6 +46,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = OI.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    limitSwitch = new DigitalInput(1);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
@@ -136,6 +140,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    while (limitSwitch.get()) {
+      System.out.println("limit switch has been switched. If this works i will cri");
+    }
   }
 
   /**
