@@ -61,13 +61,6 @@ public class DriveWithJoystick extends Command {
     arcade = enable;
   }
 
-
-<<<<<<< HEAD
-  public void arcadeDrive(/*double moveValue, double rotateValue, boolean squaredInputs*/)
-  {
-    
-  }
-=======
     public void arcadeDrive () 
     {
       System.out.println("In arcade drive");
@@ -105,11 +98,6 @@ public class DriveWithJoystick extends Command {
       Bob.drive(0.0, 0.0);
         }
       }
-
-  
-
-  
->>>>>>> dev-drive-temp
 
   private void tankDrive()
   {
