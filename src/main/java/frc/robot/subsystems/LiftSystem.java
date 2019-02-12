@@ -27,6 +27,8 @@ public class LiftSystem extends Subsystem {
   private int amps = 10;
   private int timeout = 10; 
   private int milliseconds = 2000;
+  public double TrueZero;
+  public double DistanceFromZero;
   
   public LiftSystem() {
 
@@ -58,6 +60,7 @@ public class LiftSystem extends Subsystem {
 		liftFollow.configPeakCurrentDuration(milliseconds, timeout);
 		liftFollow.configContinuousCurrentLimit(amps, timeout);
     liftFollow.enableCurrentLimit(true);
+
     
   }
 
@@ -66,7 +69,7 @@ public class LiftSystem extends Subsystem {
   }
 
   public void liftDown(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed * -1.0); 
+    liftMaster.set(ControlMode.PercentOutput, speed); 
   }
   
 	
@@ -74,11 +77,20 @@ public class LiftSystem extends Subsystem {
 		
 		//String encoderposition = liftMaster.getSensorCollection().toString();
 		
-    double encoderposition = liftMaster.getSensorCollection().getPulseWidthPosition();
+    double encoderposition = liftMaster.getSensorCollection().getQuadraturePosition();
 		
 		return encoderposition;
-	}
+  }
+  public void SetTrueZero(){
+     this.TrueZero = liftMaster.getSensorCollection().getQuadraturePosition();
+  }
+  public void SetDistanceToZero(){
+    this.DistanceFromZero=  liftMaster.getSensorCollection().getQuadraturePosition() - TrueZero;
+    System.out.println("Distance to Zero "+ DistanceFromZero);
+  }
   public void liftStop(){
     liftMaster.set(ControlMode.PercentOutput, 0.0);
   }
+
+
 }

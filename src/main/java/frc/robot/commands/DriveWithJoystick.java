@@ -17,15 +17,16 @@ public class DriveWithJoystick extends Command {
   private double speed_y_left;
   private double speed_y_right;
   private static final double DEADZONE = 0.2;
-	
-  
+	private boolean arcade;
   private OI oi;
   private DriveSystem Bob;
 
     public DriveWithJoystick() {
-   
+      
+      arcade = false;
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
+
       
     requires(Robot.m_subsystem);
   }
@@ -38,7 +39,31 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if(arcade)
+    {
+      //arcadeDrive();
+    }
+    else
+    {
+      tankDrive();
+    }
+    
+      
+  }
+  
+  public void setArcadeDrive(boolean enable)
+  {
+    arcade = enable;
+  }
 
+
+  public void arcadeDrive(/*double moveValue, double rotateValue, boolean squaredInputs*/)
+  {
+    
+  }
+
+  private void tankDrive()
+  {
     //gets and assigns the values and speed's of the axis's and outputs 
       speed_y_left = oi.getJoystickDriveLeftYAxis() * -1.0;
 		  speed_y_right = oi.getJoystickDriveRightYAxis();
@@ -50,7 +75,6 @@ public class DriveWithJoystick extends Command {
       else {
         Bob.drive(0.0,0.0);
       }
-      
   }
 
   // Make this return true when this Command no longer needs to run execute()

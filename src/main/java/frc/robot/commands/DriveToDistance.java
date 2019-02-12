@@ -36,7 +36,7 @@ public class DriveToDistance extends Command {
 	private double right_speed;
 	
 	//private static final double kP = -50;
-    private static final double SPEED_CONST = 0.1;
+    private static final double SPEED_CONST = 0.25;
     public static final double TEST_DISTANCE = 1.5;
 	
 	/* public enum Distance {
@@ -66,7 +66,7 @@ public class DriveToDistance extends Command {
 		drive = DriveSystem.getInstance();
 		requires(drive);
 
-		goal = TEST_DISTANCE;
+		goal = distance;
     /*
     also moving this out of code for now
         
@@ -107,6 +107,7 @@ public class DriveToDistance extends Command {
 
         System.out.println("left: " + left_rotation_count);
         System.out.println("right: " + right_rotation_count);
+   
     }
 
     @Override
