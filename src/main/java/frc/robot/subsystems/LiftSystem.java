@@ -27,6 +27,8 @@ public class LiftSystem extends Subsystem {
   private int amps = 10;
   private int timeout = 10; 
   private int milliseconds = 2000;
+  public double TrueZero;
+  public double DistanceFromZero;
   
   public LiftSystem() {
 
@@ -78,8 +80,17 @@ public class LiftSystem extends Subsystem {
     double encoderposition = liftMaster.getSensorCollection().getQuadraturePosition();
 		
 		return encoderposition;
-	}
+  }
+  public void SetTrueZero(){
+     this.TrueZero = liftMaster.getSensorCollection().getQuadraturePosition();
+  }
+  public void SetDistanceToZero(){
+    this.DistanceFromZero=  liftMaster.getSensorCollection().getQuadraturePosition() - TrueZero;
+    System.out.println("Distance to Zero "+ DistanceFromZero);
+  }
   public void liftStop(){
     liftMaster.set(ControlMode.PercentOutput, 0.0);
   }
+
+
 }

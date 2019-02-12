@@ -247,6 +247,7 @@ public class DriveSystem extends Subsystem {
     this.slow = slowSetting;
   }
 
+  
   public boolean isInSlowMode() {
    
     return slow;

@@ -26,6 +26,7 @@ import frc.robot.subsystems.LiftSystem;
 public class OI {
 
     private static final OI INSTANCE = new OI();
+    
 
     private Joystick xbox_drive = new Joystick(0);
     private Joystick logitech_manipulator = new Joystick(1);

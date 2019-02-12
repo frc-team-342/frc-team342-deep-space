@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveToDistance;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
   private Command driveNow;
   private Command liftNow;
+  private LiftSystem lift;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -52,6 +54,9 @@ public class Robot extends TimedRobot {
     driveNow = new DriveWithJoystick();
     //driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
+    lift =  LiftSystem.getInstance();
+ 
+    
     //liftNow = new LiftToHeight(LiftHeight.HighRocket);
     //CameraServer.getInstance().startAutomaticCapture();
 
@@ -135,6 +140,7 @@ public class Robot extends TimedRobot {
 
     driveNow.start();
     liftNow.start();
+    lift.SetTrueZero();
   }
 
   /**
