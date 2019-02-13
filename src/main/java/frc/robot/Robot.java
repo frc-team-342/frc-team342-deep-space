@@ -26,6 +26,14 @@ import frc.robot.commands.LiftToHeight;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LiftSystem;
 
+
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveSystem;
+import edu.wpi.first.hal.FRCNetComm.tInstances;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.hal.HAL;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
 
 /**
@@ -62,7 +70,7 @@ public class Robot extends TimedRobot {
      drive_off_platform = new DriveOffPlatform();
     liftNow = new LiftWithJoystick();
     //liftNow = new LiftToHeight(LiftHeight.LowRocket);
-    //CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
 
      //getWatchdog().setEnable(true);
   }
@@ -110,9 +118,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
 
-
   //drive_off_platform.start();
-  driveNow.start();
+  //driveNow.start();
   
   
 
@@ -135,7 +142,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-   
+   drive_off_platform.start();
   
   }
   @Override

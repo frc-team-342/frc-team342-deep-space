@@ -28,7 +28,7 @@ public class DriveWithJoystick extends Command {
 
     public DriveWithJoystick() {
       
-      arcade = true;
+      arcade = false;
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
 
