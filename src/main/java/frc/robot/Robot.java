@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,6 +21,7 @@ import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LiftSystem;
@@ -38,8 +38,10 @@ public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   private Command driveNow;
+  private Command PneumaticsWithCANifier;
   private Command liftNow;
   private LiftSystem lift;
+  private Command Test;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
@@ -56,15 +58,15 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
-    //driveNow = new DriveToDistance();
+    // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
-    lift =  LiftSystem.getInstance();
- 
-    
-    //liftNow = new LiftToHeight(LiftHeight.HighRocket);
-    //CameraServer.getInstance().startAutomaticCapture();
+    lift = LiftSystem.getInstance();
+    Test = new PneumaticsWithCANifier();
 
-     //getWatchdog().setEnable(true);
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    // CameraServer.getInstance().startAutomaticCapture();
+
+    // getWatchdog().setEnable(true);
   }
 
   /**
@@ -145,6 +147,7 @@ public class Robot extends TimedRobot {
     driveNow.start();
     liftNow.start();
     lift.SetTrueZero();
+    Test.start();
   }
 
   /**
@@ -153,9 +156,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    while (limitSwitch.get()) {
-      System.out.println("limit switch has been switched. If this works i will cri");
-    }
   }
 
   /**

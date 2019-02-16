@@ -36,6 +36,7 @@ public class RobotMap {
   public static final int RIGHTSLAVE3 = 14;
   public static final int LIFTMASTER = 8;
   public static final int LIFTFOLLOW = 9;
+
   public static final int PNEUMATICS = 5;
 
   // If you are using multiple modules, make sure to define both the port
@@ -64,7 +65,20 @@ public class RobotMap {
   // basic pneumatic stuff
   public static final int PNEUMATICCLAW_OPEN = 0;
   public static final int PNEUMATICCLAW_CLOSED = 1;
-  public static final int PNEUMATICCLAW_RELEASE_OPEN = 4;
-  public static final int GRIPPER_EXTRACT = 2;
+  public static final int CLIMB_EXTRACT = 2;
+  public static final int CLIMB_RETRACT = 3;
 
+  // limit switches
+  public static final int HATCH_SWITCH_VERTICAL = 2;
+  public static final int HATCH_SWTICH_HORIZONTAL = 3;
+
+  // Canifier stuff
+  public static final int PIGEONIMU = 10;
+  public static final int CANIFIERLIMITS = 0;
+  public static final int DIGITALINPUT1 = 2;
+  public static final int DIGITALINPUT2 = 3;
+
+  // for fist intake; not the real numbers need to find the real
+  // public static final int INTAKE_MASTER = 2;
+  // public static final int INTAKE_FOLLOW = 1;
 }
