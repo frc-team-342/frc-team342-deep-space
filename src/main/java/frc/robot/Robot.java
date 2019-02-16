@@ -7,34 +7,19 @@
 
 package frc.robot;
 
-import com.sun.jdi.Value;
-
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
-import frc.robot.commands.LiftToHeight.LiftHeight;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.LiftToHeight;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.LiftSystem;
-
-
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-import frc.robot.Robot;
-import frc.robot.subsystems.DriveSystem;
-import edu.wpi.first.hal.FRCNetComm.tInstances;
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.hal.HAL;
-import frc.robot.commands.Autonomous.DriveOffPlatform;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -67,13 +52,36 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Arcade Mode", arcade_chooser);
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
-     drive_off_platform = new DriveOffPlatform();
+    drive_off_platform = new DriveOffPlatform();
     liftNow = new LiftWithJoystick();
     //liftNow = new LiftToHeight(LiftHeight.LowRocket);
-    CameraServer.getInstance().startAutomaticCapture();
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+   camera.setResolution(160, 120);
+   camera.setFPS(20);
+   camera.setPixelFormat(PixelFormat.kMJPEG);
+   System.out.println(camera.enumerateVideoModes().toString());
+    
+      /*new Thread(() -> {
+          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+          camera.setResolution(320, 240);
+          
+          CvSink cvSink = CameraServer.getInstance().getVideo();
+          CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+          
+          Mat source = new Mat();
+          Mat output = new Mat();
+          
+          while(!Thread.interrupted()) {
+              cvSink.grabFrame(source);
+              Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+              outputStream.putFrame(output);
+          }
+        }
+      ).start();
+      */  
+}
 
      //getWatchdog().setEnable(true);
-  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
