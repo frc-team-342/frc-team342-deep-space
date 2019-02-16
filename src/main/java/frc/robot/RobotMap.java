@@ -15,6 +15,10 @@ package frc.robot;
  */
 
 public class RobotMap {
+
+public static final int PIGEONIMU = 10;
+
+
   // Motors
   public static final int LEFT_MOTOR = 1;
   public static final int RIGHT_MOTOR = 2;
@@ -24,6 +28,12 @@ public class RobotMap {
   public static final int LEFT_X_AXIS = 0;
   public static final int RIGHT_Y_AXIS = 5;
   public static final int RIGHT_X_AXIS = 4;
+
+  // manipulator joystick axis
+  public static final int WRIST_LEFT_Y_AXIS = 1;
+  public static final int WRIST_LEFT_X_AXIS = 0;
+  public static final int WRIST_RIGHT_Y_AXIS = 5;
+  public static final int WRIST_RIGHT_X_AXIS = 4;
 
   // Talon ID's
   public static final int LEFTMASTER = 3;
@@ -36,6 +46,7 @@ public class RobotMap {
   public static final int RIGHTSLAVE3 = 14;
   public static final int LIFTMASTER = 8;
   public static final int LIFTFOLLOW = 9;
+  public static final int LIFTWRIST = 10;
   public static final int PNEUMATICS = 5;
 
   // If you are using multiple modules, make sure to define both the port
@@ -65,5 +76,6 @@ public class RobotMap {
   public static final int PNEUMATICCLAW_OPEN = 0;
   public static final int PNEUMATICCLAW_CLOSED = 1;
   public static final int PNEUMATICCLAW_RELEASE_OPEN = 4;
-
+  public static final int GRIPPER_EXTRACT = 2;
+  public static final int GRIPPER_RETRACT = 3;
 }

@@ -7,18 +7,25 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.LiftWithJoystick;
+import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.LiftToHeight;
+import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.commands.LiftWithJoystick;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,12 +35,16 @@ import frc.robot.commands.LiftWithJoystick;
  * project.
  */
 public class Robot extends TimedRobot {
+
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
   private Command driveNow;
   private Command liftNow;
+  private Command wristNow;
+  private LiftSystem lift;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  DigitalInput limitSwitch;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,12 +54,20 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = OI.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    limitSwitch = new DigitalInput(1);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     driveNow = new DriveWithJoystick();
+    //driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
+    wristNow = new WristWithJoystick();
+    lift =  LiftSystem.getInstance();
+ 
+    
+    //liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    //CameraServer.getInstance().startAutomaticCapture();
 
-    // getWatchdog().setEnable(true);
+     //getWatchdog().setEnable(true);
   }
 
   /**
@@ -128,6 +147,12 @@ public class Robot extends TimedRobot {
 
     driveNow.start();
     liftNow.start();
+    lift.SetTrueZero();
+    wristNow.start();
+
+   // while (lift.GetWristAngle()>= -90){
+    //  lift.wristUp(.5);
+   // }
   }
 
   /**
@@ -136,6 +161,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+  
   }
 
   /**

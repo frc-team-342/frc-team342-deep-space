@@ -8,20 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import frc.robot.subsystems.PneumaticClaw;
 import frc.robot.Robot;
 
 /**
- * An example command. You can replace me with your own command.
+ * An example command.  You can replace me with your own command.
  */
-public class TogglePneumatics extends Command {
-
-  private PneumaticClaw Cylinder = PneumaticClaw.getInstance();
-
-  public TogglePneumatics() {
+public class CargoPosition extends Command {
+  public CargoPosition() {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.m_subsystem);
-
   }
 
   // Called just before this Command runs the first time
@@ -32,18 +27,12 @@ public class TogglePneumatics extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    if (Cylinder.isOut()) {
-      Cylinder.pneumaticIn();
-    } else {
-      Cylinder.pneumaticOut();
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

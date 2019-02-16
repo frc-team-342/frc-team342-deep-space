@@ -8,9 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.OI;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 public class LiftWithJoystick extends Command {
@@ -24,16 +26,18 @@ public class LiftWithJoystick extends Command {
   private double leftTriggerValue;
   private double rightTriggerValue;
 
+  DigitalInput limitSwitch;
+
   public LiftWithJoystick() {
 
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
-
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    limitSwitch =  new DigitalInput(0);
 
   }
 
@@ -48,15 +52,22 @@ public class LiftWithJoystick extends Command {
     if (leftTriggerValue > DEADZONE && rightTriggerValue > DEADZONE){
       lift.liftStop();
     } else if (leftTriggerValue > DEADZONE && rightTriggerValue < DEADZONE){
-      lift.liftUp(Math.abs(leftTriggerValue));
-      System.out.println("encoder: " + lift.getLiftEncoders());
-     
+      if (limitSwitch.get()){
+        lift.liftUp(Math.abs(leftTriggerValue));
+        SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
+        // System.out.println("encoder: " + lift.getLiftEncoders());
+      } else  {
+        lift.liftStop();
+      }
     } else if (leftTriggerValue < DEADZONE && rightTriggerValue > DEADZONE){
-      lift.liftDown(-1*Math.abs(rightTriggerValue));
-      System.out.println("encoder: " + lift.getLiftEncoders());
+      lift.liftDown(Math.abs(rightTriggerValue));
+      SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
+      //System.out.println("encoder: " + lift.getLiftEncoders());
     } else {
       lift.liftStop(); 
     }
+    lift.SetDistanceToZero();
+    
     /*if(triggerValue < (DEADZONE * -1.0)){
       lift.liftUp(Math.abs(triggerValue));
     } else if (triggerValue > DEADZONE) {
