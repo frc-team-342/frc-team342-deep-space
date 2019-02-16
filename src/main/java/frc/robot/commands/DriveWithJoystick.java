@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSystem;
+import edu.wpi.first.hal.FRCNetComm.tInstances;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.hal.HAL;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithJoystick extends Command {
   
@@ -20,12 +25,18 @@ public class DriveWithJoystick extends Command {
 	private boolean arcade;
   private OI oi;
   private DriveSystem Bob;
+  protected static boolean kArcadeStandard_Reported;
+  private final double SPEED_CONST = 1.0;
+  SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
 
     public DriveWithJoystick() {
       
       arcade = false;
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
+      arcade_chooser.setDefaultOption("Off", false);
+      arcade_chooser.addOption("Arcade", true);
+      SmartDashboard.putData("Arcade Mode", arcade_chooser);
 
       
     requires(Robot.m_subsystem);
@@ -39,9 +50,12 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    setArcadeDrive(arcade_chooser.getSelected());
+
+
     if(arcade)
     {
-      //arcadeDrive();
+      arcadeDrive();
     }
     else
     {
@@ -56,11 +70,43 @@ public class DriveWithJoystick extends Command {
     arcade = enable;
   }
 
+    public void arcadeDrive () 
+    {
+      //System.out.println("In arcade drive");
+      double speed_y_axis = oi.getJoystickDriveLeftYAxis();
+      double speed_x_axis = oi.getJoystickDriveRightXAxis();
+      double leftSpeed;
+      double rightSpeed;
 
-  public void arcadeDrive(/*double moveValue, double rotateValue, boolean squaredInputs*/)
-  {
-    
-  }
+     if (Math.abs(speed_y_axis) > DEADZONE || Math.abs(speed_x_axis) > DEADZONE) {
+      if(speed_y_axis > 0.0) {
+        
+        if(speed_x_axis > 0.0) {
+          
+          leftSpeed = speed_y_axis - speed_x_axis;
+          rightSpeed = Math.max(speed_y_axis, speed_x_axis);
+        } else {
+          
+          leftSpeed = Math.max(speed_y_axis, -speed_x_axis);
+          rightSpeed = speed_y_axis + speed_x_axis;
+        }
+      } else {
+        
+        if(speed_x_axis > 0.0) {
+          
+          leftSpeed = -Math.max(-speed_y_axis, speed_x_axis);
+          rightSpeed = speed_y_axis + speed_x_axis;
+        } else {
+          
+          leftSpeed = speed_y_axis - speed_x_axis;
+          rightSpeed = -Math.max(-speed_y_axis, -speed_x_axis);
+        }
+      }
+      Bob.drive(-1*leftSpeed,rightSpeed);
+      } else {
+      Bob.drive(0.0, 0.0);
+        }
+      }
 
   private void tankDrive()
   {
