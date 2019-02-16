@@ -15,6 +15,10 @@ package frc.robot;
  */
 
 public class RobotMap {
+
+public static final int PIGEONIMU = 10;
+
+
   // Motors
   public static final int LEFT_MOTOR = 1;
   public static final int RIGHT_MOTOR = 2;
@@ -25,20 +29,26 @@ public class RobotMap {
   public static final int RIGHT_Y_AXIS = 5;
   public static final int RIGHT_X_AXIS = 4;
 
+  // manipulator joystick axis
+  public static final int WRIST_LEFT_Y_AXIS = 1;
+  public static final int WRIST_LEFT_X_AXIS = 0;
+  public static final int WRIST_RIGHT_Y_AXIS = 5;
+  public static final int WRIST_RIGHT_X_AXIS = 4;
+
   // Talon ID's
-  public static final int LEFTMASTER = 3;
   public static final int RIGHTMASTER = 1;
-  public static final int LEFTSLAVE1 = 4;
-  public static final int LEFTSLAVE2 = 11;
-  public static final int LEFTSLAVE3 = 12;
   public static final int RIGHTSLAVE1 = 2;
-  public static final int RIGHTSLAVE2 = 13;
-  public static final int RIGHTSLAVE3 = 14;
+  public static final int LEFTMASTER = 3;
+  public static final int LEFTSLAVE1 = 4;
+  public static final int PNEUMATICS = 5;
   public static final int LIFTMASTER = 8;
   public static final int LIFTFOLLOW = 9;
-
-  public static final int PNEUMATICS = 5;
-
+  public static final int LIFTWRIST = 10;
+  public static final int LEFTSLAVE2 = 11;
+  public static final int LEFTSLAVE3 = 12;
+  public static final int RIGHTSLAVE2 = 13;
+  public static final int RIGHTSLAVE3 = 14;
+ 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
@@ -65,6 +75,7 @@ public class RobotMap {
   // basic pneumatic stuff
   public static final int PNEUMATICCLAW_OPEN = 0;
   public static final int PNEUMATICCLAW_CLOSED = 1;
+
   public static final int CLIMB_EXTRACT = 2;
   public static final int CLIMB_RETRACT = 3;
 
@@ -81,4 +92,5 @@ public class RobotMap {
   // for fist intake; not the real numbers need to find the real
   // public static final int INTAKE_MASTER = 2;
   // public static final int INTAKE_FOLLOW = 1;
+
 }

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.RobotMap;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 
 /**
@@ -22,6 +23,7 @@ public class LiftSystem extends Subsystem {
 
   private TalonSRX liftMaster;
   private TalonSRX liftFollow;
+  private TalonSRX liftWrist;
 
   // varibles for current 
   private int amps = 10;
@@ -29,6 +31,12 @@ public class LiftSystem extends Subsystem {
   private int milliseconds = 2000;
   public double TrueZero;
   public double DistanceFromZero;
+  private double [] ypr = new double[3];
+  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
+  private double PickupMode= 180;
+  private double HatchMode = 180;
+  private double CargoMode = -90;
+
   
   public LiftSystem() {
 
@@ -49,6 +57,8 @@ public class LiftSystem extends Subsystem {
     liftMaster = new TalonSRX(RobotMap.LIFTMASTER);
     liftFollow = new TalonSRX(RobotMap.LIFTFOLLOW);
     liftFollow.follow(liftMaster);
+    liftWrist = new TalonSRX(RobotMap.LIFTWRIST);
+   
     
 
     liftMaster.configPeakCurrentLimit(amps, timeout); 
@@ -61,7 +71,20 @@ public class LiftSystem extends Subsystem {
 		liftFollow.configContinuousCurrentLimit(amps, timeout);
     liftFollow.enableCurrentLimit(true);
 
+    liftWrist.configPeakCurrentLimit(amps, timeout); 
+    liftWrist.configPeakCurrentDuration(milliseconds, timeout);
+    liftWrist.configContinuousCurrentLimit(amps, timeout);
+    liftWrist.enableCurrentLimit(true);
+
     
+  }
+  public double GetWristAngle (){
+    pigeon.getAccelerometerAngles(ypr);
+    return ypr[1];
+  }
+
+  public void wristUp(double speed){
+    liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
   }
 
   public void liftUp(double speed) {
@@ -70,6 +93,10 @@ public class LiftSystem extends Subsystem {
 
   public void liftDown(double speed) {
     liftMaster.set(ControlMode.PercentOutput, speed); 
+  }
+
+  public void wristDown(double speed){
+    liftWrist.set(ControlMode.PercentOutput, speed);
   }
   
 	
@@ -86,10 +113,13 @@ public class LiftSystem extends Subsystem {
   }
   public void SetDistanceToZero(){
     this.DistanceFromZero=  liftMaster.getSensorCollection().getQuadraturePosition() - TrueZero;
-    System.out.println("Distance to Zero "+ DistanceFromZero);
+
   }
   public void liftStop(){
     liftMaster.set(ControlMode.PercentOutput, 0.0);
+  }
+  public void wristStop(){
+    liftWrist.set(ControlMode.PercentOutput, 0.0);
   }
 
 
