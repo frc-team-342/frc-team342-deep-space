@@ -29,7 +29,7 @@ public class LiftWithJoystick extends Command {
   DigitalInput limitSwitch;
 
   public LiftWithJoystick() {
-
+    limitSwitch =  new DigitalInput(0);
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
   }
@@ -37,7 +37,7 @@ public class LiftWithJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    limitSwitch =  new DigitalInput(0);
+    
 
   }
 
@@ -66,7 +66,6 @@ public class LiftWithJoystick extends Command {
     } else {
       lift.liftStop(); 
     }
-    lift.SetDistanceToZero();
     
     /*if(triggerValue < (DEADZONE * -1.0)){
       lift.liftUp(Math.abs(triggerValue));

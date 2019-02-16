@@ -96,7 +96,7 @@ public class LiftSystem extends Subsystem {
   }
 
   public void liftDown(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed); 
+    liftMaster.set(ControlMode.PercentOutput, speed);
   }
 
   public void liftDownWithPosition(double position){
@@ -119,9 +119,13 @@ public class LiftSystem extends Subsystem {
   }
   public void SetTrueZero(){
      this.TrueZero = liftMaster.getSensorCollection().getQuadraturePosition();
+     System.out.println("True Zero is: "+TrueZero);
   }
-  public void SetDistanceToZero(){
+
+  //TODO:  Change From Set to Get by making it double
+  public double getDistanceToZero(){
     this.DistanceFromZero=  liftMaster.getSensorCollection().getQuadraturePosition() - TrueZero;
+    return DistanceFromZero;
 
   }
   public void liftStop(){

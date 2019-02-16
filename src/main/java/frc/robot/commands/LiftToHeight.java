@@ -53,8 +53,8 @@ public class LiftToHeight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.DistanceFromZero;
-    System.out.println("Current Height: " + CurrentHeight);
+    CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.getDistanceToZero();
+    //System.out.println("Current Height: " + CurrentHeight);
 
     //System.out.println("Goal is " + Goal);
     UnderGoal= (CurrentHeight<= Goal);
@@ -70,7 +70,6 @@ public class LiftToHeight extends Command {
       //System.out.println("Height: " + CurrentHeight);
       
     }
-    lift.SetDistanceToZero();
   }
 
   // Make this return true when this Command no longer needs to run execute()

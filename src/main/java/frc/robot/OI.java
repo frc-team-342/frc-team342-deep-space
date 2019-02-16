@@ -14,11 +14,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.LiftToHeight.LiftHeight;
+import frc.robot.commands.MoveWristToPosition.WristPosition;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.subsystems.PneumaticClaw;
 import frc.robot.commands.ToggleFist;
 import frc.robot.subsystems.PneumaticFist;
 import frc.robot.commands.LiftToHeight;
+import frc.robot.commands.MoveWristToPosition;
 import frc.robot.subsystems.LiftSystem;
 
 /**
@@ -41,6 +43,8 @@ public class OI {
     private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
     private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
     private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
+    private Command wristPositionCargo = new MoveWristToPosition(WristPosition.Cargo);
+    private Command wristPositionHatch = new MoveWristToPosition(WristPosition.Hatch);
     private Button xbox_drive_rightBumper;
     private Command toggleFist = new ToggleFist();
     private Button logitech_manipulator_A;
@@ -124,5 +128,10 @@ public class OI {
     public double getJoystickManipulatorRightTrigger() {
 
         return logitech_manipulator.getRawAxis(RobotMap.RIGHT_TRIGGER);
+    }
+
+    public double getLogitechPOV() {
+
+        return logitech_manipulator.getPOV();
     }
 }

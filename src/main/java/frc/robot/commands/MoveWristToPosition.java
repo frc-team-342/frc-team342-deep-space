@@ -9,14 +9,42 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.subsystems.LiftSystem;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import frc.robot.OI;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class CargoPosition extends Command {
-  public CargoPosition() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_subsystem);
+public class MoveWristToPosition extends Command {
+  
+  private LiftSystem lift;
+  private Double CurrentAngle;
+  private Double Goal;
+  private Double Speed;
+  
+
+  private double [] ypr = new double[3];
+  private double angle;
+  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
+
+  public enum WristPosition {
+ 
+    Hatch(180.0), Cargo(270.0);
+    public final Double value;
+
+	  WristPosition(Double InitValue) {
+        this.value = InitValue;
+    }
+
+  }
+  
+  
+  public MoveWristToPosition(WristPosition targetAngle) {
+    lift = LiftSystem.getInstance();
+    Speed = 0.8;
+    Goal = targetAngle.value;
   }
 
   // Called just before this Command runs the first time
@@ -27,6 +55,29 @@ public class CargoPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    //get Wrist Angle 
+    pigeon.getAccelerometerAngles(ypr);
+    angle = ypr[0];
+    angle = convertAngles360(angle);
+    
+
+
+   
+
+    if (angle <= Goal){
+
+     lift.wristUp(Speed);
+
+   } else if (angle >= Goal){
+
+     lift.wristDown(Speed);
+
+   } else {
+
+     lift.wristStop(); 
+
+   }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -38,11 +89,21 @@ public class CargoPosition extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    lift.wristStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    lift.wristStop();
+  }
+
+  public double convertAngles360(double angle){
+
+    if(angle < 0){
+      angle = 360 + angle;
+    }
+    return angle;
   }
 }
