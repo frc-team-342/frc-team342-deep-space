@@ -7,21 +7,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.Robot;
-import frc.robot.subsystems.PneumaticFist;
+import frc.robot.subsystems.FistSystem;
 
-/* 
- * Controls whether the fist is closed or open to collect hatches 
- */
+public class FistRelease extends Command {
 
-public class ToggleFist extends Command {
-  private PneumaticFist Cylinder = PneumaticFist.getInstance();
+  private FistSystem fist;
 
-  public ToggleFist() {
+  public FistRelease() {
     requires(Robot.m_subsystem);
+    fist = FistSystem.getInstance();
   }
 
   @Override
@@ -30,24 +26,21 @@ public class ToggleFist extends Command {
 
   @Override
   protected void execute() {
-    if (Cylinder.isOut()) {
-      Cylinder.pneumaticIn();
-    } else {
-      Cylinder.pneumaticOut();
-    }
-
+    fist.despense();
   }
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   @Override
   protected void end() {
+    fist.stop();
   }
 
   @Override
   protected void interrupted() {
+    end();
   }
 }
