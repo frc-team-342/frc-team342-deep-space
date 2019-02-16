@@ -28,7 +28,6 @@ import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
 
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -48,12 +47,13 @@ public class Robot extends TimedRobot {
   private Command wristNow;
   private Command Test;
   private LiftSystem lift;
- 
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
 
   SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -64,59 +64,55 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     limitSwitch = new DigitalInput(1);
     // chooser.addOption("My Auto", new MyAutoCommand());
-    
-    /*arcade_chooser.setDefaultOption("Off", false);
-    arcade_chooser.addOption("Arcade", true);
-    SmartDashboard.putData("Arcade Mode", arcade_chooser);
-    SmartDashboard.putData("Auto mode", m_chooser);
-    */
+
+    /*
+     * arcade_chooser.setDefaultOption("Off", false);
+     * arcade_chooser.addOption("Arcade", true);
+     * SmartDashboard.putData("Arcade Mode", arcade_chooser);
+     * SmartDashboard.putData("Auto mode", m_chooser);
+     */
     driveNow = new DriveWithJoystick();
     // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
     lift = LiftSystem.getInstance();
     Test = new PneumaticsWithCANifier();
-    wristNow = new WristWithJoystick(); 
-    
+    wristNow = new WristWithJoystick();
+
     // liftNow = new LiftToHeight(LiftHeight.HighRocket);
     // CameraServer.getInstance().startAutomaticCapture();
 
     // getWatchdog().setEnable(true);
-  }
+    // }
     drive_off_platform = new DriveOffPlatform();
     liftNow = new LiftWithJoystick();
 
-    //liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    // liftNow = new LiftToHeight(LiftHeight.LowRocket);
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-   camera.setResolution(160, 120);
-   camera.setFPS(20);
-   camera.setPixelFormat(PixelFormat.kMJPEG);
-   System.out.println(camera.enumerateVideoModes().toString());
-    
-      /*new Thread(() -> {
-          UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-          camera.setResolution(320, 240);
-          
-          CvSink cvSink = CameraServer.getInstance().getVideo();
-          CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-          
-          Mat source = new Mat();
-          Mat output = new Mat();
-          
-          while(!Thread.interrupted()) {
-              cvSink.grabFrame(source);
-              Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-              outputStream.putFrame(output);
-          }
-        }
-      ).start();
-      */  
+    camera.setResolution(160, 120);
+    camera.setFPS(20);
+    camera.setPixelFormat(PixelFormat.kMJPEG);
+    System.out.println(camera.enumerateVideoModes().toString());
+
+    /*
+     * new Thread(() -> { UsbCamera camera =
+     * CameraServer.getInstance().startAutomaticCapture(); camera.setResolution(320,
+     * 240);
+     * 
+     * CvSink cvSink = CameraServer.getInstance().getVideo(); CvSource outputStream
+     * = CameraServer.getInstance().putVideo("Blur", 640, 480);
+     * 
+     * Mat source = new Mat(); Mat output = new Mat();
+     * 
+     * while(!Thread.interrupted()) { cvSink.grabFrame(source);
+     * Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+     * outputStream.putFrame(output); } } ).start();
+     */
   }
-    
-    //liftNow = new LiftToHeight(LiftHeight.HighRocket);
-    //CameraServer.getInstance().startAutomaticCapture();
 
+  // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+  // CameraServer.getInstance().startAutomaticCapture();
 
-     //getWatchdog().setEnable(true);
+  // getWatchdog().setEnable(true);
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -161,10 +157,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
 
-  //drive_off_platform.start();
-  //driveNow.start();
-  
-  
+    // drive_off_platform.start();
+    // driveNow.start();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -185,9 +179,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-   drive_off_platform.start();
-  
+    drive_off_platform.start();
+
   }
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -197,19 +192,20 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-  /* System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
-    ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
-*/
-    
+    /*
+     * System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
+     * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
+     */
+
     driveNow.start();
     liftNow.start();
     lift.SetTrueZero();
     Test.start();
     wristNow.start();
 
-   // while (lift.GetWristAngle()>= -90){
-    //  lift.wristUp(.5);
-   // }
+    // while (lift.GetWristAngle()>= -90){
+    // lift.wristUp(.5);
+    // }
 
   }
 
