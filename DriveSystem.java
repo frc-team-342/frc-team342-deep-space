@@ -6,24 +6,23 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.SPI;
-import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 
 /**
  * An example subsystem. You can replace me with your own Subsystem.
  */
 public class DriveSystem extends Subsystem {
-
-  // NavX
-  AHRS NavX;
   
-
-  // Instance of the class
+    //Instance of the class
     private static final DriveSystem INSTANCE = new DriveSystem();
 
 
@@ -54,16 +53,13 @@ public class DriveSystem extends Subsystem {
     //Encoder Positions
     public static int init_Left;
     public static int init_Right;
-
-    //NavX
-  
     
 
 
 
    
      public DriveSystem() {
-      
+
       //Instantiate Motor Controllers
       leftMaster = new TalonSRX(RobotMap.LEFTMASTER);
       rightMaster = new TalonSRX(RobotMap.RIGHTMASTER);
@@ -202,10 +198,10 @@ public class DriveSystem extends Subsystem {
 
     LeftSpeed = LeftSpeed * 1;
     leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
-    //leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
-    //leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
+    leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
+    leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
     //leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
-
+    System.out.println(rightMaster.getOutputCurrent());
   }
 
 
@@ -247,34 +243,15 @@ public class DriveSystem extends Subsystem {
     this.slow = slowSetting;
   }
 
-  
   public boolean isInSlowMode() {
    
     return slow;
   }
 
-  public double getGyro (boolean backwards)
-  {
-   double angle;
 
-    if (backwards) {
-      angle = (((((NavX.getAngle() + 180)) % 360) + 360) % 360);
-   } else {
-        angle = ((((NavX.getAngle()) % 360) + 360) % 360);
-    }
-    return angle;
-  }
-  
 
-  public  AHRS getNavX() 
-  {
-      return NavX;
-  }
 
-  public void resetGyro() 
-  {
-    NavX.reset();
-  }
+
 
    public double toMeters() {
     
