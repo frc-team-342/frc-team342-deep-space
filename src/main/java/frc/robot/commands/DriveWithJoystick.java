@@ -14,6 +14,8 @@ import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithJoystick extends Command {
   
@@ -25,12 +27,16 @@ public class DriveWithJoystick extends Command {
   private DriveSystem Bob;
   protected static boolean kArcadeStandard_Reported;
   private final double SPEED_CONST = 1.0;
+  SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
 
     public DriveWithJoystick() {
       
       arcade = false;
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
+      arcade_chooser.setDefaultOption("Off", false);
+      arcade_chooser.addOption("Arcade", true);
+      SmartDashboard.putData("Arcade Mode", arcade_chooser);
 
       
     requires(Robot.m_subsystem);
@@ -44,6 +50,9 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    setArcadeDrive(arcade_chooser.getSelected());
+
+
     if(arcade)
     {
       arcadeDrive();
@@ -63,7 +72,7 @@ public class DriveWithJoystick extends Command {
 
     public void arcadeDrive () 
     {
-      System.out.println("In arcade drive");
+      //System.out.println("In arcade drive");
       double speed_y_axis = oi.getJoystickDriveLeftYAxis();
       double speed_x_axis = oi.getJoystickDriveRightXAxis();
       double leftSpeed;

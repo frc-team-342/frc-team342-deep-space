@@ -47,10 +47,12 @@ public class Robot extends TimedRobot {
     m_oi = OI.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
-    arcade_chooser.setDefaultOption("Off", false);
+    
+    /*arcade_chooser.setDefaultOption("Off", false);
     arcade_chooser.addOption("Arcade", true);
     SmartDashboard.putData("Arcade Mode", arcade_chooser);
     SmartDashboard.putData("Auto mode", m_chooser);
+    */
     driveNow = new DriveWithJoystick();
     drive_off_platform = new DriveOffPlatform();
     liftNow = new LiftWithJoystick();
@@ -162,8 +164,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+  /* System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
     ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
-
+*/
     
     driveNow.start();
     System.out.println("DriveNow just initiated.");
