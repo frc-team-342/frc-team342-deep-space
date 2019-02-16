@@ -23,6 +23,7 @@ import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LiftToHeight;
+import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LiftSystem;
 
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
   private Command driveNow;
   private Command liftNow;
+  private Command wristNow;
   private LiftSystem lift;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -58,6 +60,7 @@ public class Robot extends TimedRobot {
     driveNow = new DriveWithJoystick();
     //driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
+    wristNow = new WristWithJoystick();
     lift =  LiftSystem.getInstance();
  
     
@@ -145,6 +148,11 @@ public class Robot extends TimedRobot {
     driveNow.start();
     liftNow.start();
     lift.SetTrueZero();
+    wristNow.start();
+
+   // while (lift.GetWristAngle()>= -90){
+    //  lift.wristUp(.5);
+   // }
   }
 
   /**
@@ -153,9 +161,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    while (limitSwitch.get()) {
-      System.out.println("limit switch has been switched. If this works i will cri");
-    }
+  
   }
 
   /**

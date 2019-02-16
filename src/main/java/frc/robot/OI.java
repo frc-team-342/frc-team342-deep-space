@@ -94,7 +94,22 @@ public class OI {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
     }
+    public double getJoystickManipulatorRightXAxis(){
+        return logitech_manipulator.getRawAxis(RobotMap.WRIST_RIGHT_X_AXIS);
+    }
+    public double getJoystickManipulatorRightYAxis(){
+        return logitech_manipulator.getRawAxis(RobotMap.WRIST_RIGHT_Y_AXIS);
+    }
 
+    public double getJoystickManipulatorLeftYAxis() {
+
+        return logitech_manipulator.getRawAxis(RobotMap.WRIST_LEFT_Y_AXIS);
+    }
+
+    public double getJoystickmanipulatorLeftXAxis() {
+
+        return logitech_manipulator.getRawAxis(RobotMap.WRIST_LEFT_X_AXIS);
+    }
     public double getJoystickDriveLeftTrigger() {
 
         return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);
