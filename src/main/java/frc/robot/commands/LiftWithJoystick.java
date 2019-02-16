@@ -45,8 +45,8 @@ public class LiftWithJoystick extends Command {
   @Override
   protected void execute() {
     //TODO make piston activated by a button
-    leftTriggerValue = oi.getJoystickDriveLeftTrigger();
-    rightTriggerValue = oi.getJoystickDriveRightTrigger(); 
+    leftTriggerValue = oi.getJoystickManipulatorLeftTrigger();
+    rightTriggerValue = oi.getJoystickManipulatorRightTrigger(); 
         
 
     if (leftTriggerValue > DEADZONE && rightTriggerValue > DEADZONE){

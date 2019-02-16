@@ -91,13 +91,22 @@ public class LiftSystem extends Subsystem {
     liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
   }
 
+  public void liftUpWithPosition(double position){
+    liftMaster.set(ControlMode.Position, position);
+  }
+
   public void liftDown(double speed) {
     liftMaster.set(ControlMode.PercentOutput, speed); 
+  }
+
+  public void liftDownWithPosition(double position){
+    liftMaster.set(ControlMode.Position, position);
   }
 
   public void wristDown(double speed){
     liftWrist.set(ControlMode.PercentOutput, speed);
   }
+  
   
 	
 	public double getLiftEncoders() {
