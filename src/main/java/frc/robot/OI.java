@@ -47,14 +47,18 @@ public class OI {
     private Button logitech_manipulator_B;
     private Button logitech_manipulator_Y;
     private Button logitech_manipulator_X;
+    private Button logitech_manipulator_leftBumper;
+    private Button logitech_manipulator_rightBumper;
+    
 
     private OI() {
 
         xbox_drive = new Joystick(0);
-        logitech_manipulator = new Joystick(1);
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
 
+        logitech_manipulator = new Joystick(1);
+        logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         manipulator_leftstickButton = new JoystickButton(logitech_manipulator, 9);
         // instantiating manipulator commands
         toggleFist = new ToggleFist();
@@ -113,6 +117,12 @@ public class OI {
     public double getJoystickDriveLeftTrigger() {
 
         return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);
+    }
+    public double getJoystickmanipulatorLeftTrigger(){
+        return logitech_manipulator.getRawAxis(RobotMap.MANIPULATOR_LEFT_TRIGGER);
+    }
+    public double getJoystickmanipulatorRightTrigger(){
+        return logitech_manipulator.getRawAxis(RobotMap.MANIPULATOR_RIGHT_TRIGGER);
     }
 
     public double getJoystickDriveRightTrigger() {

@@ -32,12 +32,13 @@ public class LiftWithJoystick extends Command {
 
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
+    limitSwitch =  new DigitalInput(0);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    limitSwitch =  new DigitalInput(0);
+   
 
   }
 
