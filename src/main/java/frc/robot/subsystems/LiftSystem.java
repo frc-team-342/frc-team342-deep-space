@@ -27,7 +27,7 @@ public class LiftSystem extends Subsystem {
  
 
   // varibles for current 
-  private int amps = 10;
+  private int amps = 5;
   private int timeout = 10; 
   private int milliseconds = 2000;
   public double TrueZero;
@@ -92,13 +92,23 @@ public class LiftSystem extends Subsystem {
     liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
   }
 
+  public void liftUpWithPosition(double position){
+    liftMaster.set(ControlMode.Position, position);
+  }
+
   public void liftDown(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed); 
+    liftMaster.set(ControlMode.PercentOutput, speed);
+  }
+
+  //TODO Use these instead of LiftDown and LiftUP for LiftToHeight
+  public void liftDownWithPosition(double position){
+    liftMaster.set(ControlMode.Position, position);
   }
 
   public void wristDown(double speed){
     liftWrist.set(ControlMode.PercentOutput, speed);
   }
+  
   
 	
 	public double getLiftEncoders() {
@@ -111,9 +121,12 @@ public class LiftSystem extends Subsystem {
   }
   public void SetTrueZero(){
      this.TrueZero = liftMaster.getSensorCollection().getQuadraturePosition();
+     System.out.println("True Zero is: "+TrueZero);
   }
-  public void SetDistanceToZero(){
+
+  public double getDistanceToZero(){
     this.DistanceFromZero=  liftMaster.getSensorCollection().getQuadraturePosition() - TrueZero;
+    return DistanceFromZero;
 
   }
   public void liftStop(){

@@ -29,7 +29,7 @@ public class LiftWithJoystick extends Command {
   DigitalInput limitSwitch;
 
   public LiftWithJoystick() {
-
+    limitSwitch =  new DigitalInput(0);
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
     limitSwitch =  new DigitalInput(RobotMap.ElevatorLimitSwitchDown);
@@ -38,8 +38,6 @@ public class LiftWithJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   
-
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -48,6 +46,7 @@ public class LiftWithJoystick extends Command {
     //TODO make piston activated by a button
    
    RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
+
         
 
       if (RightJoystickValue > DEADZONE ){
@@ -65,7 +64,6 @@ public class LiftWithJoystick extends Command {
     } else {
       lift.liftStop(); 
     }
-    lift.SetDistanceToZero();
     
     /*if(triggerValue < (DEADZONE * -1.0)){
       lift.liftUp(Math.abs(triggerValue));

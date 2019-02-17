@@ -14,27 +14,24 @@ import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithJoystick extends Command {
   
   private double speed_y_left;
   private double speed_y_right;
   private static final double DEADZONE = 0.2;
-	private boolean arcade;
+	
   private OI oi;
   private DriveSystem Bob;
   protected static boolean kArcadeStandard_Reported;
   private final double SPEED_CONST = 1.0;
-  
 
     public DriveWithJoystick() {
       
-     
+      
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
-     
+   
 
       
     requires(Robot.m_subsystem);
@@ -48,9 +45,8 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
 
-    if(arcade)
+    if(Bob.getArcade())
     {
       arcadeDrive();
     }
@@ -61,8 +57,6 @@ public class DriveWithJoystick extends Command {
     
       
   }
-  
-
 
     public void arcadeDrive () 
     {

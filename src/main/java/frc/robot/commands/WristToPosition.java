@@ -11,30 +11,41 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.OI;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import frc.robot.OI;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class WristWithJoystick extends Command {
+public class WristToPosition extends Command {
+  
   private LiftSystem lift;
-  private OI oi;
-  private static final double DEADZONE = 0.2;
-  private double LeftJoystickValue;
+  private Double CurrentAngle;
+  private Double Goal;
+  private Double Speed;
+  private Double BufferZone = 5.0;
+  
+
   private double [] ypr = new double[3];
   private double angle;
   PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
-  private double PickupMode= 180;
-  private double HatchMode = 180;
-  private double CargoMode = 270;
 
+  public enum WristPosition {
+ 
+    Hatch(180.0), Cargo(270.0);
+    public final Double value;
 
-  public WristWithJoystick() {
-    oi = OI.getInstance();
+	  WristPosition(Double InitValue) {
+        this.value = InitValue;
+    }
+
+  }
+  
+  
+  public WristToPosition(WristPosition targetAngle) {
     lift = LiftSystem.getInstance();
-   
-    
+    Speed = 0.2;
+    Goal = targetAngle.value;
   }
 
   // Called just before this Command runs the first time
@@ -46,36 +57,30 @@ public class WristWithJoystick extends Command {
   @Override
   protected void execute() {
 
-    //get wrist angle from pigeon imu
+    //get Wrist Angle 
     pigeon.getAccelerometerAngles(ypr);
     angle = ypr[0];
     angle = convertAngles360(angle);
-    //System.out.println("Angle " + angle);
     
 
 
-    LeftJoystickValue= oi.getJoystickManipulatorLeftYAxis() * -1.0;
+   if(angle <= Goal + BufferZone && angle >= Goal - BufferZone){
 
-     if (LeftJoystickValue > DEADZONE && angle <=270){
+     lift.wristStop();
 
+   }
+   else if (angle <= Goal){
 
-      lift.wristUp(Math.abs(LeftJoystickValue));
+     lift.wristUp(Speed);
 
-    } else if (LeftJoystickValue < DEADZONE && angle >= 180){
+   } else if (angle >= Goal){
 
-      lift.wristDown(Math.abs(LeftJoystickValue));
+     lift.wristDown(Speed);
 
-    } else {
-
-      lift.wristStop(); 
-
-    }
-    
+   }
   }
 
   // Make this return true when this Command no longer needs to run execute()
-
- 
   @Override
   protected boolean isFinished() {
     return false;
@@ -91,7 +96,7 @@ public class WristWithJoystick extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
+    lift.wristStop();
   }
 
   public double convertAngles360(double angle){
@@ -101,6 +106,4 @@ public class WristWithJoystick extends Command {
     }
     return angle;
   }
-
-
 }

@@ -23,10 +23,13 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
+import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,7 +41,8 @@ import frc.robot.subsystems.LiftSystem;
 public class Robot extends TimedRobot {
 
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  public static OI m_oi; 
+  private static CameraVisionSystem cameravisionsystem;
   private Command driveNow;
 
   private Command PneumaticsWithCANifier;
@@ -52,6 +56,9 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
 
+ 
+ 
+
   SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
 
   /**
@@ -60,9 +67,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     m_oi = OI.getInstance();
+    cameravisionsystem = CameraVisionSystem.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     limitSwitch = new DigitalInput(1);
+
     // chooser.addOption("My Auto", new MyAutoCommand());
 
     /*
@@ -71,29 +81,29 @@ public class Robot extends TimedRobot {
      * SmartDashboard.putData("Arcade Mode", arcade_chooser);
      * SmartDashboard.putData("Auto mode", m_chooser);
      */
+
     driveNow = new DriveWithJoystick();
     // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
+
     lift = LiftSystem.getInstance();
     HatchGrab = new PneumaticsWithCANifier();
     wristNow = new WristWithJoystick();
     drive_off_platform = new DriveOffPlatform();
     // liftNow = new LiftToHeight(LiftHeight.HighRocket);
-    
-
-   
-  
-   
-
     // liftNow = new LiftToHeight(LiftHeight.LowRocket);
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-    camera.setResolution(160, 120);
-    camera.setFPS(20);
-    camera.setPixelFormat(PixelFormat.kMJPEG);
-    System.out.println(camera.enumerateVideoModes().toString());
+    
+   CameraServer.getInstance().startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 600, 300, 20);
+   /*camera.setResolution(160, 120);
+   camera.setFPS(20);
+   camera.setPixelFormat(PixelFormat.kMJPEG);
+   System.out.println(camera.enumerateVideoModes().toString());
+   */
 
-   // getWatchdog().setEnable(true);
-     
+    //getWatchdog().setEnable(true);
+
+
+
   }
 
   @Override

@@ -48,10 +48,10 @@ public static final int INTAKEFOLLOW =18;
   public static final int RIGHTMASTER = 1;
   public static final int LEFTSLAVE1 = 4;
   public static final int LEFTSLAVE2 = 11;
-  public static final int LEFTSLAVE3 = 12;
+  
   public static final int RIGHTSLAVE1 = 2;
   public static final int RIGHTSLAVE2 = 13;
-  public static final int RIGHTSLAVE3 = 14;
+
   public static final int LIFTMASTER = 8;
   public static final int LIFTFOLLOW = 9;
   public static final int LIFTWRIST = 10;
