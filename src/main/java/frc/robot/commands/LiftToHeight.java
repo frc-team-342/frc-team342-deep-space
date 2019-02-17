@@ -23,6 +23,7 @@ public class LiftToHeight extends Command {
   private double Goal;
   private boolean UnderGoal;
   private double init_Lift;
+  private double BufferZone = 100.0;
   
 
 

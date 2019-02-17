@@ -73,12 +73,13 @@ public class DriveSystem extends Subsystem {
       //Instantiate Motor Controllers
       leftMaster = new TalonSRX(RobotMap.LEFTMASTER);
       rightMaster = new TalonSRX(RobotMap.RIGHTMASTER);
+
       leftSlave1 = new TalonSRX(RobotMap.LEFTSLAVE1);
       leftSlave2 = new TalonSRX(RobotMap.LEFTSLAVE2);
-      //leftSlave3 = new TalonSRX(RobotMap.LEFTSLAVE3);
+     
       rightSlave1 = new TalonSRX(RobotMap.RIGHTSLAVE1);
       rightSlave2 = new TalonSRX(RobotMap.RIGHTSLAVE2);
-      //rightSlave3 = new TalonSRX(RobotMap.RIGHTSLAVE3);
+      
 
 
       inititalizeDriveSystem();
@@ -171,15 +172,16 @@ public class DriveSystem extends Subsystem {
      */
     leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
-     
+    leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
+
     rightMaster.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
+    rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
     
-    
-    //leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
+   
     //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
-    //rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
+
     //rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     // Setting the PID loop for the master controllers

@@ -22,11 +22,12 @@ import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
+import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
-
+ import edu.wpi.cscore.VideoMode.PixelFormat;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,7 +39,8 @@ import frc.robot.subsystems.LiftSystem;
 public class Robot extends TimedRobot {
 
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  public static OI m_oi; 
+  private static CameraVisionSystem cameravisionsystem;
   private Command driveNow;
   private Command drive_off_platform;
   private Command liftNow;
@@ -48,6 +50,9 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
 
+ 
+ 
+
   SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
   /**
    * This function is run when the robot is first started up and should be used
@@ -55,10 +60,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     m_oi = OI.getInstance();
+    cameravisionsystem = CameraVisionSystem.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     limitSwitch = new DigitalInput(1);
-    
     driveNow = new DriveWithJoystick();
     drive_off_platform = new DriveOffPlatform();
     liftNow = new LiftWithJoystick();
@@ -70,12 +76,13 @@ public class Robot extends TimedRobot {
     lift =  LiftSystem.getInstance();
     //liftNow = new LiftToHeight(LiftHeight.HighRocket);
     
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-   camera.setResolution(160, 120);
+   CameraServer.getInstance().startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 600, 300, 20);
+   /*camera.setResolution(160, 120);
    camera.setFPS(20);
    camera.setPixelFormat(PixelFormat.kMJPEG);
    System.out.println(camera.enumerateVideoModes().toString());
-    
+   */
+
     //getWatchdog().setEnable(true);
 
 
