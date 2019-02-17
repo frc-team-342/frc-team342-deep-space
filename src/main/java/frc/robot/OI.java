@@ -16,11 +16,11 @@ import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.commands.LiftToHeight;
-import frc.robot.commands.PneumaticsWithCANifier;
+import frc.robot.commands.HatchGrab;
 import frc.robot.commands.FistIntake;
 import frc.robot.commands.FistRelease;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.subsystems.Knuckles;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,7 +34,7 @@ public class OI {
     private Joystick logitech_manipulator = new Joystick(1);
 
     private Command toggleSlowDrive = new ToggleSlowDrive();
-    private Command test = new PneumaticsWithCANifier();
+    private Command test = new HatchGrab();
     private Command togglePneumatics = new TogglePneumatics();
     private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
     private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
@@ -108,10 +108,12 @@ public class OI {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
     }
-    public double getJoystickManipulatorRightXAxis(){
+
+    public double getJoystickManipulatorRightXAxis() {
         return logitech_manipulator.getRawAxis(RobotMap.WRIST_RIGHT_X_AXIS);
     }
-    public double getJoystickManipulatorRightYAxis(){
+
+    public double getJoystickManipulatorRightYAxis() {
         return logitech_manipulator.getRawAxis(RobotMap.WRIST_RIGHT_Y_AXIS);
     }
 
@@ -124,6 +126,7 @@ public class OI {
 
         return logitech_manipulator.getRawAxis(RobotMap.WRIST_LEFT_X_AXIS);
     }
+
     public double getJoystickDriveLeftTrigger() {
 
         return xbox_drive.getRawAxis(RobotMap.LEFT_TRIGGER);

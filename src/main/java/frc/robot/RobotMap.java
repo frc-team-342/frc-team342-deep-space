@@ -47,6 +47,8 @@ public class RobotMap {
   public static final int LEFTSLAVE3 = 12;
   public static final int RIGHTSLAVE2 = 13;
   public static final int RIGHTSLAVE3 = 14;
+  //TODO find out what the map is to the hook talon
+  public static final int WENCH = 5; 
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:

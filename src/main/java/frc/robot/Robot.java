@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 
-import frc.robot.commands.PneumaticsWithCANifier;
+import frc.robot.commands.HatchGrab;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -71,11 +71,12 @@ public class Robot extends TimedRobot {
      * SmartDashboard.putData("Arcade Mode", arcade_chooser);
      * SmartDashboard.putData("Auto mode", m_chooser);
      */
+
     driveNow = new DriveWithJoystick();
     // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
     lift = LiftSystem.getInstance();
-    Test = new PneumaticsWithCANifier();
+    Test = new HatchGrab();
     wristNow = new WristWithJoystick();
 
     // liftNow = new LiftToHeight(LiftHeight.HighRocket);

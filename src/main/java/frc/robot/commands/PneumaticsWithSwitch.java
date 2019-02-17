@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
@@ -18,7 +18,7 @@ import frc.robot.RobotMap;
  */
 public class PneumaticsWithSwitch extends Command {
 
-  private PneumaticClaw Cylinder = PneumaticClaw.getInstance();
+  private Knuckles Cylinder = Knuckles.getInstance();
   DigitalInput limitSwitchOne;
   DigitalInput limitSwitchTwo;
 
