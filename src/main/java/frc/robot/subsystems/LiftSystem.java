@@ -26,7 +26,7 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftWrist;
 
   // varibles for current 
-  private int amps = 10;
+  private int amps = 5;
   private int timeout = 10; 
   private int milliseconds = 2000;
   public double TrueZero;
@@ -99,6 +99,7 @@ public class LiftSystem extends Subsystem {
     liftMaster.set(ControlMode.PercentOutput, speed);
   }
 
+  //TODO Use these instead of LiftDown and LiftUP for LiftToHeight
   public void liftDownWithPosition(double position){
     liftMaster.set(ControlMode.Position, position);
   }
@@ -122,7 +123,6 @@ public class LiftSystem extends Subsystem {
      System.out.println("True Zero is: "+TrueZero);
   }
 
-  //TODO:  Change From Set to Get by making it double
   public double getDistanceToZero(){
     this.DistanceFromZero=  liftMaster.getSensorCollection().getQuadraturePosition() - TrueZero;
     return DistanceFromZero;

@@ -17,12 +17,13 @@ import frc.robot.OI;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class MoveWristToPosition extends Command {
+public class WristToPosition extends Command {
   
   private LiftSystem lift;
   private Double CurrentAngle;
   private Double Goal;
   private Double Speed;
+  private Double BufferZone = 5.0;
   
 
   private double [] ypr = new double[3];
@@ -41,9 +42,9 @@ public class MoveWristToPosition extends Command {
   }
   
   
-  public MoveWristToPosition(WristPosition targetAngle) {
+  public WristToPosition(WristPosition targetAngle) {
     lift = LiftSystem.getInstance();
-    Speed = 0.8;
+    Speed = 0.2;
     Goal = targetAngle.value;
   }
 
@@ -63,19 +64,18 @@ public class MoveWristToPosition extends Command {
     
 
 
-   
+   if(angle <= Goal + BufferZone && angle >= Goal - BufferZone){
 
-    if (angle <= Goal){
+     lift.wristStop();
+
+   }
+   else if (angle <= Goal){
 
      lift.wristUp(Speed);
 
    } else if (angle >= Goal){
 
      lift.wristDown(Speed);
-
-   } else {
-
-     lift.wristStop(); 
 
    }
   }

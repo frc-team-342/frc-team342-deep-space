@@ -46,8 +46,6 @@ public class DriveSystem extends Subsystem {
 
     private static final int AMPS = 35;
     private static final int TIMEOUT_MS = 1;
-    private static final int PEAK_DURATION = 200;
-    private static final int AMPS_CENTER = 35;
     private static final int ZERO = 0;
     private static final double RAMP_TIME = 0.2;
     
@@ -114,8 +112,10 @@ public class DriveSystem extends Subsystem {
   }
 
   private void inititalizeDriveSystem() {
+    
+    //Not Current Limiting DriveSystem() anymore this year.
 
-    leftMaster.configPeakCurrentLimit(ZERO, ZERO);
+   /* leftMaster.configPeakCurrentLimit(ZERO, ZERO);
     leftMaster.configPeakCurrentDuration(ZERO, ZERO);
     leftMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     leftMaster.enableCurrentLimit(true);
@@ -124,17 +124,8 @@ public class DriveSystem extends Subsystem {
     leftSlave1.configPeakCurrentDuration(ZERO, ZERO);
     leftSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     leftSlave1.enableCurrentLimit(true);
-
-    leftSlave2.configPeakCurrentLimit(ZERO, ZERO);
-    leftSlave2.configPeakCurrentDuration(ZERO, ZERO);
-    leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    leftSlave2.enableCurrentLimit(true);
-
-    //leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
-    //leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
-    //leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    //leftSlave3.enableCurrentLimit(true);
-
+    
+    
     rightMaster.configPeakCurrentLimit(ZERO, ZERO);
     rightMaster.configPeakCurrentDuration(ZERO, ZERO);
     rightMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
@@ -145,26 +136,50 @@ public class DriveSystem extends Subsystem {
     rightSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     rightSlave1.enableCurrentLimit(true);
 
-    rightSlave2.configPeakCurrentLimit(ZERO, ZERO);
-    rightSlave2.configPeakCurrentDuration(ZERO, ZERO);
-    rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    rightSlave2.enableCurrentLimit(true);
+    */
 
-    //rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
-    //rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
-    //rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    //rightSlave3.enableCurrentLimit(true);
+    //Left Talon Current Limiting Not used for Test Robot
+
+    /*leftSlave2.configPeakCurrentLimit(ZERO, ZERO);
+      leftSlave2.configPeakCurrentDuration(ZERO, ZERO);
+      leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      leftSlave2.enableCurrentLimit(true);
     
-    //Configures the open loop ramp to set the motor to ramp up to speed after a
-    // specifiec time other tha jerking to full speed.
+      leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
+      leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
+      leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      leftSlave3.enableCurrentLimit(true);
+    */
+    
+    //Right Talon Current Limiting Not used for Test Robot
+
+     /* rightSlave2.configPeakCurrentLimit(ZERO, ZERO);
+      rightSlave2.configPeakCurrentDuration(ZERO, ZERO);
+      rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      rightSlave2.enableCurrentLimit(true);
+
+      rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
+      rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
+      rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      rightSlave3.enableCurrentLimit(true);
+    */
+
+
+    /*Configures the open loop ramp to set the motor to ramp up to speed after a
+     specifiec time other than jerking to full speed.
+    
+     */
     leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
-    leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
-    //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
-
+     
     rightMaster.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
-    rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
+    
+    
+    //leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
+    //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
+
+    //rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
     //rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     // Setting the PID loop for the master controllers
@@ -181,8 +196,8 @@ public class DriveSystem extends Subsystem {
 		leftMaster.set(ControlMode.PercentOutput, 0.0);
 		leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.follow(leftMaster);
-    leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    leftSlave2.follow(leftMaster);
+    //leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    //leftSlave2.follow(leftMaster);
     //leftSlave3.set(ControlMode.PercentOutput, 0.0);
     ///leftSlave3.follow(leftMaster);
     
@@ -190,8 +205,8 @@ public class DriveSystem extends Subsystem {
 		rightMaster.set(ControlMode.PercentOutput, 0.0);
 		rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.follow(rightMaster);
-    rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    rightSlave2.follow(leftMaster);
+    //rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    //rightSlave2.follow(leftMaster);
     //rightSlave3.set(ControlMode.PercentOutput, 0.0);
     //rightSlave3.follow(leftMaster);
 
