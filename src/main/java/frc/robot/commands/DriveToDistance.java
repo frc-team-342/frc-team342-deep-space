@@ -18,7 +18,7 @@ import frc.robot.subsystems.DriveSystem;
 
 public class DriveToDistance extends Command {
 
-	private DriveSystem drive;
+	private DriveSystem Bob;
 
 	private double goal;
 	
@@ -39,20 +39,6 @@ public class DriveToDistance extends Command {
     private static final double SPEED_CONST = 0.25;
     public static final double TEST_DISTANCE = 1.5;
 	
-	/* public enum Distance {
-        
-        CENTER_SWITCH_LEFT(10 * 0.95), CENTER_SWITCH_RIGHT(10.2 * 0.95), SCALE_ACROSS_PLATFORM_ZONE(19.3 * 0.95), PLATFORM_ZONE_WALL(25.05 * 0.95), SCALE_FROM_PLATFORM_ZONE(0 * 0.95), SIDE_SWITCH(17.316 * 0.95), SCALE_DISTANCE(37.179 * 0.95), DRIVE_IN_DISTANCE_SCALE(0.5 * 0.95),
-		DRIVE_IN_DISTANCE_SWITCH(3 * 0.95), DRIVE_OFF_WALL(1 * 0.95), DRIVE_FORWARD_DISTANCE(13 * 0.95), DRIVE_OFF_SWITCH_WALL(2 * 0.95), DRIVE_TO_PLATFORM_ZONE_FROM_SWITCH(3.66 * 0.95),
-		DRIVE_TO_CUBE_SWITCH(2.87 * 0.95), DRIVE_TO_CUBES(5 * 0.95);
-
-		//SIDE_SWITCH(13.5)
-		public final double value;
-
-		Distance(double initValue) {
-			this.value = initValue;
-        }
-    }   
-    */
 
 
     public DriveToDistance(double distance) {
@@ -63,8 +49,8 @@ public class DriveToDistance extends Command {
     
     */
 
-		drive = DriveSystem.getInstance();
-		requires(drive);
+		Bob = DriveSystem.getInstance();
+		//requires(Bob);
 
 		goal = distance;
     /*
@@ -78,8 +64,8 @@ public class DriveToDistance extends Command {
 
 	protected void initialize() {
 		
-		init_Left = drive.getLeftMasterEncoder();
-		init_Right = drive.getRightMasterEncoder(); 
+		init_Left = Bob.getLeftMasterEncoder();
+		init_Right = Bob.getRightMasterEncoder(); 
 		
     }
     
@@ -88,19 +74,19 @@ public class DriveToDistance extends Command {
         left_speed = SPEED_CONST;
         right_speed = SPEED_CONST;
 
-        current_Left = drive.getLeftMasterEncoder() - init_Left;
-        current_Right = drive.getRightMasterEncoder() - init_Right;
+        current_Left = Bob.getLeftMasterEncoder() - init_Left;
+        current_Right = Bob.getRightMasterEncoder() - init_Right;
 
         left_rotation_count = Math.abs(current_Left / 4096);
         right_rotation_count = Math.abs(current_Right / 4096);
 
     /*    if(backwards) {
-			drive.driveSetSpeed(left_speed * -1.0, right_speed * -1.0);
+			Bob.driveSetSpeed(left_speed * -1.0, right_speed * -1.0);
 		}else {               
-			drive.driveSetSpeed(left_speed, right_speed);
+			Bob.driveSetSpeed(left_speed, right_speed);
         }
     */
-        drive.drive(left_speed, right_speed * -1);
+        Bob.drive(left_speed, right_speed * -1);
 
         SmartDashboard.putNumber("left", left_rotation_count);
         SmartDashboard.putNumber("right", right_rotation_count);
@@ -124,7 +110,7 @@ public class DriveToDistance extends Command {
 
     protected void end() {
         
-        drive.stopDrive();
+        Bob.stopDrive();
     }
 
     protected void interrupted() {
