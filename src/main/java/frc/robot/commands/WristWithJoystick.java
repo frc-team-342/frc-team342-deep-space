@@ -58,6 +58,7 @@ public class WristWithJoystick extends Command {
 
      if (LeftJoystickValue > DEADZONE && angle <=270){
 
+
       lift.wristUp(Math.abs(LeftJoystickValue));
 
     } else if (LeftJoystickValue < DEADZONE && angle >= 180){

@@ -8,57 +8,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import frc.robot.subsystems.PneumaticClaw;
 import frc.robot.Robot;
 
-import frc.robot.OI;
+/**
+ * An example command. You can replace me with your own command.
+ */
+public class HatchRelease extends Command {
 
-import frc.robot.subsystems.FistSystem;
+  private PneumaticClaw Cylinder = PneumaticClaw.getInstance();
 
-public class FistRelease extends Command {
-
-  private FistSystem fist;
-
-
-  public FistRelease() {
+  public HatchRelease() {
     requires(Robot.m_subsystem);
-    fist = FistSystem.getInstance();
-
-  private double Deadzone =0.1;
-  OI oi;
-  public FistRelease() {
-    requires(Robot.m_subsystem);
-    fist = FistSystem.getInstance();
-    oi = OI.getInstance();
 
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-   
-  if(oi.getJoystickmanipulatorRightTrigger()>Deadzone){
-      fist.despense();
+      Cylinder.pneumaticOut();
     }
-    
+  
 
-  }
-
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    fist.stop();
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

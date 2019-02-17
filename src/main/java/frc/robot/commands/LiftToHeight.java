@@ -57,8 +57,10 @@ public class LiftToHeight extends Command {
     CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.getDistanceToZero();
     //System.out.println("Current Height: " + CurrentHeight);
 
+
     // System.out.println("Goal is " + Goal);
     UnderGoal = (CurrentHeight <= Goal);
+
 
     if (UnderGoal) {
       lift.liftUp(.5);

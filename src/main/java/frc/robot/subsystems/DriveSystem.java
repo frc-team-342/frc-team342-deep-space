@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 //import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveSystem extends Subsystem {
 
   public SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
 
   // NavX
   AHRS NavX;
@@ -64,7 +67,7 @@ public class DriveSystem extends Subsystem {
     
   
     
-
+private boolean arcade;
 
 
    
@@ -88,7 +91,7 @@ public class DriveSystem extends Subsystem {
       arcade_chooser.addOption("Arcade", true);
       SmartDashboard.putData("Arcade Mode", arcade_chooser);
       arcade = true;
-        
+
     }
 
     @Override
@@ -97,12 +100,13 @@ public class DriveSystem extends Subsystem {
 
 
   }
+
   public Boolean getArcade(){
     return arcade;
   }
 
-  public void setArcadeDrive(boolean enable)
-  {
+  public void setArcadeDrive(boolean enable){
+
     arcade = enable;
   }
   

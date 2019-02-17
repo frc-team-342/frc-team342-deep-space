@@ -24,6 +24,7 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftMaster;
   private TalonSRX liftFollow;
   private TalonSRX liftWrist;
+ 
 
   // varibles for current 
   private int amps = 5;

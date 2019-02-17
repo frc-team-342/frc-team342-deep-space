@@ -20,7 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 
+
 import frc.robot.commands.HatchGrab;
+
+import frc.robot.commands.PneumaticsWithCANifier;
+
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.subsystems.CameraVisionSystem;
@@ -29,7 +33,11 @@ import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
 
+
  import edu.wpi.cscore.VideoMode.PixelFormat;
+
+
+
 
 
 /**
@@ -51,6 +59,7 @@ public class Robot extends TimedRobot {
   private Command liftNow;
   private Command wristNow;
   private Command Test;
+  private Command HatchGrab;
   private LiftSystem lift;
 
   Command m_autonomousCommand;
@@ -120,6 +129,21 @@ public class Robot extends TimedRobot {
      * outputStream.putFrame(output); } } ).start();
      */
   }
+    liftNow = new LiftWithJoystick();
+
+    lift = LiftSystem.getInstance();
+    HatchGrab = new PneumaticsWithCANifier();
+    wristNow = new WristWithJoystick();
+    drive_off_platform = new DriveOffPlatform();
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    // liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    
+   CameraServer.getInstance().startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 600, 300, 20);
+   /*camera.setResolution(160, 120);
+   camera.setFPS(20);
+   camera.setPixelFormat(PixelFormat.kMJPEG);
+   System.out.println(camera.enumerateVideoModes().toString());
+   */
 
   // liftNow = new LiftToHeight(LiftHeight.HighRocket);
   // CameraServer.getInstance().startAutomaticCapture();
@@ -129,6 +153,7 @@ public class Robot extends TimedRobot {
 
 
   }
+
   @Override
   public void robotPeriodic() {
   }
@@ -206,12 +231,18 @@ public class Robot extends TimedRobot {
     driveNow.start();
     liftNow.start();
     lift.SetTrueZero();
+
     Test.start();
+
+  
+
     wristNow.start();
+    HatchGrab.start();
 
     // while (lift.GetWristAngle()>= -90){
     // lift.wristUp(.5);
     // }
+
 
   }
 
