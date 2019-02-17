@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,8 +24,7 @@ public class LiftWithJoystick extends Command {
   private static final double DEADZONE = 0.2;
   private static final double ZERO = 0.0;
 
-  private double leftTriggerValue;
-  private double rightTriggerValue;
+  private double RightJoystickValue;
 
   DigitalInput limitSwitch;
 
@@ -32,35 +32,33 @@ public class LiftWithJoystick extends Command {
     limitSwitch =  new DigitalInput(0);
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
+    limitSwitch =  new DigitalInput(RobotMap.ElevatorLimitSwitchDown);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     //TODO make piston activated by a button
-    leftTriggerValue = oi.getJoystickManipulatorLeftTrigger();
-    rightTriggerValue = oi.getJoystickManipulatorRightTrigger(); 
+   
+   RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
+
         
 
-    if (leftTriggerValue > DEADZONE && rightTriggerValue > DEADZONE){
-      lift.liftStop();
-    } else if (leftTriggerValue > DEADZONE && rightTriggerValue < DEADZONE){
+      if (RightJoystickValue > DEADZONE ){
       if (limitSwitch.get()){
-        lift.liftUp(Math.abs(leftTriggerValue));
+        lift.liftUp(Math.abs(RightJoystickValue));
         SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
         // System.out.println("encoder: " + lift.getLiftEncoders());
       } else  {
         lift.liftStop();
       }
-    } else if (leftTriggerValue < DEADZONE && rightTriggerValue > DEADZONE){
-      lift.liftDown(Math.abs(rightTriggerValue));
+    } else if (RightJoystickValue < DEADZONE ){
+      lift.liftDown(Math.abs(RightJoystickValue));
       SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
       //System.out.println("encoder: " + lift.getLiftEncoders());
     } else {

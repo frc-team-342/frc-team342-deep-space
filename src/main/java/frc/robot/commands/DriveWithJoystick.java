@@ -25,7 +25,6 @@ public class DriveWithJoystick extends Command {
   private DriveSystem Bob;
   protected static boolean kArcadeStandard_Reported;
   private final double SPEED_CONST = 1.0;
- 
 
     public DriveWithJoystick() {
       
@@ -46,7 +45,6 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   
 
     if(Bob.getArcade())
     {
@@ -59,8 +57,6 @@ public class DriveWithJoystick extends Command {
     
       
   }
-  
- 
 
     public void arcadeDrive () 
     {

@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.DigitalInput;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
+
+import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.subsystems.CameraVisionSystem;
@@ -27,7 +28,8 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
- import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,10 +44,14 @@ public class Robot extends TimedRobot {
   public static OI m_oi; 
   private static CameraVisionSystem cameravisionsystem;
   private Command driveNow;
+
+  private Command PneumaticsWithCANifier;
   private Command drive_off_platform;
   private Command liftNow;
   private Command wristNow;
+  private Command HatchGrab;
   private LiftSystem lift;
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
@@ -54,6 +60,7 @@ public class Robot extends TimedRobot {
  
 
   SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -65,16 +72,26 @@ public class Robot extends TimedRobot {
     cameravisionsystem = CameraVisionSystem.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     limitSwitch = new DigitalInput(1);
+
+    // chooser.addOption("My Auto", new MyAutoCommand());
+
+    /*
+     * arcade_chooser.setDefaultOption("Off", false);
+     * arcade_chooser.addOption("Arcade", true);
+     * SmartDashboard.putData("Arcade Mode", arcade_chooser);
+     * SmartDashboard.putData("Auto mode", m_chooser);
+     */
+
     driveNow = new DriveWithJoystick();
-    drive_off_platform = new DriveOffPlatform();
+    // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
 
-    //liftNow = new LiftToHeight(LiftHeight.LowRocket);
-    
-  
+    lift = LiftSystem.getInstance();
+    HatchGrab = new PneumaticsWithCANifier();
     wristNow = new WristWithJoystick();
-    lift =  LiftSystem.getInstance();
-    //liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    drive_off_platform = new DriveOffPlatform();
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    // liftNow = new LiftToHeight(LiftHeight.LowRocket);
     
    CameraServer.getInstance().startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 600, 300, 20);
    /*camera.setResolution(160, 120);
@@ -88,6 +105,7 @@ public class Robot extends TimedRobot {
 
 
   }
+
   @Override
   public void robotPeriodic() {
   }
@@ -122,10 +140,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
 
-  //drive_off_platform.start();
-  //driveNow.start();
-  
-  
+    // drive_off_platform.start();
+    // driveNow.start();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -146,9 +162,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-   drive_off_platform.start();
-  
+    drive_off_platform.start();
+
   }
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -158,19 +175,22 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-  /* System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
-    ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
-*/
-    
+    /*
+     * System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
+     * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
+     */
+
     driveNow.start();
-    System.out.println("DriveNow just initiated.");
     liftNow.start();
     lift.SetTrueZero();
+  
     wristNow.start();
+    HatchGrab.start();
 
-   // while (lift.GetWristAngle()>= -90){
-    //  lift.wristUp(.5);
-   // }
+    // while (lift.GetWristAngle()>= -90){
+    // lift.wristUp(.5);
+    // }
+
   }
 
   /**
@@ -179,7 +199,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-  
   }
 
   /**

@@ -17,7 +17,12 @@ package frc.robot;
 public class RobotMap {
 
 public static final int PIGEONIMU = 10;
+public static final int ElevatorLimitSwitchUp =1;
+public static final int ElevatorLimitSwitchDown =0;
 
+// intake for now
+public static final int INTAKEMASTER = 17;
+public static final int INTAKEFOLLOW =18;
 
   // Motors
   public static final int LEFT_MOTOR = 1;
@@ -29,11 +34,14 @@ public static final int PIGEONIMU = 10;
   public static final int RIGHT_Y_AXIS = 5;
   public static final int RIGHT_X_AXIS = 4;
 
-  // manipulator joystick axis
+  // manipulator  left joystick axis
   public static final int WRIST_LEFT_Y_AXIS = 1;
   public static final int WRIST_LEFT_X_AXIS = 0;
-  public static final int WRIST_RIGHT_Y_AXIS = 5;
-  public static final int WRIST_RIGHT_X_AXIS = 4;
+  public static final int LIFT_RIGHT_Y_AXIS = 5;
+  public static final int LIFT_RIGHT_X_AXIS = 4;
+
+  
+
 
   // Talon ID's
   public static final int LEFTMASTER = 3;
@@ -62,6 +70,10 @@ public static final int PIGEONIMU = 10;
   public static final int X_RIGHT_AXIS = 4;
   public static final int Y_RIGHT_AXIS = 5;
 
+  // manipulator joystick
+  public static final int MANIPULATOR_LEFT_TRIGGER = 2;
+  public static final int MANIPULATOR_RIGHT_TRIGGER = 3;
+
   /*
    * //this is stuff for logitech that we might not use this year public static
    * final int X_AXIS_LOGITECH = 0; public static final int Y_AXIS_LOGITECH = 1;
@@ -78,4 +90,9 @@ public static final int PIGEONIMU = 10;
   public static final int PNEUMATICCLAW_RELEASE_OPEN = 4;
   public static final int GRIPPER_EXTRACT = 2;
   public static final int GRIPPER_RETRACT = 3;
+
+  public static final int CANIFIERLIMITS = 0;
+  public static final int DIGITALINPUT1 = 2;
+  public static final int DIGITALINPUT2 = 3;
+
 }
