@@ -77,14 +77,13 @@ public class Robot extends TimedRobot {
     lift = LiftSystem.getInstance();
     HatchGrab = new PneumaticsWithCANifier();
     wristNow = new WristWithJoystick();
-
-    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
-    // CameraServer.getInstance().startAutomaticCapture();
-
-    // getWatchdog().setEnable(true);
-    // }
     drive_off_platform = new DriveOffPlatform();
-    liftNow = new LiftWithJoystick();
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    
+
+   
+  
+   
 
     // liftNow = new LiftToHeight(LiftHeight.LowRocket);
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -93,36 +92,10 @@ public class Robot extends TimedRobot {
     camera.setPixelFormat(PixelFormat.kMJPEG);
     System.out.println(camera.enumerateVideoModes().toString());
 
-    /*
-     * new Thread(() -> { UsbCamera camera =
-     * CameraServer.getInstance().startAutomaticCapture(); camera.setResolution(320,
-     * 240);
-     * 
-     * CvSink cvSink = CameraServer.getInstance().getVideo(); CvSource outputStream
-     * = CameraServer.getInstance().putVideo("Blur", 640, 480);
-     * 
-     * Mat source = new Mat(); Mat output = new Mat();
-     * 
-     * while(!Thread.interrupted()) { cvSink.grabFrame(source);
-     * Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-     * outputStream.putFrame(output); } } ).start();
-     */
+   // getWatchdog().setEnable(true);
+     
   }
 
-  // liftNow = new LiftToHeight(LiftHeight.HighRocket);
-  // CameraServer.getInstance().startAutomaticCapture();
-
-  // getWatchdog().setEnable(true);
-
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
-   */
   @Override
   public void robotPeriodic() {
   }

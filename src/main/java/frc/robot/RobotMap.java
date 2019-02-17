@@ -20,6 +20,9 @@ public static final int PIGEONIMU = 10;
 public static final int ElevatorLimitSwitchUp =1;
 public static final int ElevatorLimitSwitchDown =0;
 
+// intake for now
+public static final int INTAKEMASTER = 17;
+public static final int INTAKEFOLLOW =18;
 
   // Motors
   public static final int LEFT_MOTOR = 1;

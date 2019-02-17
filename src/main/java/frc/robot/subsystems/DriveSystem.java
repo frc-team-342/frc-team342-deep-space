@@ -12,12 +12,16 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 //import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /**
  * An example subsystem. You can replace me with your own Subsystem.
  */
 public class DriveSystem extends Subsystem {
+
+  SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
 
   // NavX
   AHRS NavX;
@@ -58,7 +62,7 @@ public class DriveSystem extends Subsystem {
     //NavX
   
     
-
+private boolean arcade;
 
 
    
@@ -76,7 +80,11 @@ public class DriveSystem extends Subsystem {
 
 
       inititalizeDriveSystem();
-        
+
+      arcade_chooser.setDefaultOption("Off", false);
+      arcade_chooser.addOption("Arcade", true);
+      SmartDashboard.putData("Arcade Mode", arcade_chooser);
+      arcade = true;
     }
 
     @Override
@@ -84,6 +92,14 @@ public class DriveSystem extends Subsystem {
 
 
 
+  }
+
+  public boolean getArcade(){
+    return arcade;
+  }
+
+  public void setArcadeDrive(boolean enable){
+    arcade = enable;
   }
   
    
@@ -186,7 +202,7 @@ public class DriveSystem extends Subsystem {
 
 
   public void drive(Double LeftSpeed, Double RightSpeed) {
-   
+   setArcadeDrive(arcade_chooser.getSelected());
     if(slow) {
       System.out.println("Changing Speeds to Slow Speeds");
       LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;

@@ -54,7 +54,7 @@ public class WristWithJoystick extends Command {
      pigeon.getAccelerometerAngles(ypr);
      //System.out.println("Pitch is "+ypr[1]);
      //System.out.println("Roll is "+ ypr[2]);
-      System.out.println("Yaw is " + ypr[0]);
+      //System.out.println("Yaw is " + ypr[0]);
      if (LeftJoystickValue > DEADZONE ){
       lift.wristUp(Math.abs(LeftJoystickValue));
       System.out.println("Wrist Going Up");

@@ -27,16 +27,14 @@ public class DriveWithJoystick extends Command {
   private DriveSystem Bob;
   protected static boolean kArcadeStandard_Reported;
   private final double SPEED_CONST = 1.0;
-  SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+  
 
     public DriveWithJoystick() {
       
-      arcade = false;
+     
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
-      arcade_chooser.setDefaultOption("Off", false);
-      arcade_chooser.addOption("Arcade", true);
-      SmartDashboard.putData("Arcade Mode", arcade_chooser);
+     
 
       
     requires(Robot.m_subsystem);
@@ -50,8 +48,7 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    setArcadeDrive(arcade_chooser.getSelected());
-
+    
 
     if(arcade)
     {
@@ -65,10 +62,7 @@ public class DriveWithJoystick extends Command {
       
   }
   
-  public void setArcadeDrive(boolean enable)
-  {
-    arcade = enable;
-  }
+
 
     public void arcadeDrive () 
     {

@@ -32,7 +32,7 @@ public class LiftWithJoystick extends Command {
 
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
-    limitSwitch =  new DigitalInput(0);
+    limitSwitch =  new DigitalInput(RobotMap.ElevatorLimitSwitchDown);
   }
 
   // Called just before this Command runs the first time
