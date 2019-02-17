@@ -23,10 +23,14 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HatchGrab;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
+import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
+
+ import edu.wpi.cscore.VideoMode.PixelFormat;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,7 +42,8 @@ import frc.robot.subsystems.LiftSystem;
 public class Robot extends TimedRobot {
 
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  public static OI m_oi; 
+  private static CameraVisionSystem cameravisionsystem;
   private Command driveNow;
 
   private Command PneumaticsWithCANifier;
@@ -52,6 +57,9 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
 
+ 
+ 
+
   SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
 
   /**
@@ -60,9 +68,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     m_oi = OI.getInstance();
+    cameravisionsystem = CameraVisionSystem.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     limitSwitch = new DigitalInput(1);
+
     // chooser.addOption("My Auto", new MyAutoCommand());
 
     /*
@@ -115,15 +126,9 @@ public class Robot extends TimedRobot {
 
   // getWatchdog().setEnable(true);
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
-   */
+
+
+  }
   @Override
   public void robotPeriodic() {
   }
