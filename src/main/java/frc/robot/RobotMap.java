@@ -25,7 +25,7 @@ public class RobotMap {
   public static final int XBOX_RIGHT_T = 3;
   public static final int XBOX_A = 1;
   public static final int XBOX_B = 2;
-  public static final int XBOX_x = 3;
+  public static final int XBOX_X = 3;
   public static final int XBOX_Y = 4;
   public static final int XBOX_RIGHT_B = 5;
   public static final int XBOX_LEFT_B = 6;
