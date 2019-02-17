@@ -38,7 +38,7 @@ public class RobotMap {
   public static final int LOGI_RIGHT_T = 3;
   public static final int LOGI_A = 1;
   public static final int LOGI_B = 2;
-  public static final int LOGI_x = 3;
+  public static final int LOGI_X = 3;
   public static final int LOGI_Y = 4;
   public static final int LOGI_RIGHT_B = 5;
   public static final int LOGI_LEFT_B = 6;
