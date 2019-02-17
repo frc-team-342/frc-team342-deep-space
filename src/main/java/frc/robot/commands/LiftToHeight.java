@@ -22,8 +22,9 @@ public class LiftToHeight extends Command {
   private double Goal;
   private boolean UnderGoal;
   private double init_Lift;
+
   private double BufferZone = 100.0;
- 
+
 
   public enum LiftHeight {
     LowRocket(15000), MiddleRocket(30000), HighRocket(35000);
@@ -59,6 +60,7 @@ public class LiftToHeight extends Command {
 
     // System.out.println("Goal is " + Goal);
     UnderGoal = (CurrentHeight <= Goal);
+
 
     if (UnderGoal) {
       lift.liftUp(.5);

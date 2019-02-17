@@ -7,27 +7,26 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.CANifier;
+import com.ctre.phoenix.CANifier.GeneralPin;
+import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DigitalInput;
-
 import frc.robot.subsystems.Knuckles;
-
-
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 /**
  * An example command. You can replace me with your own command.
  */
-public class PneumaticsWithSwitch extends Command {
-
+public class HatchGrab extends Command {
 
   private Knuckles Cylinder = Knuckles.getInstance();
+  // TODO put these into RobotMap
+  CANifier canifierLimits = new CANifier(RobotMap.CANIFIERLIMITS);
+  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
 
-  DigitalInput limitSwitchOne;
-  DigitalInput limitSwitchTwo;
-
-  public PneumaticsWithSwitch() {
+  public HatchGrab() {
     requires(Robot.m_subsystem);
 
   }
@@ -35,22 +34,27 @@ public class PneumaticsWithSwitch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    limitSwitchOne = new DigitalInput(RobotMap.DIGITALINPUT1);
-    limitSwitchTwo = new DigitalInput(RobotMap.DIGITALINPUT2);
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
     // System.out.println("Checking: " +
-    // canifierLimits.get(GeneralPin.SPI_MISO_PWM2P));
-    if (!limitSwitchOne.get() && !limitSwitchTwo.get()) {
+    // canifierLimits.getGeneralInput(GeneralPin.LIMF));
+    // System.out.println("pigeon testing:");
+    // System.out.println("\t compasheading :" + pigeon.getCompassHeading());
+    // System.out.println("\t accelorometer data :");
+    // double[] accelerometer = new double[3];
+    // pigeon.getAccelerometerAngles(accelerometer);
+    // System.out.println("\t\t x: " + accelerometer[0] + "\t y: " +
+    // accelerometer[1] + "\t z: " + accelerometer[2]);
 
+    // System.out.println("Limit Switch Test");
+    if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR)) {
       Cylinder.pneumaticOut();
-      // System.out.println("Limit switches are being pressed.");
+      // System.out.println("One of the two limit switches are being pressed");
     }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()

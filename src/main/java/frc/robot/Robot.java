@@ -20,7 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 
+
+import frc.robot.commands.HatchGrab;
+
 import frc.robot.commands.PneumaticsWithCANifier;
+
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.subsystems.CameraVisionSystem;
@@ -28,7 +32,12 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
-import edu.wpi.cscore.VideoMode.PixelFormat;
+
+
+ import edu.wpi.cscore.VideoMode.PixelFormat;
+
+
+
 
 
 /**
@@ -49,6 +58,7 @@ public class Robot extends TimedRobot {
   private Command drive_off_platform;
   private Command liftNow;
   private Command wristNow;
+  private Command Test;
   private Command HatchGrab;
   private LiftSystem lift;
 
@@ -85,6 +95,41 @@ public class Robot extends TimedRobot {
     driveNow = new DriveWithJoystick();
     // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
+    lift = LiftSystem.getInstance();
+    Test = new HatchGrab();
+    wristNow = new WristWithJoystick();
+
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    // CameraServer.getInstance().startAutomaticCapture();
+
+    // getWatchdog().setEnable(true);
+    // }
+    drive_off_platform = new DriveOffPlatform();
+    liftNow = new LiftWithJoystick();
+
+    // liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(160, 120);
+    camera.setFPS(20);
+    camera.setPixelFormat(PixelFormat.kMJPEG);
+    System.out.println(camera.enumerateVideoModes().toString());
+
+    /*
+     * new Thread(() -> { UsbCamera camera =
+     * CameraServer.getInstance().startAutomaticCapture(); camera.setResolution(320,
+     * 240);
+     * 
+     * CvSink cvSink = CameraServer.getInstance().getVideo(); CvSource outputStream
+     * = CameraServer.getInstance().putVideo("Blur", 640, 480);
+     * 
+     * Mat source = new Mat(); Mat output = new Mat();
+     * 
+     * while(!Thread.interrupted()) { cvSink.grabFrame(source);
+     * Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+     * outputStream.putFrame(output); } } ).start();
+     */
+  }
+    liftNow = new LiftWithJoystick();
 
     lift = LiftSystem.getInstance();
     HatchGrab = new PneumaticsWithCANifier();
@@ -100,7 +145,10 @@ public class Robot extends TimedRobot {
    System.out.println(camera.enumerateVideoModes().toString());
    */
 
-    //getWatchdog().setEnable(true);
+  // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+  // CameraServer.getInstance().startAutomaticCapture();
+
+  // getWatchdog().setEnable(true);
 
 
 
@@ -183,13 +231,18 @@ public class Robot extends TimedRobot {
     driveNow.start();
     liftNow.start();
     lift.SetTrueZero();
+
+    Test.start();
+
   
+
     wristNow.start();
     HatchGrab.start();
 
     // while (lift.GetWristAngle()>= -90){
     // lift.wristUp(.5);
     // }
+
 
   }
 

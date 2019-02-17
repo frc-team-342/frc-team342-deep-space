@@ -16,13 +16,6 @@ package frc.robot;
 
 public class RobotMap {
 
-public static final int PIGEONIMU = 10;
-public static final int ElevatorLimitSwitchUp =1;
-public static final int ElevatorLimitSwitchDown =0;
-
-// intake for now
-public static final int INTAKEMASTER = 17;
-public static final int INTAKEFOLLOW =18;
 
   // Motors
   public static final int LEFT_MOTOR = 1;
@@ -44,18 +37,21 @@ public static final int INTAKEFOLLOW =18;
 
 
   // Talon ID's
-  public static final int LEFTMASTER = 3;
   public static final int RIGHTMASTER = 1;
-  public static final int LEFTSLAVE1 = 4;
-  public static final int LEFTSLAVE2 = 11;
-  
   public static final int RIGHTSLAVE1 = 2;
-  public static final int RIGHTSLAVE2 = 13;
-
+  public static final int LEFTMASTER = 3;
+  public static final int LEFTSLAVE1 = 4;
+  public static final int PNEUMATICS = 5;
   public static final int LIFTMASTER = 8;
   public static final int LIFTFOLLOW = 9;
   public static final int LIFTWRIST = 10;
-  public static final int PNEUMATICS = 5;
+  public static final int LEFTSLAVE2 = 11;
+  public static final int LEFTSLAVE3 = 12;
+  public static final int RIGHTSLAVE2 = 13;
+  public static final int RIGHTSLAVE3 = 14;
+  //TODO find out what the map is to the hook talon
+  public static final int WENCH = 5; 
+
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
@@ -87,12 +83,16 @@ public static final int INTAKEFOLLOW =18;
   // basic pneumatic stuff
   public static final int PNEUMATICCLAW_OPEN = 0;
   public static final int PNEUMATICCLAW_CLOSED = 1;
+ final int PIGEONIMU = 10;
+
   public static final int PNEUMATICCLAW_RELEASE_OPEN = 4;
   public static final int GRIPPER_EXTRACT = 2;
   public static final int GRIPPER_RETRACT = 3;
 
+
   public static final int CANIFIERLIMITS = 0;
   public static final int DIGITALINPUT1 = 2;
   public static final int DIGITALINPUT2 = 3;
+
 
 }

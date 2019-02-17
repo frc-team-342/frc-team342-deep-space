@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI;
 
-public class PneumaticClaw extends Subsystem {
+public class Knuckles extends Subsystem {
 
   private DoubleSolenoid pneumaticSuspension;
-  private static final PneumaticClaw INSTANCE = new PneumaticClaw();
+  private static final Knuckles INSTANCE = new Knuckles();
 
-  public PneumaticClaw() {
+  public Knuckles() {
     initializePneumatics();
   }
 
@@ -28,7 +28,7 @@ public class PneumaticClaw extends Subsystem {
 
   }
 
-  public static PneumaticClaw getInstance() {
+  public static Knuckles getInstance() {
 
     return INSTANCE;
   }

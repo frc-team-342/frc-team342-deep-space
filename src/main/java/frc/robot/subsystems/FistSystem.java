@@ -39,8 +39,10 @@ public class FistSystem extends Subsystem {
   public FistSystem() {
 
     // Instantiate Motor Controllers
-    intakeMaster = new TalonSRX(RobotMap.INTAKEMASTER);
-    intakeFollow = new TalonSRX(RobotMap.INTAKEFOLLOW);
+
+    intakeMaster = new TalonSRX(RobotMap.LEFTMASTER);
+    intakeFollow = new TalonSRX(RobotMap.RIGHTMASTER);
+
 
     inititalizeFistSystem();
 

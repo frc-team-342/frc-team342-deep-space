@@ -44,8 +44,10 @@ public class LiftWithJoystick extends Command {
   @Override
   protected void execute() {
     //TODO make piston activated by a button
+
    
    RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
+
 
         
 

@@ -18,6 +18,11 @@ import frc.robot.commands.WristToPosition.WristPosition;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.commands.LiftToHeight;
 
+
+import frc.robot.commands.HatchGrab;
+import frc.robot.subsystems.LiftSystem;
+import frc.robot.subsystems.Knuckles;
+
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.HatchRelease;
 import frc.robot.commands.FistIntake;
@@ -25,6 +30,7 @@ import frc.robot.commands.FistRelease;
 
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.PneumaticClaw;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -37,45 +43,61 @@ public class OI {
     private Joystick xbox_drive = new Joystick(0);
     private Joystick logitech_manipulator = new Joystick(1);
 
-    private Command togglePneuamtics = new TogglePneumatics();
-    
 
 
     private Command toggleSlowDrive = new ToggleSlowDrive();
+
+    private Command test = new HatchGrab();
+    private Command FistIntake = new FistIntake();
+    private Command FistRelease = new FistRelease();
+
     //private Command HatchGrab = new PneumaticsWithCANifier();
    // private Command togglePneumatics = new TogglePneumatics();
     private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
     private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
     private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
 
-    //private Command toggleFist = new TogglePneumatics();
-    //private Command FistIntake = new FistIntake();
-    //private Command FistRelease = new FistRelease();
+ 
     private Command HatchRelease = new HatchRelease();
-    private Button manipulator_leftstickButton;
-    private Button xbox_drive_leftBumper;
-    //private Button xbox_drive_rightBumper;
+ 
+
 
     private Command wristToPositionCargo = new WristToPosition(WristPosition.Cargo);
     private Command wristToPositionHatch = new WristToPosition(WristPosition.Hatch);
+    private Button xbox_drive_leftBumper;
     private Button xbox_drive_rightBumper;
 
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
     private Button logitech_manipulator_Y;
     private Button logitech_manipulator_X;
+    private Button logitech_manipulator_rightBumper;
+    private Button logitech_manipulator_leftBumper;
     private Button logitech_manipulator_leftstickButton;
     private Button logitech_manipultor_rightstickButton;
-
-    private Button logitech_manipulator_leftBumper;
-    private Button logitech_manipulator_rightBumper;
-    
 
 
     private OI() {
 
+        toggleFist = new TogglePneumatics();
         xbox_drive = new Joystick(0);
         logitech_manipulator = new Joystick(1);
+        
+
+
+
+        xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
+        xbox_drive_rightBumper = new JoystickButton(xbox_drive, 6);
+      
+        
+        logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
+        logitech_manipulator_rightBumper = new JoystickButton(logitech_manipulator, 6);
+      
+        
+    
+        
+        
+
   
         // setting the manipulator buttons to do what we say
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
@@ -86,11 +108,13 @@ public class OI {
         logitech_manipulator_leftstickButton = new JoystickButton(logitech_manipulator, 9);
         logitech_manipultor_rightstickButton = new JoystickButton(logitech_manipulator, 10);
         
+
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_A.whenPressed(liftToHeightLow);
         logitech_manipulator_B.whenPressed(liftToHeightMiddle);
         logitech_manipulator_Y.whenPressed(liftToHeightHigh);
         logitech_manipulator_X.whenPressed(liftToHeightMiddle);
+
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whenPressed(HatchRelease);
         logitech_manipulator_leftstickButton.whenPressed(wristToPositionCargo);
@@ -122,14 +146,11 @@ public class OI {
 
         return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
     }
-    
-    
-    //Manipulator Axis
-    
-    
+
     public double getJoystickManipulatorRightXAxis(){
         return logitech_manipulator.getRawAxis(RobotMap.LIFT_RIGHT_X_AXIS);
     }
+
     public double getJoystickManipulatorRightYAxis(){
         return logitech_manipulator.getRawAxis(RobotMap.LIFT_RIGHT_Y_AXIS);
     }
@@ -143,6 +164,7 @@ public class OI {
 
         return logitech_manipulator.getRawAxis(RobotMap.WRIST_LEFT_X_AXIS);
     }
+
 
     public double getJoystickManipulatorLeftTrigger() {
 

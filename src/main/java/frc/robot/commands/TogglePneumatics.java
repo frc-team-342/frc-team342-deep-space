@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 
 /**
@@ -17,7 +17,7 @@ import frc.robot.Robot;
  */
 public class TogglePneumatics extends Command {
 
-  private PneumaticClaw Cylinder = PneumaticClaw.getInstance();
+  private Knuckles Cylinder = Knuckles.getInstance();
 
   public TogglePneumatics() {
     requires(Robot.m_subsystem);
