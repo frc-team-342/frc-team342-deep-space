@@ -28,13 +28,13 @@ public class DriveWithJoystick extends Command {
 
     public DriveWithJoystick() {
       
-      
+      System.out.println("In Drive Constructor");
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
    
 
       
-    requires(Robot.m_subsystem);
+    //requires(Robot.m_subsystem);
   }
 
   
@@ -45,7 +45,7 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    //System.out.println("Driving");
     if(Bob.getArcade())
     {
       arcadeDrive();

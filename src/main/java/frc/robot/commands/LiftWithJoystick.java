@@ -21,18 +21,20 @@ public class LiftWithJoystick extends Command {
   private LiftSystem lift;
   private OI oi;
 
-  private static final double DEADZONE = 0.2;
+  private static final double DEADZONE = 0.1;
   private static final double ZERO = 0.0;
 
   private double RightJoystickValue;
 
-  DigitalInput limitSwitch;
+  DigitalInput limitSwitch1;
+  DigitalInput limitSwitch2;
 
   public LiftWithJoystick() {
-    limitSwitch =  new DigitalInput(0);
+    System.out.println("In Lift With Joystick Constructor");
+    limitSwitch1 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_UP);
+    limitSwitch2 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_DOWN);
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
-    limitSwitch =  new DigitalInput(RobotMap.ElevatorLimitSwitchDown);
   }
 
   // Called just before this Command runs the first time
@@ -52,20 +54,22 @@ public class LiftWithJoystick extends Command {
         
 
       if (RightJoystickValue > DEADZONE ){
-      if (limitSwitch.get()){
-        lift.liftUp(Math.abs(RightJoystickValue));
+      if (limitSwitch1.get()){
+        lift.liftUp(Math.abs(RightJoystickValue)*.3);
         SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
         // System.out.println("encoder: " + lift.getLiftEncoders());
       } else  {
         lift.liftStop();
       }
     } else if (RightJoystickValue < DEADZONE ){
-      lift.liftDown(Math.abs(RightJoystickValue));
+      if(limitSwitch2.get()){
+      lift.liftDown(Math.abs(RightJoystickValue)*.3);
       SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
       //System.out.println("encoder: " + lift.getLiftEncoders());
     } else {
       lift.liftStop(); 
     }
+  }
     
     /*if(triggerValue < (DEADZONE * -1.0)){
       lift.liftUp(Math.abs(triggerValue));
