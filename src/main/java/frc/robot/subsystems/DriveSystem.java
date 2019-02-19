@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 //import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveSystem extends Subsystem {
 
   public SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
 
   // NavX
   AHRS NavX;
@@ -62,23 +65,21 @@ public class DriveSystem extends Subsystem {
 
     private boolean arcade;
     
-  
-    
-
 
 
    
      public DriveSystem() {
       
       //Instantiate Motor Controllers
-      leftMaster = new TalonSRX(RobotMap.LEFTMASTER);
-      rightMaster = new TalonSRX(RobotMap.RIGHTMASTER);
-      leftSlave1 = new TalonSRX(RobotMap.LEFTSLAVE1);
-      leftSlave2 = new TalonSRX(RobotMap.LEFTSLAVE2);
-      //leftSlave3 = new TalonSRX(RobotMap.LEFTSLAVE3);
-      rightSlave1 = new TalonSRX(RobotMap.RIGHTSLAVE1);
-      rightSlave2 = new TalonSRX(RobotMap.RIGHTSLAVE2);
-      //rightSlave3 = new TalonSRX(RobotMap.RIGHTSLAVE3);
+      leftMaster = new TalonSRX(RobotMap.DRV_LEFT_MASTER);
+      rightMaster = new TalonSRX(RobotMap.DRV_RIGHT_MASTER);
+
+      leftSlave1 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_1);
+      leftSlave2 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_2);
+     
+      rightSlave1 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_1);
+      rightSlave2 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_2);
+      
 
 
       inititalizeDriveSystem();
@@ -87,7 +88,7 @@ public class DriveSystem extends Subsystem {
       arcade_chooser.addOption("Arcade", true);
       SmartDashboard.putData("Arcade Mode", arcade_chooser);
       arcade = true;
-        
+
     }
 
     @Override
@@ -96,12 +97,13 @@ public class DriveSystem extends Subsystem {
 
 
   }
+
   public Boolean getArcade(){
     return arcade;
   }
 
-  public void setArcadeDrive(boolean enable)
-  {
+  public void setArcadeDrive(boolean enable){
+
     arcade = enable;
   }
   
@@ -171,15 +173,16 @@ public class DriveSystem extends Subsystem {
      */
     leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
-     
+    leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
+
     rightMaster.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
+    rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
     
-    
-    //leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
+   
     //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
-    //rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
+
     //rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     // Setting the PID loop for the master controllers

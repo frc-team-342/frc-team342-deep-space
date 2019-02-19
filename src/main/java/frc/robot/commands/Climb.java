@@ -7,21 +7,27 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.PneumaticFist;
+import frc.robot.subsystems.ClimbSystem;
 
-/* 
- * Controls whether the fist is closed or open to collect hatches 
+/**
+ * An example command. You can replace me with your own command.
  */
+public class Climb extends Command {
 
-public class ToggleFist extends Command {
-  private PneumaticFist Cylinder = PneumaticFist.getInstance();
+  private ClimbSystem climb;
+  private OI oi;
 
-  public ToggleFist() {
-    requires(Robot.m_subsystem);
+  private double WenchSpeed = 0;
+
+  public Climb() {
+    climb = ClimbSystem.getInstance();
+    oi = OI.getInstance();
+    
   }
 
   @Override
@@ -30,24 +36,27 @@ public class ToggleFist extends Command {
 
   @Override
   protected void execute() {
-    if (Cylinder.isOut()) {
-      Cylinder.pneumaticIn();
-    } else {
-      Cylinder.pneumaticOut();
-    }
+
+    WenchSpeed = oi.getJoystickDriveRightTrigger();
+
+    climb.hookOut();
+    climb.extend(WenchSpeed);
 
   }
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
+    climb.stop();
   }
 
   @Override
   protected void interrupted() {
+    end();
   }
 }

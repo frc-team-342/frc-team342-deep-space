@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.DigitalInput;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,67 +19,110 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HatchGrab;
+import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
+import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import frc.robot.commands.FistIntake;
 
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
+
+
+
+
 public class Robot extends TimedRobot {
 
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  public static OI m_oi; 
+  //private static CameraVisionSystem cameravisionsystem;
   private Command driveNow;
+  private Command PneumaticsWithCANifier;
   private Command drive_off_platform;
   private Command liftNow;
   private Command wristNow;
+  private Command Test;
+  private Command HatchGrab;
+  private Command m_autonomousCommand;
   private LiftSystem lift;
-  Command m_autonomousCommand;
+  private Command fistIntake;
+  
+
+  
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   DigitalInput limitSwitch;
 
+ 
+ 
+
   SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
-    m_oi = OI.getInstance();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    limitSwitch = new DigitalInput(1);
-    
-    driveNow = new DriveWithJoystick();
-    drive_off_platform = new DriveOffPlatform();
-    liftNow = new LiftWithJoystick();
 
-    //liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    m_oi = OI.getInstance();
+   // cameravisionsystem = CameraVisionSystem.getInstance();
+    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    //limitSwitch = new DigitalInput(1);
+
+    // chooser.addOption("My Auto", new MyAutoCommand());
+
+    /*
+     * arcade_chooser.setDefaultOption("Off", false);
+     * arcade_chooser.addOption("Arcade", true);
+     * SmartDashboard.putData("Arcade Mode", arcade_chooser);
+     * SmartDashboard.putData("Auto mode", m_chooser);
+     */
+
+    driveNow = new DriveWithJoystick();
+    // driveNow = new DriveToDistance();
+    liftNow = new LiftWithJoystick();
+    lift = LiftSystem.getInstance();
+   // Command test2 = Test;
+    HatchGrab = new HatchGrab();
+    wristNow = new WristWithJoystick();
+    fistIntake = new FistIntake();
     
   
-    wristNow = new WristWithJoystick();
-    lift =  LiftSystem.getInstance();
-    //liftNow = new LiftToHeight(LiftHeight.HighRocket);
+
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    // CameraServer.getInstance().startAutomaticCapture();
+
+    // getWatchdog().setEnable(true);
+    // }
+    //drive_off_platform = new DriveOffPlatform();
+  
+
+    // liftNow = new LiftToHeight(LiftHeight.LowRocket);
+    //UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    //camera.setResolution(160, 120);
+    //camera.setFPS(20);
+    //camera.setPixelFormat(PixelFormat.kMJPEG);
+    //System.out.println(camera.enumerateVideoModes().toString());
+
+  
+    //HatchGrab = new PneumaticsWithCANifier();
+    //wristNow = new WristWithJoystick();
+    //drive_off_platform = new DriveOffPlatform();
+    // liftNow = new LiftToHeight(LiftHeight.HighRocket);
+    // liftNow = new LiftToHeight(LiftHeight.LowRocket);
     
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-   camera.setResolution(160, 120);
-   camera.setFPS(20);
-   camera.setPixelFormat(PixelFormat.kMJPEG);
-   System.out.println(camera.enumerateVideoModes().toString());
-    
-    //getWatchdog().setEnable(true);
+   //CameraServer.getInstance().startAutomaticCapture().setVideoMode(PixelFormat.kMJPEG, 600, 300, 20);
+  
 
 
 
   }
+
   @Override
   public void robotPeriodic() {
   }
@@ -113,24 +155,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    /*m_autonomousCommand = m_chooser.getSelected();
 
-  //drive_off_platform.start();
-  //driveNow.start();
-  
-  
-
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-     * switch(autoSelected) { case "My Auto": autonomousCommand = new
-     * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-     * ExampleCommand(); break; }
-     */
-
-    // schedule the autonomous command (example)
+   
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
-    }
+    }*/
   }
 
   /**
@@ -139,9 +169,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-   drive_off_platform.start();
-  
+    //drive_off_platform.start();
+
   }
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -151,19 +182,27 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-  /* System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
-    ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
-*/
-    
+    /*
+     * System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
+     * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
+     */
+
+    System.out.println("Starting Commands: ");
     driveNow.start();
-    System.out.println("DriveNow just initiated.");
     liftNow.start();
     lift.SetTrueZero();
+    HatchGrab.start();
     wristNow.start();
+    fistIntake.start();
+    System.out.println("You mad bro?: ");
 
-   // while (lift.GetWristAngle()>= -90){
-    //  lift.wristUp(.5);
-   // }
+    //HatchGrab.start();
+
+    // while (lift.GetWristAngle()>= -90){
+    // lift.wristUp(.5);
+    // }
+
+
   }
 
   /**
@@ -172,7 +211,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-  
   }
 
   /**

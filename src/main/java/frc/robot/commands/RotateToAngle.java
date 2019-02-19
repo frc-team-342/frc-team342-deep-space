@@ -25,7 +25,7 @@ public class RotateToAngle extends Command {
 	public RotateToAngle(int angle) {
 		
 		drive = DriveSystem.getInstance();
-		requires(drive);
+		
 		
 		this.angle = angle;
 	}

@@ -8,52 +8,61 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 
-/**
- * An example command. You can replace me with your own command.
- */
-public class TogglePneumatics extends Command {
+import frc.robot.OI;
 
-  private Knuckles Cylinder = Knuckles.getInstance();
+import frc.robot.subsystems.FistSystem;
 
-  public TogglePneumatics() {
+public class FistIntake extends Command {
+
+  private FistSystem fist;
+  OI oi;
+  private double Deadzone = 0.5;
+
+
+
+  public FistIntake() {
     
+    fist = FistSystem.getInstance();
+
+
+
+    oi = OI.getInstance();
 
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    if (Cylinder.isOut()) {
-      Cylinder.pneumaticIn();
-    } else {
-      Cylinder.pneumaticOut();
-    }
+   
+
+    fist.intake(oi.getCombinedManipulatorTriggers());
+      
+    
+
+    
+
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
+    fist.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
+
+ 
 }

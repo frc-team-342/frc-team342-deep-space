@@ -24,18 +24,25 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftMaster;
   private TalonSRX liftFollow;
   private TalonSRX liftWrist;
+  private static double maxWristAngle = 180;
+  private static double minWristAngle = 97;
+  private static double wobble = 10;
+ 
 
   // varibles for current 
-  private int amps = 5;
+  private int amps = 25;
+  private int amps2 = 35;
+  private int wristamps =15;
   private int timeout = 10; 
   private int milliseconds = 2000;
   public double TrueZero;
   public double DistanceFromZero;
   private double [] ypr = new double[3];
-  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
-  private double PickupMode= 180;
-  private double HatchMode = 180;
-  private double CargoMode = -90;
+  PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
+   
+  private double angle;
+  
+  
 
   
   public LiftSystem() {
@@ -54,38 +61,39 @@ public class LiftSystem extends Subsystem {
 
   private void initializeLiftSystem() {
 
-    liftMaster = new TalonSRX(RobotMap.LIFTMASTER);
-    liftFollow = new TalonSRX(RobotMap.LIFTFOLLOW);
+    liftMaster = new TalonSRX(RobotMap.LFT_MASTER);
+    liftFollow = new TalonSRX(RobotMap.LFT_FOLLOW_1);
     liftFollow.follow(liftMaster);
-    liftWrist = new TalonSRX(RobotMap.LIFTWRIST);
+    liftWrist = new TalonSRX(RobotMap.LFT_WRIST);
    
     
 
-    liftMaster.configPeakCurrentLimit(amps, timeout); 
+    liftMaster.configPeakCurrentLimit(amps2, timeout); 
     liftMaster.configPeakCurrentDuration(milliseconds, timeout);
     liftMaster.configContinuousCurrentLimit(amps, timeout);
     liftMaster.enableCurrentLimit(true);
 
-    liftFollow.configPeakCurrentLimit(amps, timeout);
+    liftFollow.configPeakCurrentLimit(amps2, timeout);
 		liftFollow.configPeakCurrentDuration(milliseconds, timeout);
 		liftFollow.configContinuousCurrentLimit(amps, timeout);
     liftFollow.enableCurrentLimit(true);
 
-    liftWrist.configPeakCurrentLimit(amps, timeout); 
+    liftWrist.configPeakCurrentLimit(wristamps, timeout); 
     liftWrist.configPeakCurrentDuration(milliseconds, timeout);
-    liftWrist.configContinuousCurrentLimit(amps, timeout);
+    liftWrist.configContinuousCurrentLimit(wristamps, timeout);
     liftWrist.enableCurrentLimit(true);
 
     
   }
   public double GetWristAngle (){
+    //get wrist angle from pigeon imu
     pigeon.getAccelerometerAngles(ypr);
-    return ypr[1];
+    angle = ypr[1];
+    angle = convertAngles360(angle);
+    return angle;
   }
 
-  public void wristUp(double speed){
-    liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
-  }
+  
 
   public void liftUp(double speed) {
     liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
@@ -105,10 +113,40 @@ public class LiftSystem extends Subsystem {
   }
 
   public void wristDown(double speed){
-    liftWrist.set(ControlMode.PercentOutput, speed);
+    //System.out.println("Down: "+ GetWristAngle());
+    if (GetWristAngle()>= minWristAngle+45){
+      liftWrist.set(ControlMode.PercentOutput, speed);
+    } else if (GetWristAngle()>= minWristAngle + wobble){
+      liftWrist.set(ControlMode.PercentOutput, speed*.75);
+    }else {
+      wristStop();
+    }
+    
+  }
+
+  public void wristUp(double speed){
+    //System.out.println("Up: "+ GetWristAngle());
+    if (GetWristAngle()<= maxWristAngle-45){
+      liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
+    }
+    else if(GetWristAngle()<= maxWristAngle - wobble ){
+      liftWrist.set(ControlMode.PercentOutput, speed * -1.0*0.75);
+    }else {
+      wristStop();
+    }
+    
   }
   
-  
+  public void wristStop(){
+    liftWrist.set(ControlMode.PercentOutput, 0.0);
+  }
+  public double convertAngles360(double angle){
+
+    if(angle < 0){
+      angle = 360 + angle;
+    }
+    return angle;
+  }
 	
 	public double getLiftEncoders() {
 		
@@ -120,7 +158,8 @@ public class LiftSystem extends Subsystem {
   }
   public void SetTrueZero(){
      this.TrueZero = liftMaster.getSensorCollection().getQuadraturePosition();
-     System.out.println("True Zero is: "+TrueZero);
+     //System.out.println("True Zero is: "+TrueZero);\
+     
   }
 
   public double getDistanceToZero(){
@@ -131,9 +170,6 @@ public class LiftSystem extends Subsystem {
   public void liftStop(){
     liftMaster.set(ControlMode.PercentOutput, 0.0);
   }
-  public void wristStop(){
-    liftWrist.set(ControlMode.PercentOutput, 0.0);
-  }
-
+  
 
 }
