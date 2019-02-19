@@ -27,7 +27,7 @@ public class Climb extends Command {
   public Climb() {
     climb = ClimbSystem.getInstance();
     oi = OI.getInstance();
-    requires(Robot.m_subsystem);
+    
   }
 
   @Override

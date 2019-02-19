@@ -24,6 +24,9 @@ public class FistSystem extends Subsystem {
   private TalonSRX intakeMaster;
   private TalonSRX intakeFollow;
 
+  // boolean
+  
+
   // Current Variables
   // Peak Duration: how long it stays at its max amps
   // Ramp Time: how long it takes to full power
@@ -34,13 +37,15 @@ public class FistSystem extends Subsystem {
   private static final int AMPS_CENTER = 35;
   private static final int ZERO = 0;
   private static final double RAMP_TIME = 0.2;
-  private static final double SPEED = 1;
+  
 
   public FistSystem() {
 
     // Instantiate Motor Controllers
-    intakeMaster = new TalonSRX(RobotMap.LEFTMASTER);
-    intakeFollow = new TalonSRX(RobotMap.RIGHTMASTER);
+
+    intakeMaster = new TalonSRX(RobotMap.INTAKE_T);
+    intakeFollow = new TalonSRX(RobotMap.INTAKE_B);
+
 
     inititalizeFistSystem();
 
@@ -92,13 +97,12 @@ public class FistSystem extends Subsystem {
 
   }
 
-  public void intake() {
+  public void intake(double SPEED) {
     intakeMaster.set(ControlMode.PercentOutput, SPEED);
+
   }
 
-  public void despense() {
-    intakeMaster.set(ControlMode.PercentOutput, SPEED * -1);
-  }
+ 
 
   public void stop() {
     intakeMaster.set(ControlMode.PercentOutput, 0.0);
@@ -108,5 +112,6 @@ public class FistSystem extends Subsystem {
     // argument is in position change per 100ms
     intakeMaster.set(ControlMode.Velocity, Right_Speed);
   }
-
+  
+ 
 }

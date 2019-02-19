@@ -23,6 +23,9 @@ public class LiftToHeight extends Command {
   private boolean UnderGoal;
   private double init_Lift;
 
+  private double BufferZone = 100.0;
+
+
   public enum LiftHeight {
     LowRocket(15000), MiddleRocket(30000), HighRocket(35000);
     public final int value;
@@ -50,11 +53,14 @@ public class LiftToHeight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.DistanceFromZero;
-    // System.out.println("Current Height: " + CurrentHeight);
+
+    CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.getDistanceToZero();
+    //System.out.println("Current Height: " + CurrentHeight);
+
 
     // System.out.println("Goal is " + Goal);
     UnderGoal = (CurrentHeight <= Goal);
+
 
     if (UnderGoal) {
       lift.liftUp(.5);
@@ -67,7 +73,6 @@ public class LiftToHeight extends Command {
       // System.out.println("Height: " + CurrentHeight);
 
     }
-    lift.SetDistanceToZero();
   }
 
   // Make this return true when this Command no longer needs to run execute()

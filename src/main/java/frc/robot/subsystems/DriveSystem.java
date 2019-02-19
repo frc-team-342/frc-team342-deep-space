@@ -12,12 +12,20 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 //import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * An example subsystem. You can replace me with your own Subsystem.
  */
 public class DriveSystem extends Subsystem {
+
+  public SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
 
   // NavX
   AHRS NavX;
@@ -41,8 +49,6 @@ public class DriveSystem extends Subsystem {
 
     private static final int AMPS = 35;
     private static final int TIMEOUT_MS = 1;
-    private static final int PEAK_DURATION = 200;
-    private static final int AMPS_CENTER = 35;
     private static final int ZERO = 0;
     private static final double RAMP_TIME = 0.2;
     
@@ -56,27 +62,33 @@ public class DriveSystem extends Subsystem {
     public static int init_Right;
 
     //NavX
-  
-    
 
+    private boolean arcade;
+    
 
 
    
      public DriveSystem() {
       
       //Instantiate Motor Controllers
-      leftMaster = new TalonSRX(RobotMap.LEFTMASTER);
-      rightMaster = new TalonSRX(RobotMap.RIGHTMASTER);
-      leftSlave1 = new TalonSRX(RobotMap.LEFTSLAVE1);
-      leftSlave2 = new TalonSRX(RobotMap.LEFTSLAVE2);
-      //leftSlave3 = new TalonSRX(RobotMap.LEFTSLAVE3);
-      rightSlave1 = new TalonSRX(RobotMap.RIGHTSLAVE1);
-      rightSlave2 = new TalonSRX(RobotMap.RIGHTSLAVE2);
-      //rightSlave3 = new TalonSRX(RobotMap.RIGHTSLAVE3);
+      leftMaster = new TalonSRX(RobotMap.DRV_LEFT_MASTER);
+      rightMaster = new TalonSRX(RobotMap.DRV_RIGHT_MASTER);
+
+      leftSlave1 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_1);
+      leftSlave2 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_2);
+     
+      rightSlave1 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_1);
+      rightSlave2 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_2);
+      
 
 
       inititalizeDriveSystem();
-        
+
+      arcade_chooser.setDefaultOption("Off", false);
+      arcade_chooser.addOption("Arcade", true);
+      SmartDashboard.putData("Arcade Mode", arcade_chooser);
+      arcade = true;
+
     }
 
     @Override
@@ -84,6 +96,15 @@ public class DriveSystem extends Subsystem {
 
 
 
+  }
+
+  public Boolean getArcade(){
+    return arcade;
+  }
+
+  public void setArcadeDrive(boolean enable){
+
+    arcade = enable;
   }
   
    
@@ -93,8 +114,10 @@ public class DriveSystem extends Subsystem {
   }
 
   private void inititalizeDriveSystem() {
+    
+    //Not Current Limiting DriveSystem() anymore this year.
 
-    leftMaster.configPeakCurrentLimit(ZERO, ZERO);
+   /* leftMaster.configPeakCurrentLimit(ZERO, ZERO);
     leftMaster.configPeakCurrentDuration(ZERO, ZERO);
     leftMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     leftMaster.enableCurrentLimit(true);
@@ -103,17 +126,8 @@ public class DriveSystem extends Subsystem {
     leftSlave1.configPeakCurrentDuration(ZERO, ZERO);
     leftSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     leftSlave1.enableCurrentLimit(true);
-
-    leftSlave2.configPeakCurrentLimit(ZERO, ZERO);
-    leftSlave2.configPeakCurrentDuration(ZERO, ZERO);
-    leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    leftSlave2.enableCurrentLimit(true);
-
-    //leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
-    //leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
-    //leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    //leftSlave3.enableCurrentLimit(true);
-
+    
+    
     rightMaster.configPeakCurrentLimit(ZERO, ZERO);
     rightMaster.configPeakCurrentDuration(ZERO, ZERO);
     rightMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
@@ -124,26 +138,51 @@ public class DriveSystem extends Subsystem {
     rightSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     rightSlave1.enableCurrentLimit(true);
 
-    rightSlave2.configPeakCurrentLimit(ZERO, ZERO);
-    rightSlave2.configPeakCurrentDuration(ZERO, ZERO);
-    rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    rightSlave2.enableCurrentLimit(true);
+    */
 
-    //rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
-    //rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
-    //rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    //rightSlave3.enableCurrentLimit(true);
+    //Left Talon Current Limiting Not used for Test Robot
+
+    /*leftSlave2.configPeakCurrentLimit(ZERO, ZERO);
+      leftSlave2.configPeakCurrentDuration(ZERO, ZERO);
+      leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      leftSlave2.enableCurrentLimit(true);
     
-    //Configures the open loop ramp to set the motor to ramp up to speed after a
-    // specifiec time other tha jerking to full speed.
+      leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
+      leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
+      leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      leftSlave3.enableCurrentLimit(true);
+    */
+    
+    //Right Talon Current Limiting Not used for Test Robot
+
+     /* rightSlave2.configPeakCurrentLimit(ZERO, ZERO);
+      rightSlave2.configPeakCurrentDuration(ZERO, ZERO);
+      rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      rightSlave2.enableCurrentLimit(true);
+
+      rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
+      rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
+      rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+      rightSlave3.enableCurrentLimit(true);
+    */
+
+
+    /*Configures the open loop ramp to set the motor to ramp up to speed after a
+     specifiec time other than jerking to full speed.
+    
+     */
     leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
-    //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     rightMaster.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
+    
+   
+    //leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
+
+
     //rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
 
     // Setting the PID loop for the master controllers
@@ -160,8 +199,8 @@ public class DriveSystem extends Subsystem {
 		leftMaster.set(ControlMode.PercentOutput, 0.0);
 		leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.follow(leftMaster);
-    leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    leftSlave2.follow(leftMaster);
+    //leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    //leftSlave2.follow(leftMaster);
     //leftSlave3.set(ControlMode.PercentOutput, 0.0);
     ///leftSlave3.follow(leftMaster);
     
@@ -169,8 +208,8 @@ public class DriveSystem extends Subsystem {
 		rightMaster.set(ControlMode.PercentOutput, 0.0);
 		rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.follow(rightMaster);
-    rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    rightSlave2.follow(leftMaster);
+    //rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    //rightSlave2.follow(leftMaster);
     //rightSlave3.set(ControlMode.PercentOutput, 0.0);
     //rightSlave3.follow(leftMaster);
 
@@ -186,7 +225,7 @@ public class DriveSystem extends Subsystem {
 
 
   public void drive(Double LeftSpeed, Double RightSpeed) {
-   
+   setArcadeDrive(arcade_chooser.getSelected());
     if(slow) {
       System.out.println("Changing Speeds to Slow Speeds");
       LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;

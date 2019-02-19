@@ -22,14 +22,14 @@ public class WristWithJoystick extends Command {
   private OI oi;
   private static final double DEADZONE = 0.2;
   private double LeftJoystickValue;
-  private double [] ypr = new double[3];
-  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
-  private double PickupMode= 180;
-  private double HatchMode = 180;
-  private double CargoMode = -90;
+ 
+ // private double PickupMode= 180;
+  //private double HatchMode = 180;
+ // private double CargoMode = 270;
 
 
   public WristWithJoystick() {
+    System.out.println("In Wrist With Joystick Constructor");
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
    
@@ -45,25 +45,24 @@ public class WristWithJoystick extends Command {
   @Override
   protected void execute() {
 
-
     
-
-
     LeftJoystickValue= oi.getJoystickManipulatorLeftYAxis() * -1.0;
 
-     pigeon.getAccelerometerAngles(ypr);
-     //System.out.println("Pitch is "+ypr[1]);
-     //System.out.println("Roll is "+ ypr[2]);
-      System.out.println("Yaw is " + ypr[0]);
-     if (LeftJoystickValue > DEADZONE ){
+     if (LeftJoystickValue > DEADZONE){
+
       lift.wristUp(Math.abs(LeftJoystickValue));
-      System.out.println("Wrist Going Up");
-    } else if (LeftJoystickValue < DEADZONE){
+
+    } else if (LeftJoystickValue < -1*DEADZONE){
+
       lift.wristDown(Math.abs(LeftJoystickValue));
-     
+
     } else {
+
       lift.wristStop(); 
+
     }
+
+      
     
   }
 
@@ -87,4 +86,14 @@ public class WristWithJoystick extends Command {
   protected void interrupted() {
     end();
   }
+
+  public double convertAngles360(double angle){
+
+    if(angle < 0){
+      angle = 360 + angle;
+    }
+    return angle;
+  }
+
+
 }
