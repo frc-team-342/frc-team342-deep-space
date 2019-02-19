@@ -9,19 +9,27 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+
 import frc.robot.OI;
+
 import frc.robot.subsystems.FistSystem;
 
 public class FistIntake extends Command {
 
-  private FistSystem fistIntake;
+  private FistSystem fist;
   OI oi;
-  private double Deadzone = 0.1;
+  private double Deadzone = 0.5;
+
+
 
   public FistIntake() {
-    requires(Robot.m_subsystem);
-    fistIntake = FistSystem.getInstance();
+    
+    fist = FistSystem.getInstance();
+
+
+
     oi = OI.getInstance();
+
   }
 
   @Override
@@ -30,11 +38,14 @@ public class FistIntake extends Command {
 
   @Override
   protected void execute() {
-    if(oi.getJoystickmanipulatorLeftTrigger()>Deadzone){
-      fistIntake.intake();
-    }
 
-    System.out.println("Right Bumper is being pressed.");
+   
+
+    fist.intake(oi.getCombinedManipulatorTriggers());
+      
+    
+
+    
 
   }
 
@@ -45,11 +56,13 @@ public class FistIntake extends Command {
 
   @Override
   protected void end() {
-    fistIntake.stop();
+    fist.stop();
   }
 
   @Override
   protected void interrupted() {
     end();
   }
+
+ 
 }

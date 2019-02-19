@@ -23,16 +23,14 @@ public class WristToPosition extends Command {
   private Double CurrentAngle;
   private Double Goal;
   private Double Speed;
-  private Double BufferZone = 5.0;
+  private Double BufferZone = 20.0;
   
 
-  private double [] ypr = new double[3];
-  private double angle;
-  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
+ 
 
   public enum WristPosition {
  
-    Hatch(180.0), Cargo(270.0);
+    Hatch(180.0), Cargo(90.0);
     public final Double value;
 
 	  WristPosition(Double InitValue) {
@@ -44,7 +42,7 @@ public class WristToPosition extends Command {
   
   public WristToPosition(WristPosition targetAngle) {
     lift = LiftSystem.getInstance();
-    Speed = 0.2;
+    Speed = 0.75;
     Goal = targetAngle.value;
   }
 
@@ -57,27 +55,20 @@ public class WristToPosition extends Command {
   @Override
   protected void execute() {
 
-    //get Wrist Angle 
-    pigeon.getAccelerometerAngles(ypr);
-    angle = ypr[0];
-    angle = convertAngles360(angle);
-    
 
 
-   if(angle <= Goal + BufferZone && angle >= Goal - BufferZone){
-
-     lift.wristStop();
-
-   }
-   else if (angle <= Goal){
+   if (Goal == WristPosition.Cargo.value){
 
      lift.wristUp(Speed);
 
-   } else if (angle >= Goal){
+   } else if (Goal == WristPosition.Hatch.value){
 
      lift.wristDown(Speed);
 
+   }else {
+     lift.wristStop();
    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -99,11 +90,5 @@ public class WristToPosition extends Command {
     lift.wristStop();
   }
 
-  public double convertAngles360(double angle){
 
-    if(angle < 0){
-      angle = 360 + angle;
-    }
-    return angle;
-  }
 }

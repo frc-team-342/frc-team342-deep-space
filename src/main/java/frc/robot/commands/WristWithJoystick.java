@@ -22,15 +22,14 @@ public class WristWithJoystick extends Command {
   private OI oi;
   private static final double DEADZONE = 0.2;
   private double LeftJoystickValue;
-  private double [] ypr = new double[3];
-  private double angle;
-  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
-  private double PickupMode= 180;
-  private double HatchMode = 180;
-  private double CargoMode = 270;
+ 
+ // private double PickupMode= 180;
+  //private double HatchMode = 180;
+ // private double CargoMode = 270;
 
 
   public WristWithJoystick() {
+    System.out.println("In Wrist With Joystick Constructor");
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
    
@@ -46,22 +45,14 @@ public class WristWithJoystick extends Command {
   @Override
   protected void execute() {
 
-    //get wrist angle from pigeon imu
-    pigeon.getAccelerometerAngles(ypr);
-    angle = ypr[0];
-    angle = convertAngles360(angle);
-    //System.out.println("Angle " + angle);
     
-
-
     LeftJoystickValue= oi.getJoystickManipulatorLeftYAxis() * -1.0;
 
-     if (LeftJoystickValue > DEADZONE && angle <=270){
-
+     if (LeftJoystickValue > DEADZONE){
 
       lift.wristUp(Math.abs(LeftJoystickValue));
 
-    } else if (LeftJoystickValue < DEADZONE && angle >= 180){
+    } else if (LeftJoystickValue < -1*DEADZONE){
 
       lift.wristDown(Math.abs(LeftJoystickValue));
 
@@ -70,6 +61,8 @@ public class WristWithJoystick extends Command {
       lift.wristStop(); 
 
     }
+
+      
     
   }
 

@@ -12,7 +12,7 @@ import com.ctre.phoenix.CANifier.GeneralPin;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
@@ -21,13 +21,13 @@ import frc.robot.RobotMap;
  */
 public class PneumaticsWithCANifier extends Command {
 
-  private PneumaticClaw Cylinder = PneumaticClaw.getInstance();
+  private Knuckles Cylinder = Knuckles.getInstance();
   // TODO put these into RobotMap
-  CANifier canifierLimits = new CANifier(RobotMap.CANIFIERLIMITS);
-  PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEONIMU);
+  CANifier canifierLimits = new CANifier(RobotMap.CAN_CANI);
+  PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
 
   public PneumaticsWithCANifier() {
-    requires(Robot.m_subsystem);
+   
 
   }
 

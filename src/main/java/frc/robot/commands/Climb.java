@@ -7,20 +7,27 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 import frc.robot.OI;
-import frc.robot.subsystems.FistSystem;
+import frc.robot.Robot;
+import frc.robot.subsystems.ClimbSystem;
 
-public class FistRelease extends Command {
+/**
+ * An example command. You can replace me with your own command.
+ */
+public class Climb extends Command {
 
-  private FistSystem fist;
-  private double Deadzone =0.1;
-  OI oi;
-  public FistRelease() {
-    requires(Robot.m_subsystem);
-    fist = FistSystem.getInstance();
+  private ClimbSystem climb;
+  private OI oi;
+
+  private double WenchSpeed = 0;
+
+  public Climb() {
+    climb = ClimbSystem.getInstance();
     oi = OI.getInstance();
+    
   }
 
   @Override
@@ -29,10 +36,12 @@ public class FistRelease extends Command {
 
   @Override
   protected void execute() {
-    if(oi.getJoystickmanipulatorRightTrigger()>Deadzone){
-      fist.despense();
-    }
-    
+
+    WenchSpeed = oi.getJoystickDriveRightTrigger();
+
+    climb.hookOut();
+    climb.extend(WenchSpeed);
+
   }
 
   @Override
@@ -40,9 +49,10 @@ public class FistRelease extends Command {
     return false;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    fist.stop();
+    climb.stop();
   }
 
   @Override
