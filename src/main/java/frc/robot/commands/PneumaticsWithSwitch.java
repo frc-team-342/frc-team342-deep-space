@@ -28,15 +28,14 @@ public class PneumaticsWithSwitch extends Command {
   DigitalInput limitSwitchTwo;
 
   public PneumaticsWithSwitch() {
-    requires(Robot.m_subsystem);
+   
 
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    limitSwitchOne = new DigitalInput(RobotMap.DIGITALINPUT1);
-    limitSwitchTwo = new DigitalInput(RobotMap.DIGITALINPUT2);
+   
   }
 
   // Called repeatedly when this Command is scheduled to run

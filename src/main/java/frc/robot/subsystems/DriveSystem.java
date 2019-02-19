@@ -65,23 +65,20 @@ public class DriveSystem extends Subsystem {
 
     private boolean arcade;
     
-  
-    
-private boolean arcade;
 
 
    
      public DriveSystem() {
       
       //Instantiate Motor Controllers
-      leftMaster = new TalonSRX(RobotMap.LEFTMASTER);
-      rightMaster = new TalonSRX(RobotMap.RIGHTMASTER);
+      leftMaster = new TalonSRX(RobotMap.DRV_LEFT_MASTER);
+      rightMaster = new TalonSRX(RobotMap.DRV_RIGHT_MASTER);
 
-      leftSlave1 = new TalonSRX(RobotMap.LEFTSLAVE1);
-      leftSlave2 = new TalonSRX(RobotMap.LEFTSLAVE2);
+      leftSlave1 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_1);
+      leftSlave2 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_2);
      
-      rightSlave1 = new TalonSRX(RobotMap.RIGHTSLAVE1);
-      rightSlave2 = new TalonSRX(RobotMap.RIGHTSLAVE2);
+      rightSlave1 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_1);
+      rightSlave2 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_2);
       
 
 

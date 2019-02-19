@@ -20,7 +20,7 @@ public class TogglePneumatics extends Command {
   private Knuckles Cylinder = Knuckles.getInstance();
 
   public TogglePneumatics() {
-    requires(Robot.m_subsystem);
+    
 
   }
 

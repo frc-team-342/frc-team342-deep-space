@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.commands.ToggleSlowDrive;
+import frc.robot.commands.WristToPosition;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.WristToPosition.WristPosition;
 import frc.robot.commands.TogglePneumatics;
@@ -26,10 +27,10 @@ import frc.robot.subsystems.Knuckles;
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.HatchRelease;
 import frc.robot.commands.FistIntake;
-import frc.robot.commands.FistRelease;
+
 
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.subsystems.Knuckles;;
 
 
 /**
@@ -47,9 +48,9 @@ public class OI {
 
     private Command toggleSlowDrive = new ToggleSlowDrive();
 
-    private Command test = new HatchGrab();
+    private Command HatchGrab = new HatchGrab();
     private Command FistIntake = new FistIntake();
-    private Command FistRelease = new FistRelease();
+   
 
     //private Command HatchGrab = new PneumaticsWithCANifier();
    // private Command togglePneumatics = new TogglePneumatics();
@@ -79,7 +80,7 @@ public class OI {
 
     private OI() {
 
-        toggleFist = new TogglePneumatics();
+        
         xbox_drive = new Joystick(0);
         logitech_manipulator = new Joystick(1);
         
@@ -116,9 +117,9 @@ public class OI {
         logitech_manipulator_X.whenPressed(liftToHeightMiddle);
 
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
-        logitech_manipulator_rightBumper.whenPressed(HatchRelease);
-        logitech_manipulator_leftstickButton.whenPressed(wristToPositionCargo);
-        logitech_manipultor_rightstickButton.whenPressed(wristToPositionHatch);
+        logitech_manipulator_rightBumper.whileHeld(HatchRelease);
+        logitech_manipulator_leftstickButton.whileHeld(wristToPositionCargo);
+        logitech_manipultor_rightstickButton.whileHeld(wristToPositionHatch);
 
     }
 
@@ -129,61 +130,63 @@ public class OI {
     // Methods to get the multiple axis on the xbox_drive Joystick
     public double getJoystickDriveLeftYAxis() {
 
-        return xbox_drive.getRawAxis(RobotMap.LEFT_Y_AXIS);
+        return xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_Y);
     }
 
     public double getJoystickDriveLeftXAxis() {
 
-        return xbox_drive.getRawAxis(RobotMap.LEFT_X_AXIS);
+        return xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_X);
     }
 
     public double getJoystickDriveRightYAxis() {
 
-        return xbox_drive.getRawAxis(RobotMap.RIGHT_Y_AXIS);
+        return xbox_drive.getRawAxis(RobotMap.XBOX_RIGHT_Y);
     }
 
     public double getJoystickDriveRightXAxis() {
 
-        return xbox_drive.getRawAxis(RobotMap.RIGHT_X_AXIS);
+        return xbox_drive.getRawAxis(RobotMap.XBOX_RIGHT_X);
+    }
+
+    public double getJoystickDriveRightTrigger() {
+
+        return xbox_drive.getRawAxis(RobotMap.XBOX_RIGHT_T);
     }
 
     public double getJoystickManipulatorRightXAxis(){
-        return logitech_manipulator.getRawAxis(RobotMap.LIFT_RIGHT_X_AXIS);
+        return logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_X);
     }
 
     public double getJoystickManipulatorRightYAxis(){
-        return logitech_manipulator.getRawAxis(RobotMap.LIFT_RIGHT_Y_AXIS);
+        return logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_Y);
     }
 
     public double getJoystickManipulatorLeftYAxis() {
 
-        return logitech_manipulator.getRawAxis(RobotMap.WRIST_LEFT_Y_AXIS);
+        return logitech_manipulator.getRawAxis(RobotMap.LOGI_LEFT_Y);
     }
 
     public double getJoystickmanipulatorLeftXAxis() {
 
-        return logitech_manipulator.getRawAxis(RobotMap.WRIST_LEFT_X_AXIS);
+        return logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_X);
     }
 
 
     public double getJoystickManipulatorLeftTrigger() {
 
-        return logitech_manipulator.getRawAxis(RobotMap.LEFT_TRIGGER);
+        return logitech_manipulator.getRawAxis(RobotMap.LOGI_LEFT_T);
     }
 
     public double getJoystickManipulatorRightTrigger() {
 
-        return logitech_manipulator.getRawAxis(RobotMap.RIGHT_TRIGGER);
+        return logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_T);
     }
-    public double getJoystickmanipulatorLeftTrigger(){
-        return logitech_manipulator.getRawAxis(RobotMap.MANIPULATOR_LEFT_TRIGGER);
-    }
-    public double getJoystickmanipulatorRightTrigger(){
-        return logitech_manipulator.getRawAxis(RobotMap.MANIPULATOR_RIGHT_TRIGGER);
-    }
-
+    
     public double getLogitechPOV() {
 
         return logitech_manipulator.getPOV();
+    }
+    public double getCombinedManipulatorTriggers(){
+        return Math.pow(logitech_manipulator.getRawAxis(RobotMap.LOGI_LEFT_T) - logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_T),3);
     }
 }

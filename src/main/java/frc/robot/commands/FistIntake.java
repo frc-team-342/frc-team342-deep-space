@@ -16,14 +16,15 @@ import frc.robot.subsystems.FistSystem;
 
 public class FistIntake extends Command {
 
-  private FistSystem fistIntake;
+  private FistSystem fist;
   OI oi;
-  private double Deadzone = 0.1;
+  private double Deadzone = 0.5;
+
 
 
   public FistIntake() {
-    requires(Robot.m_subsystem);
-    fistIntake = FistSystem.getInstance();
+    
+    fist = FistSystem.getInstance();
 
 
 
@@ -38,14 +39,13 @@ public class FistIntake extends Command {
   @Override
   protected void execute() {
 
-    fistIntake.intake();
+   
 
-    if(oi.getJoystickmanipulatorLeftTrigger()>Deadzone){
-      fistIntake.intake();
-    }
+    fist.intake(oi.getCombinedManipulatorTriggers());
+      
+    
 
-
-    System.out.println("Right Bumper is being pressed.");
+    
 
   }
 
@@ -56,11 +56,13 @@ public class FistIntake extends Command {
 
   @Override
   protected void end() {
-    fistIntake.stop();
+    fist.stop();
   }
 
   @Override
   protected void interrupted() {
     end();
   }
+
+ 
 }

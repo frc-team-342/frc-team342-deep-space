@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.subsystems.PneumaticClaw;
+import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 
 /**
@@ -17,10 +17,11 @@ import frc.robot.Robot;
  */
 public class HatchRelease extends Command {
 
-  private PneumaticClaw Cylinder = PneumaticClaw.getInstance();
+  private Knuckles Cylinder = Knuckles.getInstance();
 
   public HatchRelease() {
-    requires(Robot.m_subsystem);
+    
+    System.out.println("In HatchRelease Constructor");
 
   }
 
@@ -32,8 +33,12 @@ public class HatchRelease extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-      Cylinder.pneumaticOut();
+      System.out.println("Hatch being released");
+  
+        Cylinder.pneumaticIn();
+        Cylinder.setIsOpening(true);
+      
+      
     }
   
 
@@ -46,11 +51,14 @@ public class HatchRelease extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Cylinder.setIsOpening(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    
+    end();
   }
 }

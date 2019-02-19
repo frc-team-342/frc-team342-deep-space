@@ -32,7 +32,7 @@ public class ClimbSystem extends Subsystem {
   private OI oi;
 
   public ClimbSystem() {
-    wench = new TalonSRX(RobotMap.WENCH);
+    wench = new TalonSRX(RobotMap.CLIMB);
     initializeClimbSystem();
     oi = OI.getInstance();
 
@@ -47,7 +47,7 @@ public class ClimbSystem extends Subsystem {
   }
 
   public void initializeClimbSystem() {
-    pneumaticSuspension = new DoubleSolenoid(RobotMap.CLIMB_EXTRACT, RobotMap.CLIMB_RETRACT);
+    pneumaticSuspension = new DoubleSolenoid(RobotMap.CAN_PCM,RobotMap.CLIMB_E, RobotMap.CLIMB_R);
 
     wench.configPeakCurrentLimit(ZERO, ZERO);
     wench.configPeakCurrentDuration(ZERO, ZERO);
