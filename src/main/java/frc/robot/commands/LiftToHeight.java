@@ -27,7 +27,7 @@ public class LiftToHeight extends Command {
 
 
   public enum LiftHeight {
-    LowRocket(15000), MiddleRocket(30000), HighRocket(35000);
+    LowRocket(15000), MiddleRocket(30000), HighRocket(35000), HatchonCargoShip(-261);
     public final int value;
 
     LiftHeight(int InitValue) {

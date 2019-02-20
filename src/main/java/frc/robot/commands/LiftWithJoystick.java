@@ -13,7 +13,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.OI;
-import edu.wpi.first.wpilibj.DigitalInput;
+
 
 
 public class LiftWithJoystick extends Command {
@@ -26,13 +26,11 @@ public class LiftWithJoystick extends Command {
 
   private double RightJoystickValue;
 
-  DigitalInput limitSwitch1;
-  DigitalInput limitSwitch2;
+ 
 
   public LiftWithJoystick() {
     System.out.println("In Lift With Joystick Constructor");
-    limitSwitch1 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_UP);
-    limitSwitch2 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_DOWN);
+    
     oi = OI.getInstance();
     lift = LiftSystem.getInstance();
   }
@@ -54,38 +52,22 @@ public class LiftWithJoystick extends Command {
         
 
       if (RightJoystickValue > DEADZONE ){
-      if (limitSwitch1.get()){
+      
         lift.liftUp(Math.abs(RightJoystickValue)*.3);
-        SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
+        
         // System.out.println("encoder: " + lift.getLiftEncoders());
-      } else  {
-        lift.liftStop();
-      }
-    } else if (RightJoystickValue < DEADZONE ){
-      if(limitSwitch2.get()){
+      
+      } else if (RightJoystickValue < DEADZONE ){
+     
       lift.liftDown(Math.abs(RightJoystickValue)*.3);
-      SmartDashboard.putNumber("encoder", lift.getLiftEncoders());
+    
       //System.out.println("encoder: " + lift.getLiftEncoders());
-    } else {
+      } else {
       lift.liftStop(); 
     }
   }
     
-    /*if(triggerValue < (DEADZONE * -1.0)){
-      lift.liftUp(Math.abs(triggerValue));
-    } else if (triggerValue > DEADZONE) {
-      lift.liftDown(Math.abs(triggerValue)); 
-    } else if (triggerValue < DEADZONE && triggerValue > (DEADZONE * -1.0)) {
-      lift.liftUp(ZERO);
-    } else {
-      lift.liftUp(ZERO);
-    }
-
-    if(leftTriggerValue && rightTriggerValue < DEADZONE){
-      lift.liftDown(Z)
-    }
-    System.out.println(leftTriggerValue); */
-  }
+  
 
   @Override
   protected boolean isFinished() {

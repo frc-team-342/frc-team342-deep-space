@@ -12,6 +12,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.RobotMap;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 
 /**
@@ -39,8 +42,14 @@ public class LiftSystem extends Subsystem {
   public double DistanceFromZero;
   private double [] ypr = new double[3];
   PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
+  private boolean isInHatchMode = false;
+  private boolean isInCargoMode = false;
    
   private double angle;
+
+  
+  DigitalInput limitSwitch1;
+  DigitalInput limitSwitch2;
   
   
 
@@ -48,6 +57,9 @@ public class LiftSystem extends Subsystem {
   public LiftSystem() {
 
     initializeLiftSystem(); 
+    limitSwitch1 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_UP);
+    limitSwitch2 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_DOWN);
+    
 
   }
 
@@ -96,15 +108,34 @@ public class LiftSystem extends Subsystem {
   
 
   public void liftUp(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+    if (limitSwitch1.get()){
+      liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+      
+    }else{
+      liftStop();
+    }
+    
+    SmartDashboard.putBoolean("limitswitch1", limitSwitch1.get());
+      SmartDashboard.putNumber("encoder", getLiftEncoders());
+      SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
   }
 
   public void liftUpWithPosition(double position){
-    liftMaster.set(ControlMode.Position, position);
+    
+      liftMaster.set(ControlMode.Position, position);
+    
   }
 
   public void liftDown(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed);
+    if (limitSwitch2.get()){
+      liftMaster.set(ControlMode.PercentOutput, speed);
+      
+    }else {
+      liftStop();
+    }
+    SmartDashboard.putBoolean("limitswitch2", limitSwitch2.get());
+      SmartDashboard.putNumber("encoder", getLiftEncoders());
+      SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
   }
 
   //TODO Use these instead of LiftDown and LiftUP for LiftToHeight
@@ -169,6 +200,15 @@ public class LiftSystem extends Subsystem {
   }
   public void liftStop(){
     liftMaster.set(ControlMode.PercentOutput, 0.0);
+  }
+
+
+  public boolean getCargoMode(){
+    return isInCargoMode;
+  }
+
+  public boolean getHatchMode(){
+    return isInHatchMode;
   }
   
 
