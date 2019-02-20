@@ -116,7 +116,7 @@ public class OI {
        // logitech_manipulator_B.whenPressed(liftToHeightMiddle);
       //  logitech_manipulator_Y.whenPressed(liftToHeightHigh);
       //  logitech_manipulator_X.whenPressed(liftToHeightMiddle);
-        logitech_manipulator_A.whenPressed(liftToHeightHatchCargoShip);
+        logitech_manipulator_A.whileHeld(liftToHeightHatchCargoShip);
 
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);

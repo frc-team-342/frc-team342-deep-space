@@ -47,7 +47,7 @@ public class LiftWithJoystick extends Command {
 
    
    RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
-
+    System.out.println("Is Lifting " + lift.getIsLifting());
 
         
 
@@ -62,10 +62,12 @@ public class LiftWithJoystick extends Command {
       lift.liftDown(Math.abs(RightJoystickValue)*.3);
     
       //System.out.println("encoder: " + lift.getLiftEncoders());
-      } else {
+      } else if(!lift.getIsLifting()){
+
       lift.liftStop(); 
+      }
+    
     }
-  }
     
   
 

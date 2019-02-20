@@ -44,6 +44,7 @@ public class LiftSystem extends Subsystem {
   PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
   private boolean isInHatchMode = false;
   private boolean isInCargoMode = false;
+  private boolean isLifting = false;
    
   private double angle;
 
@@ -210,6 +211,17 @@ public class LiftSystem extends Subsystem {
   public boolean getHatchMode(){
     return isInHatchMode;
   }
-  
 
+  public void setIsLifting(boolean choice){
+
+    System.out.println("Setting isLifting to: " + choice);
+    this.isLifting = choice;
+  
+  }
+
+  public boolean getIsLifting(){
+
+    return isLifting;
+  
+  }
 }

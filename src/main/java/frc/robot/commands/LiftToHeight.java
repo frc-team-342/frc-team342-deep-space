@@ -40,6 +40,7 @@ public class LiftToHeight extends Command {
     lift = LiftSystem.getInstance();
     Goal = Height.value;
     // requires(lift);
+    System.out.println("We made it");
   }
 
   // Called just before this Command runs the first time
@@ -55,20 +56,21 @@ public class LiftToHeight extends Command {
   protected void execute() {
 
     CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.getDistanceToZero();
-    //System.out.println("Current Height: " + CurrentHeight);
+    System.out.println("Current Height: " + CurrentHeight);
 
 
     // System.out.println("Goal is " + Goal);
-    UnderGoal = (CurrentHeight <= Goal);
+    UnderGoal = (CurrentHeight >= Goal);
 
 
     if (UnderGoal) {
       lift.liftUp(.5);
+      lift.setIsLifting(true);
       SmartDashboard.putNumber("Height", CurrentHeight);
       // System.out.println("height " + CurrentHeight);
     } else {
       lift.liftDown(.25);
-
+      lift.setIsLifting(true);
       SmartDashboard.putNumber("Height: ", CurrentHeight);
       // System.out.println("Height: " + CurrentHeight);
 
@@ -78,8 +80,9 @@ public class LiftToHeight extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    boolean IsInDeadzone = CurrentHeight > (Goal - 1000.0) && CurrentHeight < (Goal + 1000.0);
-    // System.out.println("Checking Deadzone: " + IsInDeadzone);
+    boolean IsInDeadzone = CurrentHeight > (Goal - 10.0) && CurrentHeight < (Goal + 5.0);
+    System.out.println("Checking Deadzone: " + IsInDeadzone);
+    
     return IsInDeadzone;
 
   }
@@ -87,6 +90,7 @@ public class LiftToHeight extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+   lift.setIsLifting(false);
     lift.liftDown(0);
   }
 
