@@ -211,16 +211,16 @@ private boolean arcade;
     }
 
     //System.out.println(RightSpeed);
-    RightSpeed = RightSpeed * 1;
+    RightSpeed = Math.pow(RightSpeed, 3);
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
     //rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
 
-    LeftSpeed = LeftSpeed * 1;
+    LeftSpeed = Math.pow(LeftSpeed, 3);
     leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
-    //leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
-    //leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
+    leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
+    leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
     //leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
 
   }
