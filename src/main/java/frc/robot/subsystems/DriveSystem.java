@@ -241,8 +241,8 @@ public class DriveSystem extends Subsystem {
 
     LeftSpeed = LeftSpeed * 1;
     leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
-    //leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
-    //leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
+    leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
+    leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
     //leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
 
   }
