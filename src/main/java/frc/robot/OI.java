@@ -57,6 +57,7 @@ public class OI {
     private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
     private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
     private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
+    private Command liftToHeightHatchCargoShip = new LiftToHeight(LiftHeight.HatchonCargoShip);
 
  
     private Command HatchRelease = new HatchRelease();
@@ -111,10 +112,11 @@ public class OI {
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
-        logitech_manipulator_A.whenPressed(liftToHeightLow);
-        logitech_manipulator_B.whenPressed(liftToHeightMiddle);
-        logitech_manipulator_Y.whenPressed(liftToHeightHigh);
-        logitech_manipulator_X.whenPressed(liftToHeightMiddle);
+      //  logitech_manipulator_A.whenPressed(liftToHeightLow);
+       // logitech_manipulator_B.whenPressed(liftToHeightMiddle);
+      //  logitech_manipulator_Y.whenPressed(liftToHeightHigh);
+      //  logitech_manipulator_X.whenPressed(liftToHeightMiddle);
+        logitech_manipulator_A.whileHeld(liftToHeightHatchCargoShip);
 
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);
