@@ -40,7 +40,7 @@ public class LiftToHeight extends Command {
     lift = LiftSystem.getInstance();
     Goal = Height.value;
     // requires(lift);
-    System.out.println("We made it");
+   // System.out.println("We made it");
   }
 
   // Called just before this Command runs the first time
@@ -56,7 +56,7 @@ public class LiftToHeight extends Command {
   protected void execute() {
 
     CurrentHeight = (lift.getLiftEncoders() - init_Lift) + lift.getDistanceToZero();
-    System.out.println("Current Height: " + CurrentHeight);
+   // System.out.println("Current Height: " + CurrentHeight);
 
 
     // System.out.println("Goal is " + Goal);
@@ -81,7 +81,7 @@ public class LiftToHeight extends Command {
   @Override
   protected boolean isFinished() {
     boolean IsInDeadzone = CurrentHeight > (Goal - 10.0) && CurrentHeight < (Goal + 5.0);
-    System.out.println("Checking Deadzone: " + IsInDeadzone);
+    //System.out.println("Checking Deadzone: " + IsInDeadzone);
     
     return IsInDeadzone;
 

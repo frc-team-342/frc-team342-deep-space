@@ -47,7 +47,7 @@ public class LiftWithJoystick extends Command {
 
    
    RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
-    System.out.println("Is Lifting " + lift.getIsLifting());
+    //System.out.println("Is Lifting " + lift.getIsLifting());
 
         
 

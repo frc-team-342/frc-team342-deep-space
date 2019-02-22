@@ -27,7 +27,7 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftMaster;
   private TalonSRX liftFollow;
   private TalonSRX liftWrist;
-  private static double maxWristAngle = 180;
+  private static double maxWristAngle = 187;
   private static double minWristAngle = 97;
   private static double wobble = 10;
  
