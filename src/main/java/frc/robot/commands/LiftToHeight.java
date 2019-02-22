@@ -40,7 +40,7 @@ public class LiftToHeight extends Command {
     lift = LiftSystem.getInstance();
     Goal = Height.value;
     // requires(lift);
-    System.out.println("We made it");
+  
   }
 
   // Called just before this Command runs the first time

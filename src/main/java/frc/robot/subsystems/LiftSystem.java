@@ -27,7 +27,7 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftMaster;
   private TalonSRX liftFollow;
   private TalonSRX liftWrist;
-  private static double maxWristAngle = 180;
+  private static double maxWristAngle = 187;
   private static double minWristAngle = 97;
   private static double wobble = 10;
  
@@ -51,6 +51,8 @@ public class LiftSystem extends Subsystem {
   
   DigitalInput limitSwitch1;
   DigitalInput limitSwitch2;
+
+  private static final int TIMEOUT_MS = 1;
   
   
 
@@ -96,6 +98,21 @@ public class LiftSystem extends Subsystem {
     liftWrist.configContinuousCurrentLimit(wristamps, timeout);
     liftWrist.enableCurrentLimit(true);
 
+      // Setting the PID loop for the master controllers
+		liftMaster.config_kP(0,1, TIMEOUT_MS);
+		liftMaster.config_kI(0,0.002, TIMEOUT_MS);
+		liftMaster.config_kD(0,.01, TIMEOUT_MS);
+    liftMaster.config_kF(0,0.06, TIMEOUT_MS);
+    liftMaster.configAllowableClosedloopError(1, 5, 10);
+    liftMaster.configAllowableClosedloopError(0, 5, 10);
+
+    liftFollow.configAllowableClosedloopError(1, 5, 10);
+    liftFollow.configAllowableClosedloopError(0, 5, 10);
+    liftFollow.config_kP(0,1, TIMEOUT_MS);
+		liftFollow.config_kI(0,0.002, TIMEOUT_MS);
+		liftFollow.config_kD(0,0.1, TIMEOUT_MS);
+		liftFollow.config_kF(0,0.06, TIMEOUT_MS);
+
     
   }
   public double GetWristAngle (){
@@ -122,10 +139,15 @@ public class LiftSystem extends Subsystem {
   }
 
   public void liftUpWithPosition(double position){
-    
+    if (limitSwitch1.get() && limitSwitch2.get()){
       liftMaster.set(ControlMode.Position, position);
-    
+    }else{
+      liftStop();
+    }
   }
+
+
+
 
   public void liftDown(double speed) {
     if (limitSwitch2.get()){
@@ -139,10 +161,7 @@ public class LiftSystem extends Subsystem {
       SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
   }
 
-  //TODO Use these instead of LiftDown and LiftUP for LiftToHeight
-  public void liftDownWithPosition(double position){
-    liftMaster.set(ControlMode.Position, position);
-  }
+ 
 
   public void wristDown(double speed){
     //System.out.println("Down: "+ GetWristAngle());
