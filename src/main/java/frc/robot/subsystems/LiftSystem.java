@@ -101,7 +101,7 @@ public class LiftSystem extends Subsystem {
       // Setting the PID loop for the master controllers
 		liftMaster.config_kP(0,1, TIMEOUT_MS);
 		liftMaster.config_kI(0,0.002, TIMEOUT_MS);
-		liftMaster.config_kD(0,.01, TIMEOUT_MS);
+		liftMaster.config_kD(0,0.1, TIMEOUT_MS);
     liftMaster.config_kF(0,0.06, TIMEOUT_MS);
     liftMaster.configAllowableClosedloopError(1, 5, 10);
     liftMaster.configAllowableClosedloopError(0, 5, 10);
