@@ -156,7 +156,7 @@ public class LiftSystem extends Subsystem {
     }else {
       liftStop();
     }
-    SmartDashboard.putBoolean("limitswitch2", limitSwitch2.get());
+      SmartDashboard.putBoolean("limitswitch2", limitSwitch2.get());
       SmartDashboard.putNumber("encoder", getLiftEncoders());
       SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
   }
@@ -224,16 +224,19 @@ public class LiftSystem extends Subsystem {
 
 
   public boolean getCargoMode(){
-    return isInCargoMode;
+    return isInHatchMode;
   }
 
   public boolean getHatchMode(){
     return isInHatchMode;
   }
+  public void setHatchMode(boolean choice){
+  this.isInHatchMode=choice;
+  }
 
   public void setIsLifting(boolean choice){
 
-    System.out.println("Setting isLifting to: " + choice);
+    //System.out.println("Setting isLifting to: " + choice);
     this.isLifting = choice;
   
   }

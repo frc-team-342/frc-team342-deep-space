@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
+import frc.robot.subsystems.LiftSystem;
 
 /**
  * An example command. You can replace me with your own command.
@@ -18,10 +19,12 @@ import frc.robot.Robot;
 public class HatchRelease extends Command {
 
   private Knuckles Cylinder = Knuckles.getInstance();
+  private LiftSystem lift;
 
   public HatchRelease() {
     
     System.out.println("In HatchRelease Constructor");
+    lift = LiftSystem.getInstance();
 
   }
 
@@ -52,6 +55,8 @@ public class HatchRelease extends Command {
   @Override
   protected void end() {
     Cylinder.setIsOpening(false);
+    lift.setHatchMode(false);
+    System.out.println("not in Hatch Mode");
   }
 
   // Called when another command which requires one or more of the same
