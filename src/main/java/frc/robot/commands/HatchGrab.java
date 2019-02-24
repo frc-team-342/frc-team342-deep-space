@@ -29,7 +29,7 @@ public class HatchGrab extends Command {
   private  OI oi;
   private long start_time;
   private long current_time;
-  private long duration_ms = 5000;
+  private long duration_ms = 2000;
   private long trigger_time;
 
 
@@ -58,15 +58,18 @@ public class HatchGrab extends Command {
     // accelerometer[1] + "\t z: " + accelerometer[2]);
     current_time = System.currentTimeMillis() - start_time;
     System.out.println("Time is: "+current_time);
+
     // System.out.println("Limit Switch Test");
     if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR) && !Cylinder.isOpening()) {
       Cylinder.pneumaticOut();
-   
-      if(trigger_time + duration_ms < current_time){
+      
+      if(trigger_time + duration_ms > current_time){
         oi.DriveRumble(1.0);
+        System.out.println("Tarantula");
       }
       else{
         oi.DriveRumble(0.0);
+        System.out.println("cow");
       }
     }
     else{
