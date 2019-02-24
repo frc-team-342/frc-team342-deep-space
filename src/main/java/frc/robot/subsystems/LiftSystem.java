@@ -219,7 +219,13 @@ public class LiftSystem extends Subsystem {
 
   }
   public void liftStop(){
+    if(limitSwitch1.get() && limitSwitch2.get()){
+      liftMaster.set(ControlMode.Position, getLiftEncoders());
+    }
+    else{
     liftMaster.set(ControlMode.PercentOutput, 0.0);
+      }
+    
   }
 
 
