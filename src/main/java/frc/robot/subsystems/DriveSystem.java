@@ -128,7 +128,8 @@ public class DriveSystem extends Subsystem {
     leftSlave1.enableCurrentLimit(true);
     
     
-    rightMaster.configPeakCurrentLimit(ZERO, ZERO);
+    rightMaster.configPeakCurrentLimit(ZERO, ZERO);.
+    
     rightMaster.configPeakCurrentDuration(ZERO, ZERO);
     rightMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
     rightMaster.enableCurrentLimit(true);
