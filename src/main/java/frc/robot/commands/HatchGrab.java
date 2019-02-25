@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.LiftSystem;
 
 /**
  * An example command. You can replace me with your own command.
@@ -22,12 +23,14 @@ import frc.robot.RobotMap;
 public class HatchGrab extends Command {
 
   private Knuckles Cylinder = Knuckles.getInstance();
+  private LiftSystem lift;
   // TODO put these into RobotMap
   CANifier canifierLimits = new CANifier(RobotMap.CAN_CANI);
   PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
 
   public HatchGrab() {
     System.out.println("In Hatchgrab Constructor");
+    lift = LiftSystem.getInstance();
 
   }
 
@@ -53,8 +56,11 @@ public class HatchGrab extends Command {
     // System.out.println("Limit Switch Test");
     if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR) && !Cylinder.isOpening()) {
       Cylinder.pneumaticOut();
+      lift.setHatchMode(true);
+      //System.out.println("In Hatch Mode: "+lift.getHatchMode());
       // System.out.println("One of the two limit switches are being pressed");
     }
+  
     
   }
 

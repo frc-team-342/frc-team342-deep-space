@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
 import frc.robot.commands.LiftToHeight.LiftHeight;
+import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.commands.LiftToHeight;
@@ -27,10 +28,13 @@ import frc.robot.subsystems.Knuckles;
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.HatchRelease;
 import frc.robot.commands.FistIntake;
-
-
+import frc.robot.commands.LiftToHeightPID;
+import frc.robot.commands.LiftToMiddle;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.subsystems.Knuckles;;
+import frc.robot.subsystems.Knuckles;
+
+import frc.robot.commands.LiftToBottom;
+import frc.robot.commands.LiftToTop;
 
 
 /**
@@ -43,6 +47,7 @@ public class OI {
 
     private Joystick xbox_drive = new Joystick(0);
     private Joystick logitech_manipulator = new Joystick(1);
+    private LiftSystem lift;
 
 
 
@@ -54,9 +59,16 @@ public class OI {
 
     //private Command HatchGrab = new PneumaticsWithCANifier();
    // private Command togglePneumatics = new TogglePneumatics();
-    private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
-    private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
-    private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
+  //  private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
+  //  private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
+  //  private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
+  //  private Command liftToHeightHatchCargoShip = new LiftToHeight(LiftHeight.HatchonCargoShip);
+
+   
+private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.HatchLowRocket);
+   private Command liftToTop = new LiftToTop();
+   private Command liftToMiddle = new LiftToMiddle();
+   private Command liftToLow = new LiftToBottom();
 
  
     private Command HatchRelease = new HatchRelease();
@@ -83,7 +95,7 @@ public class OI {
         
         xbox_drive = new Joystick(0);
         logitech_manipulator = new Joystick(1);
-        
+        lift = LiftSystem.getInstance();
 
 
 
@@ -111,10 +123,19 @@ public class OI {
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
-        logitech_manipulator_A.whenPressed(liftToHeightLow);
-        logitech_manipulator_B.whenPressed(liftToHeightMiddle);
-        logitech_manipulator_Y.whenPressed(liftToHeightHigh);
-        logitech_manipulator_X.whenPressed(liftToHeightMiddle);
+      //  logitech_manipulator_A.whenPressed(liftToHeightLow);
+       // logitech_manipulator_B.whenPressed(liftToHeightMiddle);
+      //  logitech_manipulator_Y.whenPressed(liftToHeightHigh);
+      //  logitech_manipulator_X.whenPressed(liftToHeightMiddle);
+        //logitech_manipulator_A.whileHeld(liftToHeightHatchCargoShip);
+       // logitech_manipulator_B.whileHeld(liftToHeightPIDHatchCargoShip);
+      
+       
+
+       logitech_manipulator_A.whileHeld(liftToLow);
+       logitech_manipulator_B.whileHeld(liftToMiddle);
+       logitech_manipulator_Y.whileHeld(liftToTop);
+       logitech_manipulator_X.whileHeld(liftToHeightPIDLowHatch);
 
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);
