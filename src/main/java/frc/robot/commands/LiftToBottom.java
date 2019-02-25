@@ -16,7 +16,8 @@ import frc.robot.subsystems.LiftSystem;
  */
 public class LiftToBottom extends Command {
   private LiftSystem lift;
-  private final int Hatch = -220;
+  //private final int Hatch = -220;
+  private final int Hatch = -274;
   private final int Cargo = -348;
 
   public LiftToBottom(){

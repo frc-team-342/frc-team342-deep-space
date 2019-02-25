@@ -20,7 +20,7 @@ public class LiftToHeightPID extends Command {
   private LiftPosition liftposition;
 
   public enum LiftPosition {
-    HatchLowRocket(-220), HatchMiddleRocket(-737), HatchHighRocket(-1250), 
+    HatchLowRocket(-296 /*-220*/), HatchMiddleRocket(-737), HatchHighRocket(-1250), 
     HatchonCargoShip(-261),CargoCargoShip(-591),CargoLowRocket(-348), 
     CargoMiddleRocket(-787), CargoHighRocket(-1270);
     public final int value;

@@ -57,7 +57,7 @@ public class LiftWithJoystick extends Command {
         
         // System.out.println("encoder: " + lift.getLiftEncoders());
       
-      } else if (RightJoystickValue < DEADZONE ){
+      } else if (RightJoystickValue < DEADZONE * -1){
      
       lift.liftDown(Math.abs(RightJoystickValue)*.3);
     
