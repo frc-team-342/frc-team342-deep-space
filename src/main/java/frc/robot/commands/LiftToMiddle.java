@@ -8,62 +8,51 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import frc.robot.subsystems.Knuckles;
 import frc.robot.Robot;
 import frc.robot.subsystems.LiftSystem;
 
 /**
- * An example command. You can replace me with your own command.
+ * An example command.  You can replace me with your own command.
  */
-public class HatchRelease extends Command {
-
-  private Knuckles Cylinder = Knuckles.getInstance();
+public class LiftToMiddle extends Command {
   private LiftSystem lift;
-
-  public HatchRelease() {
-    
-    System.out.println("In HatchRelease Constructor");
+  private final int Hatch = -737;
+  private final int Cargo = -787;
+  public LiftToMiddle() {
+    // Use requires() here to declare subsystem dependencies
     lift = LiftSystem.getInstance();
-
   }
-
-  // Called just before this Command runs the first time
-  @Override
   protected void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      System.out.println("Hatch being released");
-  
-        Cylinder.pneumaticIn();
-        Cylinder.setIsOpening(true);
-      
-      
+    System.out.println(" hatchmode: "+ lift.getHatchMode());
+    if (lift.getHatchMode()){
+      lift.liftUpWithPosition(this.Hatch);
+      System.out.print(" Position: " +this.Hatch);
+    }else {
+      lift.liftUpWithPosition(this.Cargo);
+      System.out.print(" Position: " +this.Cargo);
     }
-  
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Cylinder.setIsOpening(false);
-    lift.setHatchMode(false);
-    System.out.println("not in Hatch Mode");
+    lift.liftStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    
-    end();
   }
 }

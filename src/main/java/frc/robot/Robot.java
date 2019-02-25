@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
     HatchGrab = new HatchGrab();
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
-    
+    lift.SetTrueZero();
   
 
     // liftNow = new LiftToHeight(LiftHeight.HighRocket);
@@ -169,7 +169,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    //drive_off_platform.start();
+    driveNow.start();
+    liftNow.start();
+    
 
   }
 
@@ -190,7 +192,6 @@ public class Robot extends TimedRobot {
     System.out.println("Starting Commands: ");
     driveNow.start();
     liftNow.start();
-    lift.SetTrueZero();
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();

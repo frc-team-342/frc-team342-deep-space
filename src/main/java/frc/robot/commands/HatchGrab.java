@@ -16,6 +16,7 @@ import frc.robot.subsystems.Knuckles;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.LiftSystem;
 
 /**
  * An example command. You can replace me with your own command.
@@ -23,6 +24,7 @@ import frc.robot.RobotMap;
 public class HatchGrab extends Command {
 
   private Knuckles Cylinder = Knuckles.getInstance();
+  private LiftSystem lift;
   // TODO put these into RobotMap
   CANifier canifierLimits = new CANifier(RobotMap.CAN_CANI);
   PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
@@ -36,6 +38,8 @@ public class HatchGrab extends Command {
   public HatchGrab() {
     System.out.println("In Hatchgrab Constructor");
     oi = OI.getInstance();
+    lift = LiftSystem.getInstance();
+
   }
 
   // Called just before this Command runs the first time
@@ -62,7 +66,6 @@ public class HatchGrab extends Command {
     // System.out.println("Limit Switch Test");
     if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR) && !Cylinder.isOpening()) {
       Cylinder.pneumaticOut();
-      
       if(trigger_time + duration_ms > current_time){
         oi.DriveRumble(1.0);
         System.out.println("Tarantula");
@@ -76,17 +79,14 @@ public class HatchGrab extends Command {
       
       trigger_time = current_time;
       oi.DriveRumble(0.0);
+    }
       
     }
 
-    
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected boolean isFinished() {
+      return false;
+    }
 
   // Called once after isFinished returns true
   @Override
