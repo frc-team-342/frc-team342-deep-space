@@ -54,7 +54,7 @@ public class DriveSystem extends Subsystem {
     
     
     //Stuff For Slow Button
-    private static final double SLOW_DOWN_SCALAR = 2.0;
+    private static final double SLOW_DOWN_SCALAR = 1.5;
     private boolean slow;
     
     //Encoder Positions
