@@ -38,6 +38,7 @@ import frc.robot.subsystems.Knuckles;
 
 import frc.robot.commands.LiftToBottom;
 import frc.robot.commands.LiftToTop;
+import frc.robot.commands.Launch;
 
 
 /**
@@ -58,6 +59,7 @@ public class OI {
 
     private Command HatchGrab = new HatchGrab();
     private Command FistIntake = new FistIntake();
+    private Command Launch = new Launch();
    
 
     //private Command HatchGrab = new PneumaticsWithCANifier();
@@ -82,6 +84,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button xbox_drive_leftBumper;
     private Button xbox_drive_rightBumper;
     private Button xbox_drive_B;
+    private Button xbox_drive_Y;
 
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
@@ -105,6 +108,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
         xbox_drive_rightBumper = new JoystickButton(xbox_drive, 6);
         xbox_drive_B = new JoystickButton(xbox_drive, 2);
+        xbox_drive_Y = new JoystickButton(xbox_drive, 4);
       
         
         logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
@@ -128,6 +132,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
        // xbox_drive_B.whileHeld(xboxRumble);
+       xbox_drive_Y.whileHeld(Launch);
 
 
 

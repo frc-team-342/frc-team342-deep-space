@@ -36,7 +36,7 @@ public class DriveToDistance extends Command {
 	private double right_speed;
 	
 	//private static final double kP = -50;
-    private static final double SPEED_CONST = 0.25;
+    private static final double SPEED_CONST = 0.5;
     public static final double TEST_DISTANCE = 1.5;
 	
 
