@@ -13,10 +13,10 @@ import frc.robot.Robot;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class ExampleCommand extends Command {
-  public ExampleCommand() {
-  
-  
+public class VelocityPID extends Command {
+  public VelocityPID() {
+    // Use requires() here to declare subsystem dependencies
+   
   }
 
   // Called just before this Command runs the first time

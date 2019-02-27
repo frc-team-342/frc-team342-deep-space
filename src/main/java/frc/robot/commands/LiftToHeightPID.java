@@ -8,31 +8,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.OI;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-
-
-public class LiftWithJoystick extends Command {
-
+/**
+ * An example command.  You can replace me with your own command.
+ */
+public class LiftToHeightPID extends Command {
   private LiftSystem lift;
-  private OI oi;
+  private LiftPosition liftposition;
 
-  private static final double DEADZONE = 0.1;
-  private static final double ZERO = 0.0;
+  public enum LiftPosition {
+    HatchLowRocket(-296 /*-220*/), HatchMiddleRocket(-737), HatchHighRocket(-1250), 
+    HatchonCargoShip(-261),CargoCargoShip(-591),CargoLowRocket(-348), 
+    CargoMiddleRocket(-787), CargoHighRocket(-1270);
+    public final int value;
 
-  private double RightJoystickValue;
+    LiftPosition(int InitValue) {
+      this.value = InitValue;
+    }
 
- 
-
-  public LiftWithJoystick() {
-    System.out.println("In Lift With Joystick Constructor");
-    
-    oi = OI.getInstance();
+  }
+  public LiftToHeightPID(LiftPosition Position) {
+    // Use requires() here to declare subsystem dependencies
+    liftposition = Position;
     lift = LiftSystem.getInstance();
+    //requires(lift);
   }
 
   // Called just before this Command runs the first time
@@ -43,34 +45,11 @@ public class LiftWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //TODO make piston activated by a button
+    lift.liftUpWithPosition(liftposition.value);
+    System.out.println("liftposition " + liftposition.value +" hatchmode: "+ lift.getHatchMode());
+  }
 
-   
-   RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
-    //System.out.println("Is Lifting " + lift.getIsLifting());
-
-        
-
-      if (RightJoystickValue > DEADZONE ){
-      
-        lift.liftUp(Math.abs(RightJoystickValue)*.3);
-        
-        // System.out.println("encoder: " + lift.getLiftEncoders());
-      
-      } else if (RightJoystickValue < DEADZONE * -1){
-     
-      lift.liftDown(Math.abs(RightJoystickValue)*.3);
-    
-      //System.out.println("encoder: " + lift.getLiftEncoders());
-      } else if(!lift.getIsLifting()){
-
-      lift.liftStop(); 
-      }
-    
-    }
-    
-  
-
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
@@ -82,8 +61,9 @@ public class LiftWithJoystick extends Command {
     lift.liftStop();
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end(); 
   }
 }
