@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
 import frc.robot.commands.XboxRumble;
+import frc.robot.commands.ClimbCommands.DriveControl;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
@@ -73,6 +74,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
    private Command liftToTop = new LiftToTop();
    private Command liftToMiddle = new LiftToMiddle();
    private Command liftToLow = new LiftToBottom();
+   private Command driveControl = new DriveControl();
 
  
     private Command HatchRelease = new HatchRelease();
@@ -131,8 +133,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
-       // xbox_drive_B.whileHeld(xboxRumble);
-       xbox_drive_Y.whileHeld(Launch);
+        xbox_drive_Y.whileHeld(Launch);
+        xbox_drive_B.whileHeld(driveControl);
 
 
 
@@ -230,6 +232,10 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     public void DriveRumble(double rumbleAmount) {
         xbox_drive.setRumble(GenericHID.RumbleType.kRightRumble, rumbleAmount);
     }
+
+	public double getJoystickDriveLeftTrigger() {
+		return xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_T);
+	}
 
   /*  public void setDriveRumble(double rumbleAmount){
         xbox_drive.setRumble(GenericHID.RumbleType.kRightRumble, rumbleAmount);

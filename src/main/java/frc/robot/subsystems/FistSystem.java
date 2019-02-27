@@ -98,7 +98,7 @@ public class FistSystem extends Subsystem {
   }
 
   public void intake(double SPEED) {
-    intakeMaster.set(ControlMode.PercentOutput, SPEED * 0.5);
+    intakeMaster.set(ControlMode.PercentOutput, SPEED * 0.75);
 
   }
 

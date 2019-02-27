@@ -172,7 +172,7 @@ public class DriveSystem extends Subsystem {
      specifiec time other than jerking to full speed.
     
      */
-    leftMaster.configOpenloopRamp(RAMP_TIME, 0);
+    /*leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
 
@@ -196,12 +196,14 @@ public class DriveSystem extends Subsystem {
 		leftMaster.config_kI(0, TIMEOUT_MS);
 		leftMaster.config_kD(0, TIMEOUT_MS);
 		leftMaster.config_kF(0, TIMEOUT_MS);
-		
+    */
+    
+
 		leftMaster.set(ControlMode.PercentOutput, 0.0);
 		leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.follow(leftMaster);
-    //leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    //leftSlave2.follow(leftMaster);
+    leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    leftSlave2.follow(leftMaster);
     //leftSlave3.set(ControlMode.PercentOutput, 0.0);
     ///leftSlave3.follow(leftMaster);
     
@@ -209,8 +211,8 @@ public class DriveSystem extends Subsystem {
 		rightMaster.set(ControlMode.PercentOutput, 0.0);
 		rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.follow(rightMaster);
-    //rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    //rightSlave2.follow(leftMaster);
+    rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    rightSlave2.follow(leftMaster);
     //rightSlave3.set(ControlMode.PercentOutput, 0.0);
     //rightSlave3.follow(leftMaster);
 

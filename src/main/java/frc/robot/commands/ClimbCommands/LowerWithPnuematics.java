@@ -5,26 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ClimbCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveSystem;
-
-
+import frc.robot.subsystems.ClimbSystem;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class Launch extends Command {
+public class LowerWithPnuematics extends Command {
 
-  private DriveSystem drive;
+    private ClimbSystem climb;
 
-  public Launch() {
+  public LowerWithPnuematics() {
 
-    drive = DriveSystem.getInstance();
-   
+    climb = ClimbSystem.getInstance();
   
   }
 
@@ -36,26 +32,24 @@ public class Launch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-     drive.drive(0.42, -0.42);
-
+      climb.hookIn();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    drive.stopDrive();
+      climb.hookIn();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }
