@@ -31,11 +31,13 @@ public class ClimbSystem extends Subsystem {
 
   private OI oi;
 
+  private DriveSystem drive;
+
   public ClimbSystem() {
     wench = new TalonSRX(RobotMap.CLIMB);
     initializeClimbSystem();
     oi = OI.getInstance();
-
+    drive = DriveSystem.getInstance();
   }
 
   @Override
@@ -47,7 +49,7 @@ public class ClimbSystem extends Subsystem {
   }
 
   public void initializeClimbSystem() {
-    pneumaticSuspension = new DoubleSolenoid(RobotMap.CAN_PCM,RobotMap.CLIMB_E, RobotMap.CLIMB_R);
+    pneumaticSuspension = new DoubleSolenoid(RobotMap.CAN_PCM, RobotMap.CLIMB_E, RobotMap.CLIMB_R);
 
     wench.configPeakCurrentLimit(ZERO, ZERO);
     wench.configPeakCurrentDuration(ZERO, ZERO);
@@ -81,8 +83,15 @@ public class ClimbSystem extends Subsystem {
   }
 
   public void extend(double WenchSpeed) {
-
+    double pitch = drive.getTilt();
     wench.set(ControlMode.PercentOutput, WenchSpeed);
+    if (pitch > 10.0) {
+      wench.set(ControlMode.PercentOutput, WenchSpeed);
+    } else if (pitch > -5) {
+      wench.set(ControlMode.PercentOutput, WenchSpeed * 0.5);
+    } else {
+      wench.set(ControlMode.PercentOutput, 0.0);
+    }
 
   }
 

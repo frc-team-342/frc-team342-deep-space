@@ -7,13 +7,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
+import frc.robot.commands.XboxRumble;
+import frc.robot.commands.ClimbCommands.DriveControl;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
@@ -35,6 +39,7 @@ import frc.robot.subsystems.Knuckles;
 
 import frc.robot.commands.LiftToBottom;
 import frc.robot.commands.LiftToTop;
+import frc.robot.commands.Launch;
 
 
 /**
@@ -55,20 +60,21 @@ public class OI {
 
     private Command HatchGrab = new HatchGrab();
     private Command FistIntake = new FistIntake();
+    private Command Launch = new Launch();
    
 
     //private Command HatchGrab = new PneumaticsWithCANifier();
    // private Command togglePneumatics = new TogglePneumatics();
-  //  private Command liftToHeightHigh = new LiftToHeight(LiftHeight.HighRocket);
-  //  private Command liftToHeightMiddle = new LiftToHeight(LiftHeight.MiddleRocket);
-  //  private Command liftToHeightLow = new LiftToHeight(LiftHeight.LowRocket);
-  //  private Command liftToHeightHatchCargoShip = new LiftToHeight(LiftHeight.HatchonCargoShip);
+  
+    private Command xboxRumble = new XboxRumble();
+
 
    
 private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.HatchLowRocket);
    private Command liftToTop = new LiftToTop();
    private Command liftToMiddle = new LiftToMiddle();
    private Command liftToLow = new LiftToBottom();
+   private Command driveControl = new DriveControl();
 
  
     private Command HatchRelease = new HatchRelease();
@@ -79,6 +85,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Command wristToPositionHatch = new WristToPosition(WristPosition.Hatch);
     private Button xbox_drive_leftBumper;
     private Button xbox_drive_rightBumper;
+    private Button xbox_drive_B;
+    private Button xbox_drive_Y;
 
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
@@ -101,6 +109,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
         xbox_drive_rightBumper = new JoystickButton(xbox_drive, 6);
+        xbox_drive_B = new JoystickButton(xbox_drive, 2);
+        xbox_drive_Y = new JoystickButton(xbox_drive, 4);
       
         
         logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
@@ -123,6 +133,13 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
+        xbox_drive_Y.whileHeld(Launch);
+        xbox_drive_B.whileHeld(driveControl);
+
+
+
+
+
       //  logitech_manipulator_A.whenPressed(liftToHeightLow);
        // logitech_manipulator_B.whenPressed(liftToHeightMiddle);
       //  logitech_manipulator_Y.whenPressed(liftToHeightHigh);
@@ -141,6 +158,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);
         logitech_manipulator_leftstickButton.whileHeld(wristToPositionCargo);
         logitech_manipultor_rightstickButton.whileHeld(wristToPositionHatch);
+      
 
     }
 
@@ -210,4 +228,24 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     public double getCombinedManipulatorTriggers(){
         return Math.pow(logitech_manipulator.getRawAxis(RobotMap.LOGI_LEFT_T) - logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_T),3);
     }
+
+    public void DriveRumble(double rumbleAmount) {
+        xbox_drive.setRumble(GenericHID.RumbleType.kRightRumble, rumbleAmount);
+    }
+
+	public double getJoystickDriveLeftTrigger() {
+		return xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_T);
+	}
+
+  /*  public void setDriveRumble(double rumbleAmount){
+        xbox_drive.setRumble(GenericHID.RumbleType.kRightRumble, rumbleAmount);
+    }
+
+   public void setManipulatorRumble(double rumbleAmount){
+        logitech_manipulator.setRumble(GenericHID.RumbleType.kRightRumble, rumbleAmount);
+   }
+   */
+
+
+
 }
