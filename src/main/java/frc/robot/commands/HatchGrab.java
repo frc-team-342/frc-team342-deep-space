@@ -61,7 +61,7 @@ public class HatchGrab extends Command {
     // System.out.println("\t\t x: " + accelerometer[0] + "\t y: " +
     // accelerometer[1] + "\t z: " + accelerometer[2]);
     current_time = System.currentTimeMillis() - start_time;
-    System.out.println("Time is: "+current_time);
+    //System.out.println("Time is: "+current_time);
 
     // System.out.println("Limit Switch Test");
     if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR) && !Cylinder.isOpening()) {

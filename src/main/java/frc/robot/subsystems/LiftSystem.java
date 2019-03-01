@@ -141,6 +141,7 @@ public class LiftSystem extends Subsystem {
   }
 
   public void liftUpWithPosition(double position){
+   
     if (limitSwitch1.get() && limitSwitch2.get()){
       liftMaster.set(ControlMode.Position, position);
       holdPosition = getLiftEncoders();
@@ -223,6 +224,7 @@ public class LiftSystem extends Subsystem {
 
   }
   public void liftStop(){
+    //System.out.println("lim1"+limitSwitch1.get()+"lim2"+limitSwitch2.get());
     if(limitSwitch1.get() && limitSwitch2.get()){
       liftMaster.set(ControlMode.Position, holdPosition);
     }
@@ -255,5 +257,8 @@ public class LiftSystem extends Subsystem {
 
     return isLifting;
   
+  }
+  public void resetHoldPosition(){
+    holdPosition = getLiftEncoders();
   }
 }

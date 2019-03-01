@@ -18,6 +18,8 @@ import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
 import frc.robot.commands.XboxRumble;
 import frc.robot.commands.ClimbCommands.DriveControl;
+import frc.robot.commands.ClimbCommands.LowerWithPnuematics;
+import frc.robot.commands.ClimbCommands.RiseWithPnuematics;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
@@ -40,6 +42,8 @@ import frc.robot.subsystems.Knuckles;
 import frc.robot.commands.LiftToBottom;
 import frc.robot.commands.LiftToTop;
 import frc.robot.commands.Launch;
+
+
 
 
 /**
@@ -78,6 +82,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
  
     private Command HatchRelease = new HatchRelease();
+    private Command riseWithPneumatics = new RiseWithPnuematics();
+    private Command lowerWithPneumatics = new LowerWithPnuematics();
  
 
 
@@ -87,6 +93,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button xbox_drive_rightBumper;
     private Button xbox_drive_B;
     private Button xbox_drive_Y;
+    private Button xbox_drive_A;
 
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
@@ -111,6 +118,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         xbox_drive_rightBumper = new JoystickButton(xbox_drive, 6);
         xbox_drive_B = new JoystickButton(xbox_drive, 2);
         xbox_drive_Y = new JoystickButton(xbox_drive, 4);
+        xbox_drive_A = new JoystickButton(xbox_drive,1);
       
         
         logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
@@ -133,8 +141,10 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
-        xbox_drive_Y.whileHeld(Launch);
+       // xbox_drive_Y.whileHeld(Launch);
         xbox_drive_B.whileHeld(driveControl);
+        xbox_drive_Y.whileHeld(riseWithPneumatics);
+        xbox_drive_A.whileHeld(lowerWithPneumatics);
 
 
 
