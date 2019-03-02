@@ -42,6 +42,7 @@ import frc.robot.subsystems.Knuckles;
 import frc.robot.commands.LiftToBottom;
 import frc.robot.commands.LiftToTop;
 import frc.robot.commands.Launch;
+import frc.robot.commands.EngageOveride;
 
 
 
@@ -65,6 +66,7 @@ public class OI {
     private Command HatchGrab = new HatchGrab();
     private Command FistIntake = new FistIntake();
     private Command Launch = new Launch();
+
    
 
     //private Command HatchGrab = new PneumaticsWithCANifier();
@@ -79,6 +81,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
    private Command liftToMiddle = new LiftToMiddle();
    private Command liftToLow = new LiftToBottom();
    private Command driveControl = new DriveControl();
+   private Command engageOveride = new EngageOveride();
 
  
     private Command HatchRelease = new HatchRelease();
@@ -99,6 +102,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button logitech_manipulator_B;
     private Button logitech_manipulator_Y;
     private Button logitech_manipulator_X;
+    private Button logitech_manipulator_startButton;
     private Button logitech_manipulator_rightBumper;
     private Button logitech_manipulator_leftBumper;
     private Button logitech_manipulator_leftstickButton;
@@ -119,6 +123,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         xbox_drive_B = new JoystickButton(xbox_drive, 2);
         xbox_drive_Y = new JoystickButton(xbox_drive, 4);
         xbox_drive_A = new JoystickButton(xbox_drive,1);
+
       
         
         logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
@@ -136,6 +141,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         logitech_manipulator_B = new JoystickButton(logitech_manipulator,2);
         logitech_manipulator_X =new JoystickButton(logitech_manipulator, 3);
         logitech_manipulator_Y = new JoystickButton(logitech_manipulator, 4); 
+        logitech_manipulator_startButton = new JoystickButton(logitech_manipulator, 8);
         logitech_manipulator_leftstickButton = new JoystickButton(logitech_manipulator, 9);
         logitech_manipultor_rightstickButton = new JoystickButton(logitech_manipulator, 10);
         
@@ -166,8 +172,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);
-        logitech_manipulator_leftstickButton.whileHeld(wristToPositionCargo);
-        logitech_manipultor_rightstickButton.whileHeld(wristToPositionHatch);
+        logitech_manipulator_startButton.whileHeld(engageOveride);
       
 
     }
