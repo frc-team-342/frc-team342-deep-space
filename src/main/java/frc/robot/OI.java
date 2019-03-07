@@ -147,10 +147,10 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
-       // xbox_drive_Y.whileHeld(Launch);
+        xbox_drive_Y.whileHeld(Launch);
         xbox_drive_B.whileHeld(driveControl);
-        xbox_drive_Y.whileHeld(riseWithPneumatics);
-        xbox_drive_A.whileHeld(lowerWithPneumatics);
+        //xbox_drive_Y.whileHeld(riseWithPneumatics);
+       // xbox_drive_A.whileHeld(lowerWithPneumatics);
 
 
 
