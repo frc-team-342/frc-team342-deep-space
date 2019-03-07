@@ -5,31 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ClimbCommands;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.ClimbSystem;
 
 /**
- * An example command.  You can replace me with your own command.
+ * An example command. You can replace me with your own command.
  */
-public class ExampleCommand extends Command {
-  public ExampleCommand() {
-  
-  
+public class WenchControl extends Command {
+
+  private ClimbSystem climb;
+  private OI oi;
+
+  private double WenchSpeed = 0;
+
+  public WenchControl() {
+    climb = ClimbSystem.getInstance();
+    oi = OI.getInstance();
+    
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    WenchSpeed = oi.getJoystickDriveRightTrigger();
+    WenchSpeed = WenchSpeed - oi.getJoystickDriveLeftTrigger();
+
+    climb.extend(WenchSpeed);
+
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
@@ -38,11 +52,11 @@ public class ExampleCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    climb.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

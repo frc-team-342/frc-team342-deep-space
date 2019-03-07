@@ -9,9 +9,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.RobotMap;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 
 /**
@@ -24,9 +28,10 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftMaster;
   private TalonSRX liftFollow;
   private TalonSRX liftWrist;
-  private static double maxWristAngle = 180;
-  private static double minWristAngle = 97;
+  private static double maxWristAngle = 187;
+  private static double minWristAngle = 90;
   private static double wobble = 10;
+  private boolean Override = false;
  
 
   // varibles for current 
@@ -39,15 +44,29 @@ public class LiftSystem extends Subsystem {
   public double DistanceFromZero;
   private double [] ypr = new double[3];
   PigeonIMU pigeon = new PigeonIMU(RobotMap.CAN_PIMU);
+  private boolean isInHatchMode = false;
+  private boolean isInCargoMode = false;
+  private boolean isLifting = false;
    
   private double angle;
+
+  
+  DigitalInput limitSwitch1;
+  DigitalInput limitSwitch2;
+
+  private static final int TIMEOUT_MS = 1;
+
+  private double holdPosition;
   
   
 
   
   public LiftSystem() {
 
-    initializeLiftSystem(); 
+    initializeLiftSystem();
+    limitSwitch1 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_UP);
+    limitSwitch2 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_DOWN);
+    
 
   }
 
@@ -83,6 +102,21 @@ public class LiftSystem extends Subsystem {
     liftWrist.configContinuousCurrentLimit(wristamps, timeout);
     liftWrist.enableCurrentLimit(true);
 
+      // Setting the PID loop for the master controllers
+		liftMaster.config_kP(0,1, TIMEOUT_MS);
+		liftMaster.config_kI(0,0.002, TIMEOUT_MS);
+		liftMaster.config_kD(0,0.1, TIMEOUT_MS);
+    liftMaster.config_kF(0,0.06, TIMEOUT_MS);
+    liftMaster.configAllowableClosedloopError(1, 1, 10);
+    liftMaster.configAllowableClosedloopError(0, 1, 10);
+    liftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    liftFollow.configAllowableClosedloopError(1, 1, 10);
+    liftFollow.configAllowableClosedloopError(0, 1, 10);
+    liftFollow.config_kP(0,1, TIMEOUT_MS);
+		liftFollow.config_kI(0,0.002, TIMEOUT_MS);
+		liftFollow.config_kD(0,0.1, TIMEOUT_MS);
+		liftFollow.config_kF(0,0.06, TIMEOUT_MS);
+
     
   }
   public double GetWristAngle (){
@@ -94,47 +128,96 @@ public class LiftSystem extends Subsystem {
   }
 
   
-
+//TODO CHANGE FOR OVERRIDE
   public void liftUp(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+    if (Override){
+      liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+    }else {
+      
+      if (limitSwitch1.get()){
+        liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+        holdPosition = getLiftEncoders();
+      }else{
+      liftStop();
+    }
+    
+    SmartDashboard.putBoolean("limitswitch1", limitSwitch1.get());
+      SmartDashboard.putNumber("encoder", getLiftEncoders());
+      SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
   }
+}
 
+//TODO CHANGE FOR OVERRIDE
   public void liftUpWithPosition(double position){
-    liftMaster.set(ControlMode.Position, position);
-  }
+    
+      if (limitSwitch1.get() && limitSwitch2.get()){
+       liftMaster.set(ControlMode.Position, position);
+       holdPosition = getLiftEncoders();
+      }else{
+      liftStop();
+     }
+    }
+  
 
+
+
+//TODO Change for override
   public void liftDown(double speed) {
-    liftMaster.set(ControlMode.PercentOutput, speed);
+    if (Override){
+      liftMaster.set(ControlMode.PercentOutput, speed);
+    }else {
+
+    
+      if (limitSwitch2.get()){
+        liftMaster.set(ControlMode.PercentOutput, speed);
+        holdPosition = getLiftEncoders();
+      
+      }else {
+        liftStop();
+      }
+      SmartDashboard.putBoolean("limitswitch2", limitSwitch2.get());
+      SmartDashboard.putNumber("encoder", getLiftEncoders());
+      SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
+    }
   }
 
-  //TODO Use these instead of LiftDown and LiftUP for LiftToHeight
-  public void liftDownWithPosition(double position){
-    liftMaster.set(ControlMode.Position, position);
-  }
-
+ 
+//TODO Change For Override
   public void wristDown(double speed){
     //System.out.println("Down: "+ GetWristAngle());
-    if (GetWristAngle()>= minWristAngle+45){
+    if (Override){
       liftWrist.set(ControlMode.PercentOutput, speed);
-    } else if (GetWristAngle()>= minWristAngle + wobble){
-      liftWrist.set(ControlMode.PercentOutput, speed*.75);
     }else {
-      wristStop();
-    }
+
     
+      if (GetWristAngle()>= minWristAngle+45){
+        liftWrist.set(ControlMode.PercentOutput, speed);
+      } else if (GetWristAngle()>= minWristAngle + wobble){
+        liftWrist.set(ControlMode.PercentOutput, speed*.75);
+      }else {
+        wristStop();
+      }
+    }
   }
 
+  //TODO CHANGE FOR OVERRIDE
   public void wristUp(double speed){
     //System.out.println("Up: "+ GetWristAngle());
-    if (GetWristAngle()<= maxWristAngle-45){
+    if (Override){
       liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
-    }
-    else if(GetWristAngle()<= maxWristAngle - wobble ){
-      liftWrist.set(ControlMode.PercentOutput, speed * -1.0*0.75);
+
     }else {
-      wristStop();
-    }
+
     
+      if (GetWristAngle()<= maxWristAngle-45){
+        liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
+      }
+      else if(GetWristAngle()<= maxWristAngle - wobble ){
+        liftWrist.set(ControlMode.PercentOutput, speed * -1.0*0.75);
+      }else {
+        wristStop();
+      }
+    }
   }
   
   public void wristStop(){
@@ -168,8 +251,45 @@ public class LiftSystem extends Subsystem {
 
   }
   public void liftStop(){
+    //System.out.println("lim1"+limitSwitch1.get()+"lim2"+limitSwitch2.get());
+    if(limitSwitch1.get() && limitSwitch2.get()){
+      liftMaster.set(ControlMode.Position, holdPosition);
+    }
+    else{
     liftMaster.set(ControlMode.PercentOutput, 0.0);
+      }
+    
   }
-  
 
+
+  public boolean getCargoMode(){
+    return isInHatchMode;
+  }
+
+  public boolean getHatchMode(){
+    return isInHatchMode;
+  }
+  public void setHatchMode(boolean choice){
+  this.isInHatchMode=choice;
+  }
+
+  public void setIsLifting(boolean choice){
+
+    //System.out.println("Setting isLifting to: " + choice);
+    this.isLifting = choice;
+  
+  }
+
+  public boolean getIsLifting(){
+
+    return isLifting;
+  
+  }
+  public void resetHoldPosition(){
+    holdPosition = getLiftEncoders();
+  }
+
+  public void setOverride(boolean choice){
+    this.Override = choice;
+  }
 }

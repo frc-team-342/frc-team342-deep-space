@@ -8,69 +8,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.LiftSystem;
-import frc.robot.OI;
 
-
-
-public class LiftWithJoystick extends Command {
-
+/**
+ * An example command.  You can replace me with your own command.
+ */
+public class LiftToTop extends Command {
   private LiftSystem lift;
-  private OI oi;
-
-  private static final double DEADZONE = 0.1;
-  private static final double ZERO = 0.0;
-
-  private double RightJoystickValue;
-
- 
-
-  public LiftWithJoystick() {
-    System.out.println("In Lift With Joystick Constructor");
-    
-    oi = OI.getInstance();
+  private final int Hatch = -1250;
+  private final int Cargo = -1270;
+  public LiftToTop() {
+    // Use requires() here to declare subsystem dependencies
     lift = LiftSystem.getInstance();
   }
 
   // Called just before this Command runs the first time
-  @Override
   protected void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //TODO make piston activated by a button
-
-   
-   RightJoystickValue = oi.getJoystickManipulatorRightYAxis() * -1.0;
-    //System.out.println("Is Lifting " + lift.getIsLifting());
-
-        
-
-      if (RightJoystickValue > DEADZONE ){
-      
-        lift.liftUp(Math.abs(RightJoystickValue)*.3);
-        
-        // System.out.println("encoder: " + lift.getLiftEncoders());
-      
-      } else if (RightJoystickValue < DEADZONE * -1){
-     
-      lift.liftDown(Math.abs(RightJoystickValue)*.3);
-    
-      //System.out.println("encoder: " + lift.getLiftEncoders());
-      } else if(!lift.getIsLifting()){
-
-      lift.liftStop(); 
-      }
-    
+    System.out.println(" hatchmode: "+ lift.getHatchMode());
+    if (lift.getHatchMode()){
+      lift.liftUpWithPosition(this.Hatch);
+      System.out.print(" Position: " +this.Hatch);
+    }else {
+      lift.liftUpWithPosition(this.Cargo);
+      System.out.print(" Position: " +this.Cargo);
     }
-    
-  
+  }
 
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
@@ -82,8 +52,9 @@ public class LiftWithJoystick extends Command {
     lift.liftStop();
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end(); 
   }
 }

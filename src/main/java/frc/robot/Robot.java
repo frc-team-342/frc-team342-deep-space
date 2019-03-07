@@ -30,6 +30,7 @@ import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import frc.robot.commands.FistIntake;
+import frc.robot.commands.ClimbCommands.WenchControl;
 
 
 
@@ -51,6 +52,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private LiftSystem lift;
   private Command fistIntake;
+  private Command wenchControl;
   
 
   
@@ -91,7 +93,8 @@ public class Robot extends TimedRobot {
     HatchGrab = new HatchGrab();
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
-    
+    wenchControl = new WenchControl();
+    lift.SetTrueZero();
   
 
     // liftNow = new LiftToHeight(LiftHeight.HighRocket);
@@ -155,8 +158,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    lift.resetHoldPosition();
+    System.out.println("Starting Commands: ");
+    driveNow.start();
+    liftNow.start();
+    HatchGrab.start();
+    wristNow.start();
+    fistIntake.start();
+    System.out.println("You mad bro?: ");
     /*m_autonomousCommand = m_chooser.getSelected();
-
+  
    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
@@ -169,7 +180,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    //drive_off_platform.start();
+    
 
   }
 
@@ -186,15 +197,16 @@ public class Robot extends TimedRobot {
      * System.out.println("Arcade Chooser Is: "+arcade_chooser.getSelected());
      * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
      */
-
+    lift.resetHoldPosition();
+    wenchControl.start();
     System.out.println("Starting Commands: ");
     driveNow.start();
     liftNow.start();
-    lift.SetTrueZero();
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
     System.out.println("You mad bro?: ");
+    
 
     //HatchGrab.start();
 
