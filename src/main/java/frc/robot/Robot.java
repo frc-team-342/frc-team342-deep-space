@@ -28,8 +28,11 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
 import frc.robot.commands.WristWithJoystick;
 import frc.robot.subsystems.LiftSystem;
+import frc.robot.subsystems.DriveSystem;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import frc.robot.commands.FistIntake;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 
 
@@ -50,7 +53,10 @@ public class Robot extends TimedRobot {
   private Command HatchGrab;
   private Command m_autonomousCommand;
   private LiftSystem lift;
+  private DriveSystem drive;
   private Command fistIntake;
+  AHRS NavX;
+  
   
 
   
@@ -87,11 +93,16 @@ public class Robot extends TimedRobot {
     // driveNow = new DriveToDistance();
     liftNow = new LiftWithJoystick();
     lift = LiftSystem.getInstance();
+    drive = DriveSystem.getInstance();
+    drive.resetGyro();
    // Command test2 = Test;
     HatchGrab = new HatchGrab();
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
     lift.SetTrueZero();
+
+    //NavX = new AHRS(SPI.Port.kMXP);
+    //NavX.reset();
   
 
     // liftNow = new LiftToHeight(LiftHeight.HighRocket);
@@ -156,11 +167,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     /*m_autonomousCommand = m_chooser.getSelected();
-
+    
    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }*/
+    
+    drive.resetGyro();
   }
 
   /**
@@ -171,12 +184,17 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
     driveNow.start();
     liftNow.start();
+    HatchGrab.start();
+    wristNow.start();
+    fistIntake.start();
+    
     
 
   }
 
   @Override
   public void teleopInit() {
+    
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

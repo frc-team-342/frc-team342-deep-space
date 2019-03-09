@@ -28,7 +28,7 @@ public class DriveWithJoystick extends Command {
 
     public DriveWithJoystick() {
       
-      System.out.println("In Drive Constructor");
+      //System.out.println("In Drive Constructor");
       oi = OI.getInstance();
       Bob = DriveSystem.getInstance();
    
@@ -46,6 +46,7 @@ public class DriveWithJoystick extends Command {
   @Override
   protected void execute() {
     //System.out.println("Driving");
+		
     if(Bob.getArcade())
     {
       arcadeDrive();

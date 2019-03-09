@@ -66,6 +66,7 @@ public class DriveSystem extends Subsystem {
   public DriveSystem() {
 
     NavX = new AHRS(SPI.Port.kMXP);
+    System.out.println("Constructer NavX: " +NavX.getAngle());
     // Instantiate Motor Controllers
     leftMaster = new TalonSRX(RobotMap.DRV_LEFT_MASTER);
     rightMaster = new TalonSRX(RobotMap.DRV_RIGHT_MASTER);
@@ -284,11 +285,20 @@ public class DriveSystem extends Subsystem {
   public double getGyro(boolean backwards) {
     double angle;
 
+      /*
+     System.out.println("angle "+ NavX.getAngle());
+     System.out.println("pitch "+ NavX.getPitch());
+     System.out.println("roll "+ NavX.getRoll());
+     System.out.println("Yaw "+ NavX.getYaw());
+     System.out.println("Rotating" + NavX.isRotating());
+    */
+
     if (backwards) {
       angle = (((((NavX.getAngle() + 180)) % 360) + 360) % 360);
     } else {
       angle = ((((NavX.getAngle()) % 360) + 360) % 360);
     }
+   // System.out.println("angle "+ angle);
     return angle;
   }
 
