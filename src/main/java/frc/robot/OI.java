@@ -96,7 +96,6 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
    private Command liftToLow = new LiftToBottom();
    private Command driveControl = new DriveControl();
    private Command engageOveride = new EngageOveride();
-   private Command hatchGrabOverride = new HatchGrabOverride();
 
  
     private Command HatchRelease = new HatchRelease();
@@ -112,6 +111,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button xbox_drive_B;
     private Button xbox_drive_X;
     private Button xbox_drive_A;
+    private Button xbox_drive_Y;
 
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
