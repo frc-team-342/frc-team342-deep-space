@@ -196,7 +196,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
         angle_pad_1.whenPressed(RotateToAngle0);
         angle_pad_2.whenPressed(RotateToAngle30);
-        xbox_drive_X.whileHeld(RotateToAngle90);
+        angle_pad_3.whileHeld(RotateToAngle90);
         angle_pad_4.whenPressed(RotateToAngle150);
         angle_pad_5.whenPressed(RotateToAngle180);
         angle_pad_6.whenPressed(RotateToAngle210);

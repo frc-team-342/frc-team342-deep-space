@@ -15,9 +15,10 @@ public class RotateToAngle extends Command {
 	private boolean TurnRight;
 	
 	private static final double RotateSpeed = 1.0;
-	private static final double RotateSlowSpeed=0.4;
-	private static final double margin = 10;
-	private static final double slowmargin=120;
+	private static final double RotateSlowSpeed=0.5;
+	private static final double margin = 5;
+	private static final double slowmargin=45;
+	private static final double SPEED = 0.7;
 	
 	/**
 	 * @param angle
@@ -69,9 +70,9 @@ public class RotateToAngle extends Command {
 		}
 	
 		if (TurnRight) {
-			drive.drive(CurrentDriveSpeed * 0.5, CurrentDriveSpeed * 0.3);
+			drive.drive(CurrentDriveSpeed * SPEED, CurrentDriveSpeed * SPEED);
 		} else {
-			drive.drive(-CurrentDriveSpeed * 0.3, -CurrentDriveSpeed * 0.5);
+			drive.drive(-CurrentDriveSpeed * SPEED, -CurrentDriveSpeed * SPEED);
 		}
 		
 	}
