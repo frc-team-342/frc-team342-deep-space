@@ -26,6 +26,7 @@ import frc.robot.commands.LiftToHeight;
 
 
 import frc.robot.commands.HatchGrab;
+import frc.robot.commands.HatchGrabOverride;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.Knuckles;
 
@@ -61,6 +62,7 @@ public class OI {
     private Command toggleSlowDrive = new ToggleSlowDrive();
 
     private Command HatchGrab = new HatchGrab();
+    private Command hatchGrabOverride = new HatchGrabOverride();
     private Command FistIntake = new FistIntake();
     private Command Launch = new Launch();
     private Command RotateToAngle0 = new RotateToAngle(0);
