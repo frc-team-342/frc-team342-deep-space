@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 //import edu.wpi.first.wpilibj.RobotDrive;
@@ -33,7 +35,7 @@ public class DriveSystem extends Subsystem {
   private static final DriveSystem INSTANCE = new DriveSystem();
 
   // Motor Controllers
-  private TalonSRX climbDrive;
+  private VictorSPX climbDrive;
   private TalonSRX leftMaster;
   private TalonSRX rightMaster;
   private TalonSRX leftSlave1;
@@ -77,7 +79,7 @@ public class DriveSystem extends Subsystem {
     rightSlave1 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_1);
     rightSlave2 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_2);
 
-    climbDrive = new TalonSRX(RobotMap.CLIMBDRIVE);
+    climbDrive = new VictorSPX(RobotMap.CLIMBDRIVE);
 
     inititalizeDriveSystem();
 
@@ -162,10 +164,11 @@ public class DriveSystem extends Subsystem {
      * rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
      * rightSlave3.enableCurrentLimit(true);
      */
-    climbDrive.configPeakCurrentLimit(AMPS, TIMEOUT_MS);
-    climbDrive.configPeakCurrentDuration(PEAK_CURRENT_TIME, TIMEOUT_MS);
-    climbDrive.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    climbDrive.enableCurrentLimit(true);
+    
+    //climbDrive.configPeakCurrentLimit(AMPS, TIMEOUT_MS);
+    //climbDrive.configPeakCurrentDuration(PEAK_CURRENT_TIME, TIMEOUT_MS);
+    //climbDrive.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
+    //climbDrive.enableCurrentLimit(true);
 
     /*
      * Configures the open loop ramp to set the motor to ramp up to speed after a
@@ -227,7 +230,9 @@ public class DriveSystem extends Subsystem {
     }
 
     // System.out.println(RightSpeed);
+
     RightSpeed = RightSpeed * 0.7;
+    
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
     //rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
     //rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
