@@ -28,6 +28,7 @@ import frc.robot.commands.LiftToHeight;
 
 
 import frc.robot.commands.HatchGrab;
+import frc.robot.commands.HatchGrabOverride;
 import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.Knuckles;
 
@@ -82,6 +83,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
    private Command liftToLow = new LiftToBottom();
    private Command driveControl = new DriveControl();
    private Command engageOveride = new EngageOveride();
+   private Command hatchGrabOverride = new HatchGrabOverride();
 
  
     private Command HatchRelease = new HatchRelease();
@@ -107,6 +109,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button logitech_manipulator_leftBumper;
     private Button logitech_manipulator_leftstickButton;
     private Button logitech_manipultor_rightstickButton;
+    private Button logitech_manipulator_backButton;
 
 
     private OI() {
@@ -144,6 +147,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         logitech_manipulator_startButton = new JoystickButton(logitech_manipulator, 8);
         logitech_manipulator_leftstickButton = new JoystickButton(logitech_manipulator, 9);
         logitech_manipultor_rightstickButton = new JoystickButton(logitech_manipulator, 10);
+        logitech_manipulator_backButton = new JoystickButton(logitech_manipulator, 7);
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
@@ -173,6 +177,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);
         logitech_manipulator_startButton.whileHeld(engageOveride);
+        logitech_manipulator_backButton.whileHeld(hatchGrabOverride);
       
 
     }

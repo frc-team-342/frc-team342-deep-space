@@ -45,8 +45,8 @@ public class RobotMap {
 
   /* Can addresses */
   // Motors
-  public static final int DRV_LEFT_MASTER = 1;
-  public static final int DRV_LEFT_FOLLOW_1 = 2;
+  public static final int DRV_LEFT_MASTER = 2;
+  public static final int DRV_LEFT_FOLLOW_1 = 1;
   public static final int DRV_LEFT_FOLLOW_2 = 3;
   public static final int DRV_RIGHT_MASTER = 4;
   public static final int DRV_RIGHT_FOLLOW_1 = 5;

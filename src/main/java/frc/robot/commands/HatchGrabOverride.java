@@ -46,7 +46,7 @@ public class HatchGrabOverride extends Command {
   protected void execute() {
   
       Cylinder.pneumaticOut();
-      oi.DriveRumble(1.0);
+     // oi.DriveRumble(1.0);
       
     
     
@@ -63,7 +63,7 @@ public class HatchGrabOverride extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    oi.DriveRumble(0.0);
+    //oi.DriveRumble(0.0);
   }
 
   // Called when another command which requires one or more of the same

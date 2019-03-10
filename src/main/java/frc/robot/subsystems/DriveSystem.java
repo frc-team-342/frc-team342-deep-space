@@ -229,7 +229,7 @@ public class DriveSystem extends Subsystem {
     }
 
     // System.out.println(RightSpeed);
-    RightSpeed = RightSpeed * 1;
+    RightSpeed = RightSpeed * 0.8;
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
     rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
