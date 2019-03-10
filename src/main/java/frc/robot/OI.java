@@ -33,6 +33,7 @@ import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.Knuckles;
 
 import frc.robot.commands.PneumaticsWithCANifier;
+import frc.robot.commands.RotateToAngle;
 import frc.robot.commands.HatchRelease;
 import frc.robot.commands.FistIntake;
 import frc.robot.commands.LiftToHeightPID;
@@ -58,6 +59,7 @@ public class OI {
 
     private Joystick xbox_drive = new Joystick(0);
     private Joystick logitech_manipulator = new Joystick(1);
+    private Joystick angle_pad = new Joystick(2);
     private LiftSystem lift;
 
 
@@ -67,6 +69,16 @@ public class OI {
     private Command HatchGrab = new HatchGrab();
     private Command FistIntake = new FistIntake();
     private Command Launch = new Launch();
+
+
+    private Command RotateToAngle0 = new RotateToAngle(0);
+    private Command RotateToAngle90 = new RotateToAngle(90);
+    private Command RotateToAngle180 = new RotateToAngle(180);
+    private Command RotateToAngle270 = new RotateToAngle(270);
+    private Command RotateToAngle30 = new RotateToAngle(30);
+    private Command RotateToAngle150 = new RotateToAngle(150);
+    private Command RotateToAngle210 = new RotateToAngle(210);
+    private Command RotateToAngle330 = new RotateToAngle(330);
 
    
 
@@ -97,7 +109,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button xbox_drive_leftBumper;
     private Button xbox_drive_rightBumper;
     private Button xbox_drive_B;
-    private Button xbox_drive_Y;
+    private Button xbox_drive_X;
     private Button xbox_drive_A;
 
     private Button logitech_manipulator_A;
@@ -111,13 +123,25 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button logitech_manipultor_rightstickButton;
     private Button logitech_manipulator_backButton;
 
+    private Button angle_pad_1;
+    private Button angle_pad_2;
+    private Button angle_pad_3;
+    private Button angle_pad_4;
+    private Button angle_pad_5;
+    private Button angle_pad_6;
+    private Button angle_pad_7;
+    private Button angle_pad_11;
+    
+
 
     private OI() {
 
         
         xbox_drive = new Joystick(0);
         logitech_manipulator = new Joystick(1);
+        angle_pad = new Joystick(2);
         lift = LiftSystem.getInstance();
+
 
 
 
@@ -126,38 +150,58 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         xbox_drive_B = new JoystickButton(xbox_drive, 2);
         xbox_drive_Y = new JoystickButton(xbox_drive, 4);
         xbox_drive_A = new JoystickButton(xbox_drive,1);
+        xbox_drive_X = new JoystickButton(xbox_drive,3);
 
-      
         
-        logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
-        logitech_manipulator_rightBumper = new JoystickButton(logitech_manipulator, 6);
-      
         
+        angle_pad_1 = new JoystickButton(angle_pad, 1); 
+        angle_pad_2 = new JoystickButton(angle_pad, 2); 
+        angle_pad_3 = new JoystickButton(angle_pad, 3); 
+        angle_pad_4 = new JoystickButton(angle_pad, 4); 
+        angle_pad_5 = new JoystickButton(angle_pad, 5); 
+        angle_pad_6 = new JoystickButton(angle_pad, 6); 
+        angle_pad_7 = new JoystickButton(angle_pad, 7); 
+        angle_pad_11 = new JoystickButton(angle_pad, 11); 
     
         
         
 
   
         // setting the manipulator buttons to do what we say
-        xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
+        
         logitech_manipulator_A = new JoystickButton(logitech_manipulator, 1);
         logitech_manipulator_B = new JoystickButton(logitech_manipulator,2);
         logitech_manipulator_X =new JoystickButton(logitech_manipulator, 3);
         logitech_manipulator_Y = new JoystickButton(logitech_manipulator, 4); 
+        logitech_manipulator_leftBumper = new JoystickButton(logitech_manipulator, 5);
+        logitech_manipulator_rightBumper = new JoystickButton(logitech_manipulator, 6);
+        logitech_manipulator_backButton = new JoystickButton(logitech_manipulator, 7);
         logitech_manipulator_startButton = new JoystickButton(logitech_manipulator, 8);
         logitech_manipulator_leftstickButton = new JoystickButton(logitech_manipulator, 9);
         logitech_manipultor_rightstickButton = new JoystickButton(logitech_manipulator, 10);
-        logitech_manipulator_backButton = new JoystickButton(logitech_manipulator, 7);
+       
         
 
         xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
-        xbox_drive_Y.whileHeld(Launch);
-        xbox_drive_B.whileHeld(driveControl);
+        //xbox_drive_B.whileHeld(driveControl);
         //xbox_drive_Y.whileHeld(riseWithPneumatics);
-       // xbox_drive_A.whileHeld(lowerWithPneumatics);
+        //xbox_drive_A.whileHeld(lowerWithPneumatics);
+        xbox_drive_rightBumper.whileHeld(Launch);
+        xbox_drive_A.whileHeld(RotateToAngle180);
+        xbox_drive_B.whileHeld(RotateToAngle90);
+        xbox_drive_X.whileHeld(RotateToAngle270);
+        xbox_drive_Y.whileHeld(RotateToAngle0);
 
 
 
+        angle_pad_1.whenPressed(RotateToAngle0);
+        angle_pad_2.whenPressed(RotateToAngle30);
+        xbox_drive_X.whileHeld(RotateToAngle90);
+        angle_pad_4.whenPressed(RotateToAngle150);
+        angle_pad_5.whenPressed(RotateToAngle180);
+        angle_pad_6.whenPressed(RotateToAngle210);
+        angle_pad_7.whenPressed(RotateToAngle270);
+        angle_pad_11.whenPressed(RotateToAngle330);
 
 
       //  logitech_manipulator_A.whenPressed(liftToHeightLow);
@@ -255,8 +299,11 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
 	public double getJoystickDriveLeftTrigger() {
 		return xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_T);
-	}
-
+    }
+    
+    public int getPOV(){
+        return xbox_drive.getPOV();
+    }
   /*  public void setDriveRumble(double rumbleAmount){
         xbox_drive.setRumble(GenericHID.RumbleType.kRightRumble, rumbleAmount);
     }
