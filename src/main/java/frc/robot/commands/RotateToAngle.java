@@ -69,9 +69,9 @@ public class RotateToAngle extends Command {
 		}
 	
 		if (TurnRight) {
-			drive.drive(CurrentDriveSpeed, CurrentDriveSpeed * 0.8);
+			drive.drive(CurrentDriveSpeed * 0.5, CurrentDriveSpeed * 0.3);
 		} else {
-			drive.drive(-CurrentDriveSpeed * 0.8, -CurrentDriveSpeed);
+			drive.drive(-CurrentDriveSpeed * 0.3, -CurrentDriveSpeed * 0.5);
 		}
 		
 	}
