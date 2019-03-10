@@ -18,7 +18,7 @@ private DriveWithJoystick drive_with_joystick;
 
   public DriveOffPlatform() {
 
-   drive_to_distance = new DriveToDistance(15);
+   drive_to_distance = new DriveToDistance(10);
    //drive_with_joystick = new DriveWithJoystick();
 
    addSequential(drive_to_distance);

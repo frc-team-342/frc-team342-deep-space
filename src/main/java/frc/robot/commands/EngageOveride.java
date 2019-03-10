@@ -7,51 +7,33 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.CANifier;
-import com.ctre.phoenix.CANifier.GeneralPin;
-import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.subsystems.Knuckles;
-import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.subsystems.LiftSystem;
 
 /**
- * An example command. You can replace me with your own command.
+ * An example command.  You can replace me with your own command.
  */
-public class HatchGrabOverride extends Command {
+public class EngageOveride extends Command {
+ 
+  private LiftSystem Lift;
 
-  private Knuckles Cylinder = Knuckles.getInstance();
-  // TODO put these into RobotMap
-  private  OI oi;
-  private long start_time;
-  private long current_time;
-  private long duration_ms = 2000;
-  private long trigger_time;
-
-
-  public HatchGrabOverride() {
-    oi = OI.getInstance();
+  public EngageOveride() {
+    
+    Lift = LiftSystem.getInstance();
+  
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    start_time = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  
-      Cylinder.pneumaticOut();
 
-      
-    
-    
-
-    
+    Lift.setOverride(true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -63,7 +45,7 @@ public class HatchGrabOverride extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    //oi.DriveRumble(0.0);
+    Lift.setOverride(false);
   }
 
   // Called when another command which requires one or more of the same

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.RobotMap;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -28,8 +29,9 @@ public class LiftSystem extends Subsystem {
   private TalonSRX liftFollow;
   private TalonSRX liftWrist;
   private static double maxWristAngle = 187;
-  private static double minWristAngle = 97;
+  private static double minWristAngle = 90;
   private static double wobble = 10;
+  private boolean Override = false;
  
 
   // varibles for current 
@@ -105,11 +107,11 @@ public class LiftSystem extends Subsystem {
 		liftMaster.config_kI(0,0.002, TIMEOUT_MS);
 		liftMaster.config_kD(0,0.1, TIMEOUT_MS);
     liftMaster.config_kF(0,0.06, TIMEOUT_MS);
-    liftMaster.configAllowableClosedloopError(1, 5, 10);
-    liftMaster.configAllowableClosedloopError(0, 5, 10);
-
-    liftFollow.configAllowableClosedloopError(1, 5, 10);
-    liftFollow.configAllowableClosedloopError(0, 5, 10);
+    liftMaster.configAllowableClosedloopError(1, 1, 10);
+    liftMaster.configAllowableClosedloopError(0, 1, 10);
+    liftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    liftFollow.configAllowableClosedloopError(1, 1, 10);
+    liftFollow.configAllowableClosedloopError(0, 1, 10);
     liftFollow.config_kP(0,1, TIMEOUT_MS);
 		liftFollow.config_kI(0,0.002, TIMEOUT_MS);
 		liftFollow.config_kD(0,0.1, TIMEOUT_MS);
@@ -126,12 +128,16 @@ public class LiftSystem extends Subsystem {
   }
 
   
-
+//TODO CHANGE FOR OVERRIDE
   public void liftUp(double speed) {
-    if (limitSwitch1.get()){
+    if (Override){
       liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
-      holdPosition = getLiftEncoders();
-    }else{
+    }else {
+      
+      if (limitSwitch1.get()){
+        liftMaster.set(ControlMode.PercentOutput, speed * -1.0);
+        holdPosition = getLiftEncoders();
+      }else{
       liftStop();
     }
     
@@ -139,57 +145,79 @@ public class LiftSystem extends Subsystem {
       SmartDashboard.putNumber("encoder", getLiftEncoders());
       SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
   }
+}
 
+//TODO CHANGE FOR OVERRIDE
   public void liftUpWithPosition(double position){
-    if (limitSwitch1.get() && limitSwitch2.get()){
-      liftMaster.set(ControlMode.Position, position);
-      holdPosition = getLiftEncoders();
-    }else{
+    
+      if (limitSwitch1.get() && limitSwitch2.get()){
+       liftMaster.set(ControlMode.Position, position);
+       holdPosition = getLiftEncoders();
+      }else{
       liftStop();
+     }
     }
-  }
+  
 
 
 
-
+//TODO Change for override
   public void liftDown(double speed) {
-    if (limitSwitch2.get()){
+    if (Override){
       liftMaster.set(ControlMode.PercentOutput, speed);
-      holdPosition = getLiftEncoders();
-      
     }else {
-      liftStop();
-    }
+
+    
+      if (limitSwitch2.get()){
+        liftMaster.set(ControlMode.PercentOutput, speed);
+        holdPosition = getLiftEncoders();
+      
+      }else {
+        liftStop();
+      }
       SmartDashboard.putBoolean("limitswitch2", limitSwitch2.get());
       SmartDashboard.putNumber("encoder", getLiftEncoders());
       SmartDashboard.putNumber("Distance to ZERO", getDistanceToZero());
+    }
   }
 
  
-
+//TODO Change For Override
   public void wristDown(double speed){
     //System.out.println("Down: "+ GetWristAngle());
-    if (GetWristAngle()>= minWristAngle+45){
+    if (Override){
       liftWrist.set(ControlMode.PercentOutput, speed);
-    } else if (GetWristAngle()>= minWristAngle + wobble){
-      liftWrist.set(ControlMode.PercentOutput, speed*.75);
     }else {
-      wristStop();
-    }
+
     
+      if (GetWristAngle()>= minWristAngle+45){
+        liftWrist.set(ControlMode.PercentOutput, speed);
+      } else if (GetWristAngle()>= minWristAngle + wobble){
+        liftWrist.set(ControlMode.PercentOutput, speed*.75);
+      }else {
+        wristStop();
+      }
+    }
   }
 
+  //TODO CHANGE FOR OVERRIDE
   public void wristUp(double speed){
     //System.out.println("Up: "+ GetWristAngle());
-    if (GetWristAngle()<= maxWristAngle-45){
+    if (Override){
       liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
-    }
-    else if(GetWristAngle()<= maxWristAngle - wobble ){
-      liftWrist.set(ControlMode.PercentOutput, speed * -1.0*0.75);
+
     }else {
-      wristStop();
-    }
+
     
+      if (GetWristAngle()<= maxWristAngle-45){
+        liftWrist.set(ControlMode.PercentOutput, speed * -1.0);
+      }
+      else if(GetWristAngle()<= maxWristAngle - wobble ){
+        liftWrist.set(ControlMode.PercentOutput, speed * -1.0*0.75);
+      }else {
+        wristStop();
+      }
+    }
   }
   
   public void wristStop(){
@@ -223,6 +251,7 @@ public class LiftSystem extends Subsystem {
 
   }
   public void liftStop(){
+    //System.out.println("lim1"+limitSwitch1.get()+"lim2"+limitSwitch2.get());
     if(limitSwitch1.get() && limitSwitch2.get()){
       liftMaster.set(ControlMode.Position, holdPosition);
     }
@@ -255,5 +284,12 @@ public class LiftSystem extends Subsystem {
 
     return isLifting;
   
+  }
+  public void resetHoldPosition(){
+    holdPosition = getLiftEncoders();
+  }
+
+  public void setOverride(boolean choice){
+    this.Override = choice;
   }
 }

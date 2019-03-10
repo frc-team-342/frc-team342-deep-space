@@ -84,7 +84,8 @@ public class ClimbSystem extends Subsystem {
 
   public void extend(double WenchSpeed) {
     double pitch = drive.getTilt();
-    wench.set(ControlMode.PercentOutput, WenchSpeed);
+    System.out.println("pitch"+pitch);
+    //wench.set(ControlMode.PercentOutput, WenchSpeed);
     if (pitch > 10.0) {
       wench.set(ControlMode.PercentOutput, WenchSpeed);
     } else if (pitch > -5) {
