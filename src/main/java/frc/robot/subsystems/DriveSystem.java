@@ -198,16 +198,16 @@ public class DriveSystem extends Subsystem {
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.follow(leftMaster);
-    // leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    // leftSlave2.follow(leftMaster);
+    leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    leftSlave2.follow(leftMaster);
     // leftSlave3.set(ControlMode.PercentOutput, 0.0);
     /// leftSlave3.follow(leftMaster);
 
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.follow(rightMaster);
-    // rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    // rightSlave2.follow(leftMaster);
+    rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    rightSlave2.follow(leftMaster);
     // rightSlave3.set(ControlMode.PercentOutput, 0.0);
     // rightSlave3.follow(leftMaster);
 
@@ -227,10 +227,10 @@ public class DriveSystem extends Subsystem {
     }
 
     // System.out.println(RightSpeed);
-    RightSpeed = RightSpeed * 1;
+    RightSpeed = RightSpeed * 0.7;
     rightMaster.set(ControlMode.PercentOutput, RightSpeed);
-    rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
-    rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
+    //rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
+    //rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
     // rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
 
     LeftSpeed = LeftSpeed * 1;
