@@ -47,7 +47,7 @@ import frc.robot.commands.Launch;
 import frc.robot.commands.EngageOveride;
 
 
-
+import frc.robot.commands.TurboDrive;;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -106,6 +106,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
     private Command wristToPositionCargo = new WristToPosition(WristPosition.Cargo);
     private Command wristToPositionHatch = new WristToPosition(WristPosition.Hatch);
+    private Command turboDrive = new TurboDrive();
     private Button xbox_drive_leftBumper;
     private Button xbox_drive_rightBumper;
     private Button xbox_drive_B;
@@ -183,7 +184,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
        
         
 
-        xbox_drive_leftBumper.whenPressed(toggleSlowDrive);
+        xbox_drive_leftBumper.whileHeld(turboDrive);
         //xbox_drive_B.whileHeld(driveControl);
         //xbox_drive_Y.whileHeld(riseWithPneumatics);
         //xbox_drive_A.whileHeld(lowerWithPneumatics);
