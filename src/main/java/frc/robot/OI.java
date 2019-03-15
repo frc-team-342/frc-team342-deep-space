@@ -18,8 +18,8 @@ import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
 import frc.robot.commands.XboxRumble;
 import frc.robot.commands.ClimbCommands.DriveControl;
-import frc.robot.commands.ClimbCommands.LowerWithPnuematics;
-import frc.robot.commands.ClimbCommands.RiseWithPnuematics;
+import frc.robot.commands.ClimbCommands.HookIn;
+import frc.robot.commands.ClimbCommands.HookOut;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
@@ -99,8 +99,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
  
     private Command HatchRelease = new HatchRelease();
-    private Command riseWithPneumatics = new RiseWithPnuematics();
-    private Command lowerWithPneumatics = new LowerWithPnuematics();
+    private Command hookOut = new HookOut();
+    private Command hookIn = new HookIn();
  
 
 
@@ -113,7 +113,10 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button xbox_drive_X;
     private Button xbox_drive_A;
     private Button xbox_drive_Y;
+    private Button xbox_drive_startbutton;
+    private Button xbox_drive_backbutton;
 
+    
     private Button logitech_manipulator_A;
     private Button logitech_manipulator_B;
     private Button logitech_manipulator_Y;
@@ -134,6 +137,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Button angle_pad_7;
     private Button angle_pad_11;
     
+    
 
 
     private OI() {
@@ -153,6 +157,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         xbox_drive_Y = new JoystickButton(xbox_drive, 4);
         xbox_drive_A = new JoystickButton(xbox_drive,1);
         xbox_drive_X = new JoystickButton(xbox_drive,3);
+        xbox_drive_startbutton = new JoystickButton(xbox_drive,8);
+        xbox_drive_backbutton = new JoystickButton(xbox_drive,7);
 
         
         
@@ -186,24 +192,19 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
         xbox_drive_leftBumper.whileHeld(turboDrive);
         //xbox_drive_B.whileHeld(driveControl);
-        //xbox_drive_Y.whileHeld(riseWithPneumatics);
+       // xbox_drive_Y.whileHeld(hookOut);
         //xbox_drive_A.whileHeld(lowerWithPneumatics);
         xbox_drive_rightBumper.whileHeld(Launch);
-        xbox_drive_A.whileHeld(RotateToAngle180);
-        xbox_drive_B.whileHeld(RotateToAngle90);
-        xbox_drive_X.whileHeld(RotateToAngle270);
-        xbox_drive_Y.whileHeld(RotateToAngle0);
+       // xbox_drive_A.whileHeld(RotateToAngle180);
+      //  xbox_drive_B.whileHeld(RotateToAngle90);
+      //  xbox_drive_X.whileHeld(RotateToAngle270);
+      //  xbox_drive_Y.whileHeld(RotateToAngle0);
+
+      xbox_drive_startbutton.whileHeld(driveControl);
+      xbox_drive_backbutton.whenPressed(hookOut);
 
 
 
-        angle_pad_1.whenPressed(RotateToAngle0);
-        angle_pad_2.whenPressed(RotateToAngle30);
-        angle_pad_3.whileHeld(RotateToAngle90);
-        angle_pad_4.whenPressed(RotateToAngle150);
-        angle_pad_5.whenPressed(RotateToAngle180);
-        angle_pad_6.whenPressed(RotateToAngle210);
-        angle_pad_7.whenPressed(RotateToAngle270);
-        angle_pad_11.whenPressed(RotateToAngle330);
 
 
       //  logitech_manipulator_A.whenPressed(liftToHeightLow);
@@ -293,6 +294,9 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     }
     public double getCombinedManipulatorTriggers(){
         return Math.pow(logitech_manipulator.getRawAxis(RobotMap.LOGI_LEFT_T) - logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_T),3);
+    }
+    public double getCombinedXboxTriggers(){
+        return Math.pow(xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_T) - xbox_drive.getRawAxis(RobotMap.XBOX_RIGHT_T),3);
     }
 
     public void DriveRumble(double rumbleAmount) {

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ClimbSystem;
+import frc.robot.subsystems.LiftSystem;
 
 /**
  * An example command. You can replace me with your own command.
@@ -37,8 +38,8 @@ public class WenchControl extends Command {
   @Override
   protected void execute() {
 
-    WenchSpeed = oi.getJoystickDriveRightTrigger();
-    WenchSpeed = WenchSpeed - oi.getJoystickDriveLeftTrigger();
+    WenchSpeed = oi.getCombinedXboxTriggers();
+    
 
     climb.extend(WenchSpeed);
 

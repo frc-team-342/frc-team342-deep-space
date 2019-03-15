@@ -87,5 +87,6 @@ public class RobotMap {
   // LIMIT SWITCHES
   public static final int ELEVATOR_LIMIT_SWITCH_UP = 1;
   public static final int ELEVATOR_LIMIT_SWITCH_DOWN = 0;
+  public static final int CLIMB_LIMIT_SWITCH = 2;
 
 }

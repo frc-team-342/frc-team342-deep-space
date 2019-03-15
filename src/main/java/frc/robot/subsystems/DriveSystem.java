@@ -345,7 +345,7 @@ leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
   }
 
   public void driveWinch(double speed) {
-    climbDrive.set(ControlMode.PercentOutput, speed);
+    climbDrive.set(ControlMode.PercentOutput, -speed);
   }
 
   public double getTilt() {

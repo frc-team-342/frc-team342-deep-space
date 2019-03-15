@@ -14,14 +14,13 @@ import frc.robot.subsystems.ClimbSystem;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class RiseWithPnuematics extends Command {
+public class HookIn extends Command {
 
     private ClimbSystem climb;
 
-  public RiseWithPnuematics() {
+  public HookIn() {
 
     climb = ClimbSystem.getInstance();
-  
   
   }
 
@@ -33,7 +32,7 @@ public class RiseWithPnuematics extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      climb.hookOut();
+      climb.hookIn();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -45,8 +44,7 @@ public class RiseWithPnuematics extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-      climb.hookOut();
-
+      climb.hookIn();
   }
 
   // Called when another command which requires one or more of the same
