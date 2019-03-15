@@ -13,6 +13,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.subsystems.Knuckles;
+import frc.robot.subsystems.LiftSystem;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -29,10 +30,12 @@ public class HatchGrabOverride extends Command {
   private long current_time;
   private long duration_ms = 2000;
   private long trigger_time;
+  private LiftSystem lift;
 
 
   public HatchGrabOverride() {
     oi = OI.getInstance();
+    lift = lift.getInstance();
   }
 
   // Called just before this Command runs the first time
@@ -45,6 +48,9 @@ public class HatchGrabOverride extends Command {
   @Override
   protected void execute() {
   
+      //TEST THIS BEFORE UNCOMMENTING
+      //lift.setHatchMode(true);
+
       Cylinder.pneumaticOut();
 
       

@@ -37,9 +37,8 @@ public class HookOut extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (!lift.getBottomLimitSwitch()){
-      climb.hookOut();
-    }
+  
+    //nothing should be here
      
   }
 
@@ -52,7 +51,10 @@ public class HookOut extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    
+    if (!lift.getBottomLimitSwitch()||lift.getOverride()){
       climb.hookOut();
+    }
 
   }
 
@@ -60,5 +62,6 @@ public class HookOut extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
