@@ -296,4 +296,8 @@ public class LiftSystem extends Subsystem {
   public void setOverride(boolean choice){
     this.Override = choice;
   }
+
+  public boolean getOverride(){
+    return Override;
+  }
 }
