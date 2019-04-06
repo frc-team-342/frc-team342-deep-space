@@ -54,7 +54,7 @@ public class DriveSystem extends Subsystem {
   private static final double RAMP_TIME = 0.2;
 
   // Stuff For Slow Button
-  private static final double SLOW_DOWN_SCALAR = 2.0;
+  private static final double SLOW_DOWN_SCALAR = 2.5;
   private boolean slow;
   private boolean turbo;
 

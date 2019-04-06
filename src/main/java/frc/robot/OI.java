@@ -200,8 +200,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
       //  xbox_drive_X.whileHeld(RotateToAngle270);
       //  xbox_drive_Y.whileHeld(RotateToAngle0);
 
-     // xbox_drive_startbutton.whileHeld(driveControl);
-      //xbox_drive_backbutton.whenPressed(hookOut);
+      xbox_drive_startbutton.whileHeld(driveControl);
+      xbox_drive_backbutton.whenPressed(hookOut);
 
 
 
@@ -296,7 +296,7 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
         return Math.pow(logitech_manipulator.getRawAxis(RobotMap.LOGI_LEFT_T) - logitech_manipulator.getRawAxis(RobotMap.LOGI_RIGHT_T),3);
     }
     public double getCombinedXboxTriggers(){
-        return Math.pow(xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_T) - xbox_drive.getRawAxis(RobotMap.XBOX_RIGHT_T),3);
+        return xbox_drive.getRawAxis(RobotMap.XBOX_LEFT_T) - xbox_drive.getRawAxis(RobotMap.XBOX_RIGHT_T);
     }
 
     public void DriveRumble(double rumbleAmount) {
