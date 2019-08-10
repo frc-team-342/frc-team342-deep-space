@@ -227,7 +227,7 @@ public class Robot extends TimedRobot {
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
-   // wenchControl.start();
+    wenchControl.start();
     System.out.println("You mad bro?: ");
     
 

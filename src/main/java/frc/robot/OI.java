@@ -200,8 +200,8 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
       //  xbox_drive_X.whileHeld(RotateToAngle270);
       //  xbox_drive_Y.whileHeld(RotateToAngle0);
 
-     // xbox_drive_startbutton.whileHeld(driveControl);
-      //xbox_drive_backbutton.whenPressed(hookOut);
+      xbox_drive_startbutton.whileHeld(driveControl);
+      xbox_drive_backbutton.whenPressed(hookOut);
 
 
 
