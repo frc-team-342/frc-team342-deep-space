@@ -21,9 +21,12 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * An example subsystem. You can replace me with your own Subsystem.
- */
+import com.revrobotics.CANSparkMax; 
+import com.revrobotics.CANSparkMaxLowLevel.MotorType; 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
+import com.revrobotics.CANPIDController; 
+import com.revrobotics.ControlType;
+
 public class DriveSystem extends Subsystem {
 
   public SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
@@ -34,19 +37,20 @@ public class DriveSystem extends Subsystem {
   // Instance of the class
   private static final DriveSystem INSTANCE = new DriveSystem();
 
-  // Motor Controllers
-  private VictorSPX climbDrive;
-  private TalonSRX leftMaster;
-  private TalonSRX rightMaster;
-  private TalonSRX leftSlave1;
-  private TalonSRX leftSlave2;
-  // private TalonSRX leftSlave3;
-  private TalonSRX rightSlave1;
-  private TalonSRX rightSlave2;
-  // private TalonSRX rightSlave3;
+  private DifferentialDrive myRobot; 
+
+  //setting the motors
+  private CANSparkMax leftLead;
+  private CANSparkMax leftFollow1;
+  private CANSparkMax leftFollow2;
+  private CANSparkMax rightLead;
+  private CANSparkMax rightFollow1;
+  private CANSparkMax rightFollow2; 
+
+  private CANPIDController pidController;
+  public double kP, kD, kIz, kFF, kMaxOutput, kMinOutput;  
 
   // Current Variables
-
   private static final int AMPS = 35;
   private static final int TIMEOUT_MS = 10;
   private static final int PEAK_CURRENT_TIME = 2000;
@@ -63,22 +67,36 @@ public class DriveSystem extends Subsystem {
   public static int init_Right;
 
   // NavX
-
   private boolean arcade;
 
   public DriveSystem() {
 
     NavX = new AHRS(SPI.Port.kMXP);
     System.out.println("Constructer NavX: " +NavX.getAngle());
-    // Instantiate Motor Controllers
-    leftMaster = new TalonSRX(RobotMap.DRV_LEFT_MASTER);
-    rightMaster = new TalonSRX(RobotMap.DRV_RIGHT_MASTER);
 
-    leftSlave1 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_1);
-    leftSlave2 = new TalonSRX(RobotMap.DRV_LEFT_FOLLOW_2);
+    myRobot = new DifferentialDrive(leftLead, rightLead);
 
-    rightSlave1 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_1);
-    rightSlave2 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_2);
+
+    //instantiate motor controllers
+    leftLead = new CANSparkMax(DRV_LEFTLEAD, MotorType.kBrushless);
+    leftFollow1 = new CANSparkMAx(DRV_LEFTFOLLOW_1, MotorType.kBrushless);
+    leftFollow2 = new CANSparkMAx(DRV_LEFTFOLLOW_2, MotorType.kBrushless); 
+    rightLead = new CANSparkMax(DRV_RIGHTLEAD, MotorType.kBrushless);
+    rightFollow1 = new CANSparkMax(DRV_RIGHTFOLLOW_1, MotorType.kBrushless);
+    rightFollow2 = new CANSparkMax(DRV_RIGHTFOLLOW_2, MotorType.kBrushless);
+
+    pidController = leftLead.getPIDController(); 
+    pidController = rightLead.getPIDController(); 
+
+    //PID coefficients
+    //TODO: find out if these are the values we want
+    kP = 0.1; 
+    kI = 1e-4;
+    kD = 1; 
+    kIz = 0; 
+    kFF = 0; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;                        
 
     climbDrive = new VictorSPX(RobotMap.CLIMBDRIVE);
 
@@ -93,7 +111,6 @@ public class DriveSystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-
   }
 
   public Boolean getArcade() {
@@ -101,12 +118,10 @@ public class DriveSystem extends Subsystem {
   }
 
   public void setArcadeDrive(boolean enable) {
-
     arcade = enable;
   }
 
   public static DriveSystem getInstance() {
-
     return INSTANCE;
   }
 
@@ -125,7 +140,6 @@ public class DriveSystem extends Subsystem {
      * leftSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
      * leftSlave1.enableCurrentLimit(true);
      * 
-     * 
      * rightMaster.configPeakCurrentLimit(ZERO, ZERO);
      * rightMaster.configPeakCurrentDuration(ZERO, ZERO);
      * rightMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
@@ -136,11 +150,6 @@ public class DriveSystem extends Subsystem {
      * rightSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
      * rightSlave1.enableCurrentLimit(true);
      * 
-     */
-
-    // Left Talon Current Limiting Not used for Test Robot
-
-    /*
      * leftSlave2.configPeakCurrentLimit(ZERO, ZERO);
      * leftSlave2.configPeakCurrentDuration(ZERO, ZERO);
      * leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
@@ -150,11 +159,7 @@ public class DriveSystem extends Subsystem {
      * leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
      * leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
      * leftSlave3.enableCurrentLimit(true);
-     */
-
-    // Right Talon Current Limiting Not used for Test Robot
-
-    /*
+     * 
      * rightSlave2.configPeakCurrentLimit(ZERO, ZERO);
      * rightSlave2.configPeakCurrentDuration(ZERO, ZERO);
      * rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
@@ -172,10 +177,10 @@ public class DriveSystem extends Subsystem {
     //climbDrive.enableCurrentLimit(true);
 
     /*
-     * Configures the open loop ramp to set the motor to ramp up to speed after a
-     * specifiec time other than jerking to full speed.
-     * 
-     */
+      TODO: Transfer this over to SparkMax
+    Configures the open loop ramp to set the motor to ramp up to speed after a
+    specifiec time other than jerking to full speed.
+
     leftMaster.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
     leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
@@ -183,10 +188,7 @@ public class DriveSystem extends Subsystem {
     rightMaster.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
     rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
-
-    // leftSlave3.configOpenloopRamp(RAMP_TIME, 0);
-
-    // rightSlave3.configOpenloopRamp(RAMP_TIME, 0);
+    */
 
     // Setting the PID loop for the master controllers
     rightMaster.config_kP(0, TIMEOUT_MS);
@@ -201,19 +203,27 @@ public class DriveSystem extends Subsystem {
 
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.set(ControlMode.PercentOutput, 0.0);
-    leftSlave1.follow(leftMaster);
     leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    leftSlave2.follow(leftMaster);
-    // leftSlave3.set(ControlMode.PercentOutput, 0.0);
-    /// leftSlave3.follow(leftMaster);
 
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.set(ControlMode.PercentOutput, 0.0);
-    rightSlave1.follow(rightMaster);
     rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    rightSlave2.follow(leftMaster);
-    // rightSlave3.set(ControlMode.PercentOutput, 0.0);
-    // rightSlave3.follow(leftMaster);
+
+    //sets the follows to follow the leads
+    leftFollow1.follow(leftLead); 
+    leftFollow2.follow(leftLead); 
+    rightFollow1.follow(rightLead);
+    rightFollow2.follow(rightLead); 
+
+    //set PID coefficients 
+    pidController.setP(kP);
+    pidController.setI(kI);
+    pidController.setD(kD);
+    pidController.setIZone(kIz);
+    pidController.setFF(kFF);
+    pidController.setOutputRange(kMinOutput, kMaxOutput);
+    
+    pidController.setReference(rotations,ControlType.kPosition); 
 
     slow = false;
     turbo =false;
@@ -223,6 +233,7 @@ public class DriveSystem extends Subsystem {
 
   }
 
+  //TODO convert this slow stuff to the sparks
   public void drive(Double LeftSpeed, Double RightSpeed) {
     setArcadeDrive(arcade_chooser.getSelected());
     if (slow) {
@@ -237,22 +248,14 @@ public class DriveSystem extends Subsystem {
       RightSpeed = RightSpeed * .8;
       LeftSpeed = LeftSpeed * .8;
     }
-// System.out.println(RightSpeed);
 
-    
 rightMaster.set(ControlMode.PercentOutput, RightSpeed);
 rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
 rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
-// rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
-
 
 leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
 leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
-leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
-// leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
-    
-
-    
+leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);    
 
   }
 
@@ -261,12 +264,10 @@ leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    // rightSlave3.set(ControlMode.PercentOutput, 0.0);
 
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    // leftSlave3.set(ControlMode.PercentOutput, 0.0);
   }
 
   public void driveSetSpeed(double Left_Speed, double Right_Speed) {
@@ -287,43 +288,32 @@ leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
     return rightMaster.getSensorCollection().getPulseWidthPosition();
   }
 
+/*
   public void setSlow(boolean slowSetting) {
-
     this.slow = slowSetting;
   }
 
   public boolean isInSlowMode() {
-
     return slow;
   }
 
   public void setTurbo(boolean turboSetting) {
-
     this.turbo = turboSetting;
   }
 
   public boolean isInTurboMode() {
-
     return turbo;
   }
+*/
 
   public double getGyro(boolean backwards) {
     double angle;
-
-      /*
-     System.out.println("angle "+ NavX.getAngle());
-     System.out.println("pitch "+ NavX.getPitch());
-     System.out.println("roll "+ NavX.getRoll());
-     System.out.println("Yaw "+ NavX.getYaw());
-     System.out.println("Rotating" + NavX.isRotating());
-    */
 
     if (backwards) {
       angle = (((((NavX.getAngle() + 180)) % 360) + 360) % 360);
     } else {
       angle = ((((NavX.getAngle()) % 360) + 360) % 360);
     }
-   // System.out.println("angle "+ angle);
     return angle;
   }
 
