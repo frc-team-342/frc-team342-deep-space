@@ -7,9 +7,11 @@
 
 package frc.robot.subsystems;
 
+/*
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+*/
 
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
@@ -26,10 +28,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 import com.revrobotics.CANPIDController; 
 import com.revrobotics.ControlType;
+import frc.robot.RobotMap;
 
 public class DriveSystem extends Subsystem {
 
+  //Smart Dashboard arcade mode chooser
   public SendableChooser<Boolean> arcade_chooser = new SendableChooser<>();
+
 
   // NavX
   AHRS NavX;
@@ -47,8 +52,9 @@ public class DriveSystem extends Subsystem {
   private CANSparkMax rightFollow1;
   private CANSparkMax rightFollow2; 
 
-  private CANPIDController pidController;
-  public double kP, kD, kIz, kFF, kMaxOutput, kMinOutput;  
+  private CANPIDController rightPidController;
+  private CANPIDController leftPidController;
+  private double kP, kD, kI, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;  
 
   // Current Variables
   private static final int AMPS = 35;
@@ -72,33 +78,28 @@ public class DriveSystem extends Subsystem {
   public DriveSystem() {
 
     NavX = new AHRS(SPI.Port.kMXP);
-    System.out.println("Constructer NavX: " +NavX.getAngle());
-
-    myRobot = new DifferentialDrive(leftLead, rightLead);
-
+    System.out.println("Constructer NavX: " + NavX.getAngle());
 
     //instantiate motor controllers
-    leftLead = new CANSparkMax(DRV_LEFTLEAD, MotorType.kBrushless);
-    leftFollow1 = new CANSparkMAx(DRV_LEFTFOLLOW_1, MotorType.kBrushless);
-    leftFollow2 = new CANSparkMAx(DRV_LEFTFOLLOW_2, MotorType.kBrushless); 
-    rightLead = new CANSparkMax(DRV_RIGHTLEAD, MotorType.kBrushless);
-    rightFollow1 = new CANSparkMax(DRV_RIGHTFOLLOW_1, MotorType.kBrushless);
-    rightFollow2 = new CANSparkMax(DRV_RIGHTFOLLOW_2, MotorType.kBrushless);
+    leftLead = new CANSparkMax(RobotMap.DRV_LEFTLEAD, MotorType.kBrushless);
+    leftFollow1 = new CANSparkMax(RobotMap.DRV_LEFTFOLLOW_1, MotorType.kBrushless);
+    leftFollow2 = new CANSparkMax(RobotMap.DRV_LEFTFOLLOW_2, MotorType.kBrushless); 
+    rightLead = new CANSparkMax(RobotMap.DRV_RIGHTLEAD, MotorType.kBrushless);
+    rightFollow1 = new CANSparkMax(RobotMap.DRV_RIGHTFOLLOW_1, MotorType.kBrushless);
+    rightFollow2 = new CANSparkMax(RobotMap.DRV_RIGHTFOLLOW_2, MotorType.kBrushless);
 
-    pidController = leftLead.getPIDController(); 
-    pidController = rightLead.getPIDController(); 
+    leftPidController = leftLead.getPIDController(); 
+    rightPidController = rightLead.getPIDController(); 
 
-    //PID coefficients
-    //TODO: find out if these are the values we want
-    kP = 0.1; 
-    kI = 1e-4;
-    kD = 1; 
+    // PID Coefficients
+    kP = 4.8e-5; 
+    kI = 5.0e-7;
+    kD = 0; 
     kIz = 0; 
     kFF = 0; 
     kMaxOutput = 1; 
-    kMinOutput = -1;                        
-
-    climbDrive = new VictorSPX(RobotMap.CLIMBDRIVE);
+    kMinOutput = -1;
+    maxRPM = 5700;                        
 
     inititalizeDriveSystem();
 
@@ -127,114 +128,43 @@ public class DriveSystem extends Subsystem {
 
   private void inititalizeDriveSystem() {
 
-    // Not Current Limiting DriveSystem() anymore this year.
-
-    /*
-     * leftMaster.configPeakCurrentLimit(ZERO, ZERO);
-     * leftMaster.configPeakCurrentDuration(ZERO, ZERO);
-     * leftMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * leftMaster.enableCurrentLimit(true);
-     * 
-     * leftSlave1.configPeakCurrentLimit(ZERO, ZERO);
-     * leftSlave1.configPeakCurrentDuration(ZERO, ZERO);
-     * leftSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * leftSlave1.enableCurrentLimit(true);
-     * 
-     * rightMaster.configPeakCurrentLimit(ZERO, ZERO);
-     * rightMaster.configPeakCurrentDuration(ZERO, ZERO);
-     * rightMaster.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * rightMaster.enableCurrentLimit(true);
-     * 
-     * rightSlave1.configPeakCurrentLimit(ZERO, ZERO);
-     * rightSlave1.configPeakCurrentDuration(ZERO, ZERO);
-     * rightSlave1.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * rightSlave1.enableCurrentLimit(true);
-     * 
-     * leftSlave2.configPeakCurrentLimit(ZERO, ZERO);
-     * leftSlave2.configPeakCurrentDuration(ZERO, ZERO);
-     * leftSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * leftSlave2.enableCurrentLimit(true);
-     * 
-     * leftSlave3.configPeakCurrentLimit(ZERO, ZERO);
-     * leftSlave3.configPeakCurrentDuration(ZERO, ZERO);
-     * leftSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * leftSlave3.enableCurrentLimit(true);
-     * 
-     * rightSlave2.configPeakCurrentLimit(ZERO, ZERO);
-     * rightSlave2.configPeakCurrentDuration(ZERO, ZERO);
-     * rightSlave2.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * rightSlave2.enableCurrentLimit(true);
-     * 
-     * rightSlave3.configPeakCurrentLimit(ZERO, ZERO);
-     * rightSlave3.configPeakCurrentDuration(ZERO, ZERO);
-     * rightSlave3.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-     * rightSlave3.enableCurrentLimit(true);
-     */
-    
-    //climbDrive.configPeakCurrentLimit(AMPS, TIMEOUT_MS);
-    //climbDrive.configPeakCurrentDuration(PEAK_CURRENT_TIME, TIMEOUT_MS);
-    //climbDrive.configContinuousCurrentLimit(AMPS, TIMEOUT_MS);
-    //climbDrive.enableCurrentLimit(true);
-
-    /*
-      TODO: Transfer this over to SparkMax
-    Configures the open loop ramp to set the motor to ramp up to speed after a
-    specifiec time other than jerking to full speed.
-
-    leftMaster.configOpenloopRamp(RAMP_TIME, 0);
-    leftSlave1.configOpenloopRamp(RAMP_TIME, 0);
-    leftSlave2.configOpenloopRamp(RAMP_TIME, 0);
-
-    rightMaster.configOpenloopRamp(RAMP_TIME, 0);
-    rightSlave1.configOpenloopRamp(RAMP_TIME, 0);
-    rightSlave2.configOpenloopRamp(RAMP_TIME, 0);
-    */
-
     // Setting the PID loop for the master controllers
-    rightMaster.config_kP(0, TIMEOUT_MS);
-    rightMaster.config_kI(0, TIMEOUT_MS);
-    rightMaster.config_kD(0, TIMEOUT_MS);
-    rightMaster.config_kF(0, TIMEOUT_MS);
+    rightPidController.setP(kP);
+    rightPidController.setI(kI);
+    rightPidController.setD(kD);
+    rightPidController.setIZone(kIz);
+    rightPidController.setFF(kFF);
+    rightPidController.setOutputRange(kMinOutput, kMaxOutput);
 
-    leftMaster.config_kP(0, TIMEOUT_MS);
-    leftMaster.config_kI(0, TIMEOUT_MS);
-    leftMaster.config_kD(0, TIMEOUT_MS);
-    leftMaster.config_kF(0, TIMEOUT_MS);
+    leftPidController.setP(kP);
+    leftPidController.setI(kI);
+    leftPidController.setD(kD);
+    leftPidController.setIZone(kIz);
+    leftPidController.setFF(kFF);
+    leftPidController.setOutputRange(kMinOutput, kMaxOutput);
 
-    leftMaster.set(ControlMode.PercentOutput, 0.0);
-    leftSlave1.set(ControlMode.PercentOutput, 0.0);
-    leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    leftLead.set(0.0);
+    leftFollow1.set(0.0);
+    leftFollow2.set(0.0);
 
-    rightMaster.set(ControlMode.PercentOutput, 0.0);
-    rightSlave1.set(ControlMode.PercentOutput, 0.0);
-    rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    rightLead.set(0.0);
+    rightFollow1.set(0.0);
+    rightFollow2.set(0.0);
 
     //sets the follows to follow the leads
     leftFollow1.follow(leftLead); 
     leftFollow2.follow(leftLead); 
     rightFollow1.follow(rightLead);
     rightFollow2.follow(rightLead); 
-
-    //set PID coefficients 
-    pidController.setP(kP);
-    pidController.setI(kI);
-    pidController.setD(kD);
-    pidController.setIZone(kIz);
-    pidController.setFF(kFF);
-    pidController.setOutputRange(kMinOutput, kMaxOutput);
-    
-    pidController.setReference(rotations,ControlType.kPosition); 
+  
 
     slow = false;
-    turbo =false;
+    turbo = false;
 
-    init_Left = getLeftMasterEncoder();
-    init_Right = getRightMasterEncoder();
 
   }
 
-  //TODO convert this slow stuff to the sparks
-  public void drive(Double LeftSpeed, Double RightSpeed) {
+  public void drive(double LeftSpeed, double RightSpeed) {
     setArcadeDrive(arcade_chooser.getSelected());
     if (slow) {
       System.out.println("Changing Speeds to Slow Speeds");
@@ -249,62 +179,34 @@ public class DriveSystem extends Subsystem {
       LeftSpeed = LeftSpeed * .8;
     }
 
-rightMaster.set(ControlMode.PercentOutput, RightSpeed);
-rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
-rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
+    rightLead.set(RightSpeed);
+    rightFollow1.set(RightSpeed);
+    rightFollow2.set(RightSpeed);
 
-leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
-leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
-leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);    
+    leftLead.set(LeftSpeed);
+    leftFollow1.set(LeftSpeed);
+    leftFollow2.set(LeftSpeed); 
 
   }
 
   public void stopDrive() {
 
-    rightMaster.set(ControlMode.PercentOutput, 0.0);
-    rightSlave1.set(ControlMode.PercentOutput, 0.0);
-    rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    rightLead.set(0.0);
+    rightFollow1.set(0.0);
+    rightFollow2.set(0.0);
 
-    leftMaster.set(ControlMode.PercentOutput, 0.0);
-    leftSlave1.set(ControlMode.PercentOutput, 0.0);
-    leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    leftLead.set(0.0);
+    leftFollow1.set(0.0);
+    leftFollow2.set(0.0);
   }
 
-  public void driveSetSpeed(double Left_Speed, double Right_Speed) {
+  public void driveSetSpeed(double LeftSpeed, double RightSpeed) {
 
     // argument is in position change per 100ms
-    rightMaster.set(ControlMode.Velocity, Right_Speed);
-    leftMaster.set(ControlMode.Velocity, Left_Speed);
+    rightLead.set(RightSpeed);
+    leftLead.set(LeftSpeed);
 
   }
-
-  public int getLeftMasterEncoder() {
-
-    return leftMaster.getSensorCollection().getPulseWidthPosition();
-  }
-
-  public int getRightMasterEncoder() {
-
-    return rightMaster.getSensorCollection().getPulseWidthPosition();
-  }
-
-/*
-  public void setSlow(boolean slowSetting) {
-    this.slow = slowSetting;
-  }
-
-  public boolean isInSlowMode() {
-    return slow;
-  }
-
-  public void setTurbo(boolean turboSetting) {
-    this.turbo = turboSetting;
-  }
-
-  public boolean isInTurboMode() {
-    return turbo;
-  }
-*/
 
   public double getGyro(boolean backwards) {
     double angle;
@@ -325,20 +227,30 @@ leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
     NavX.reset();
   }
 
-  public double toMeters() {
-
-    double current = getRightMasterEncoder() - init_Right;
-    // Conversion Enc Value per wheel Rotation = 1.4
-    // meters per wheel rotation = 0.31415
-    return (current * 1.4) / 0.31415;
-
-  }
-
-  public void driveWinch(double speed) {
-    climbDrive.set(ControlMode.PercentOutput, -speed);
-  }
-
   public double getTilt() {
     return NavX.getPitch();
   }
+
+  public boolean isInSlowMode() {
+
+    return slow;
+  }
+
+  public void setSlow(boolean slowSetting) {
+
+    this.slow = slowSetting;
+  }
+
+  public void setTurbo(boolean turboSetting) {
+
+    this.turbo = turboSetting;
+  }
+
+  public boolean isInTurboMode() {
+
+    return turbo;
+  }
+
+
+
 }

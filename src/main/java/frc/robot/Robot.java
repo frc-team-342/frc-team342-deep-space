@@ -22,7 +22,6 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HatchGrab;
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftWithJoystick;
-import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;

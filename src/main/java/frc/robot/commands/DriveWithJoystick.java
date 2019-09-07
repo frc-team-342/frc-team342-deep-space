@@ -103,9 +103,6 @@ public class DriveWithJoystick extends Command {
       speed_y_left = oi.getJoystickDriveLeftYAxis() * -1.0;
 		  speed_y_right = oi.getJoystickDriveRightYAxis();
 
-      //will this work??? IDK???
-      myRobot.tankDrive(speed_y_left, speed_y_right); 
-
       if(Math.abs(speed_y_left) > DEADZONE || Math.abs(speed_y_right) > DEADZONE) {
         
         Bob.drive(speed_y_left, speed_y_right);

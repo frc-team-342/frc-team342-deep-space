@@ -48,12 +48,12 @@ public class RobotMap {
   /* Can addresses */
   
   // Motors
-  private static final int DRV_LEFTLEAD = 0;
-  private static final int DRV_LEFTFOLLOW_1 = 1;
-  private static final int DRV_LEFTFOLLOW_2 = 2;
-  private static final int DRV_RIGHTLEAD = 3;
-  private static final int DRV_RIGHTFOLLOW_1 = 4;
-  private static final int DRV_RIGHTFOLLOW_2 = 5;
+  public static final int DRV_LEFTLEAD = 0;
+  public static final int DRV_LEFTFOLLOW_1 = 1;
+  public static final int DRV_LEFTFOLLOW_2 = 2;
+  public static final int DRV_RIGHTLEAD = 3;
+  public static final int DRV_RIGHTFOLLOW_1 = 4;
+  public static final int DRV_RIGHTFOLLOW_2 = 5;
 
 
 /*
