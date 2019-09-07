@@ -227,8 +227,18 @@ public class DriveSystem extends Subsystem {
     NavX.reset();
   }
 
-  public double getTilt() {
+    // Gets pitch, yaw, and roll of robot using navx
+  public double getPitch() {
+    System.out.println("Pitch: " + NavX.getPitch());
     return NavX.getPitch();
+  }
+  public double getYaw() {
+    System.out.println("Yaw: " + NavX.getYaw());
+    return NavX.getYaw();
+  }
+  public double getRoll() {
+    System.out.println("Roll: " + NavX.getRoll());
+    return NavX.getRoll();
   }
 
   public boolean isInSlowMode() {
