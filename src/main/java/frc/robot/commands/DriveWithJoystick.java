@@ -19,7 +19,7 @@ public class DriveWithJoystick extends Command {
   
   private double speed_y_left;
   private double speed_y_right;
-  private static final double DEADZONE = 0.2;
+  private static final double DEADZONE = 0.5;
 	
   private OI oi;
   private DriveSystem Bob;
@@ -108,7 +108,7 @@ public class DriveWithJoystick extends Command {
         Bob.drive(speed_y_left, speed_y_right);
       }
       else {
-        Bob.drive(0.0,0.0);
+        Bob.stopDrive();
       }
   }
 

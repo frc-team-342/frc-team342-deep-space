@@ -22,13 +22,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import com.revrobotics.CANSparkMaxLowLevel;
+//import com.revrobotics.CANSparkMaxLowLevel.ConfigParameter;
 import com.revrobotics.CANSparkMax; 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType; 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 import com.revrobotics.CANPIDController; 
 import com.revrobotics.ControlType;
 import frc.robot.RobotMap;
+
+
 
 public class DriveSystem extends Subsystem {
 
@@ -91,6 +94,8 @@ public class DriveSystem extends Subsystem {
     leftPidController = leftLead.getPIDController(); 
     rightPidController = rightLead.getPIDController(); 
 
+    //leftLead.setParameter(4, 1);
+
     // PID Coefficients
     kP = 4.8e-5; 
     kI = 5.0e-7;
@@ -127,21 +132,29 @@ public class DriveSystem extends Subsystem {
   }
 
   private void inititalizeDriveSystem() {
+    leftLead.restoreFactoryDefaults();
+    leftFollow1.restoreFactoryDefaults();
+    leftFollow2.restoreFactoryDefaults();
+
+    rightLead.restoreFactoryDefaults();
+    rightFollow1.restoreFactoryDefaults();
+    rightFollow2.restoreFactoryDefaults();
+
 
     // Setting the PID loop for the master controllers
-    rightPidController.setP(kP);
+    /*rightPidController.setP(kP);
     rightPidController.setI(kI);
     rightPidController.setD(kD);
     rightPidController.setIZone(kIz);
     rightPidController.setFF(kFF);
-    rightPidController.setOutputRange(kMinOutput, kMaxOutput);
+    //rightPidController.setOutputRange(kMinOutput, kMaxOutput);
 
     leftPidController.setP(kP);
     leftPidController.setI(kI);
     leftPidController.setD(kD);
     leftPidController.setIZone(kIz);
     leftPidController.setFF(kFF);
-    leftPidController.setOutputRange(kMinOutput, kMaxOutput);
+    //leftPidController.setOutputRange(kMinOutput, kMaxOutput);*/
 
     leftLead.set(0.0);
     leftFollow1.set(0.0);
@@ -161,43 +174,57 @@ public class DriveSystem extends Subsystem {
     slow = false;
     turbo = false;
 
+    rightLead.setSmartCurrentLimit(30);
+    rightFollow1.setSmartCurrentLimit(30);
+    rightFollow2.setSmartCurrentLimit(30);
 
+    leftLead.setSmartCurrentLimit(30);
+    leftFollow1.setSmartCurrentLimit(30);
+    leftFollow2.setSmartCurrentLimit(30);
+
+    rightLead.enableVoltageCompensation(12.0);
+    rightFollow1.enableVoltageCompensation(12.0);
+    rightFollow2.enableVoltageCompensation(12.0);
+
+    leftLead.enableVoltageCompensation(12.0);
+    leftFollow1.enableVoltageCompensation(12.0);
+    leftFollow2.enableVoltageCompensation(12.0);
   }
 
   public void drive(double LeftSpeed, double RightSpeed) {
     setArcadeDrive(arcade_chooser.getSelected());
     if (slow) {
-      System.out.println("Changing Speeds to Slow Speeds");
+      //System.out.println("Changing Speeds to Slow Speeds");
       LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;
       RightSpeed = RightSpeed / SLOW_DOWN_SCALAR;
     }else if(turbo){
-      System.out.println("Changing Speeds to turbo Speeds");
+      //System.out.println("Changing Speeds to turbo Speeds");
       LeftSpeed = LeftSpeed *1;
       RightSpeed = RightSpeed *1;
     }else {
       RightSpeed = RightSpeed * .8;
       LeftSpeed = LeftSpeed * .8;
     }
-
-    rightLead.set(RightSpeed);
-    rightFollow1.set(RightSpeed);
-    rightFollow2.set(RightSpeed);
+    System.out.println("Right Speeds: " + RightSpeed + "\nLeft Speeds: " + LeftSpeed);
+    rightLead.set(0.3);
+    //rightFollow1.set(RightSpeed);
+    //rightFollow2.set(RightSpeed);
 
     leftLead.set(LeftSpeed);
-    leftFollow1.set(LeftSpeed);
-    leftFollow2.set(LeftSpeed); 
+    //leftFollow1.set(LeftSpeed);
+    //leftFollow2.set(LeftSpeed); 
 
   }
 
   public void stopDrive() {
 
     rightLead.set(0.0);
-    rightFollow1.set(0.0);
-    rightFollow2.set(0.0);
+    //rightFollow1.set(0.0);
+    //rightFollow2.set(0.0);
 
     leftLead.set(0.0);
-    leftFollow1.set(0.0);
-    leftFollow2.set(0.0);
+    //leftFollow1.set(0.0);
+    //leftFollow2.set(0.0);
   }
 
   public void driveSetSpeed(double LeftSpeed, double RightSpeed) {
@@ -229,15 +256,15 @@ public class DriveSystem extends Subsystem {
 
     // Gets pitch, yaw, and roll of robot using navx
   public double getPitch() {
-    System.out.println("Pitch: " + NavX.getPitch());
+    //System.out.println("Pitch: " + NavX.getPitch());
     return NavX.getPitch();
   }
   public double getYaw() {
-    System.out.println("Yaw: " + NavX.getYaw());
+    //System.out.println("Yaw: " + NavX.getYaw());
     return NavX.getYaw();
   }
   public double getRoll() {
-    System.out.println("Roll: " + NavX.getRoll());
+   // System.out.println("Roll: " + NavX.getRoll());
     return NavX.getRoll();
   }
 

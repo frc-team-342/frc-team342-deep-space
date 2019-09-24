@@ -176,7 +176,6 @@ public class Robot extends TimedRobot {
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
-    System.out.println("You mad bro?: ");
     /*m_autonomousCommand = m_chooser.getSelected();
 
    
@@ -227,7 +226,6 @@ public class Robot extends TimedRobot {
     wristNow.start();
     fistIntake.start();
     wenchControl.start();
-    System.out.println("You mad bro?: ");
     
 
     //HatchGrab.start();
