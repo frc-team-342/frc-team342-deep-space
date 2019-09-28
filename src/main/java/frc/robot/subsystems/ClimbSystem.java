@@ -13,9 +13,9 @@ import frc.robot.OI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ClimbSystem extends Subsystem {
 
@@ -23,6 +23,7 @@ public class ClimbSystem extends Subsystem {
   private static final ClimbSystem INSTANCE = new ClimbSystem();
 
   private TalonSRX wench;
+  private DigitalInput limitSwitch3;
 
   private static final int AMPS = 20;
   private static final int TIMEOUT_MS = 1;
@@ -30,11 +31,11 @@ public class ClimbSystem extends Subsystem {
   private static final double RAMP_TIME = 0.2;
 
   private OI oi;
-
   private DriveSystem drive;
 
   public ClimbSystem() {
     wench = new TalonSRX(RobotMap.CLIMB);
+    limitSwitch3 = new DigitalInput(RobotMap.CLIMB_LIMIT_SWITCH);
     initializeClimbSystem();
     oi = OI.getInstance();
     drive = DriveSystem.getInstance();
@@ -86,6 +87,13 @@ public class ClimbSystem extends Subsystem {
     double pitch = drive.getTilt();
     System.out.println("pitch"+pitch);
     //wench.set(ControlMode.PercentOutput, WenchSpeed);
+    
+    
+    if(limitSwitch3.get()){
+      wench.set(ControlMode.PercentOutput, WenchSpeed);
+    }
+    
+    /*
     if (pitch > 10.0) {
       wench.set(ControlMode.PercentOutput, WenchSpeed);
     } else if (pitch > -5) {
@@ -93,6 +101,7 @@ public class ClimbSystem extends Subsystem {
     } else {
       wench.set(ControlMode.PercentOutput, 0.0);
     }
+    */
 
   }
 

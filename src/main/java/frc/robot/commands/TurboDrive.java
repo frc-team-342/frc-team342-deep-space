@@ -5,23 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ClimbCommands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.ClimbSystem;
+import frc.robot.subsystems.DriveSystem;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class LowerWithPnuematics extends Command {
-
-    private ClimbSystem climb;
-
-  public LowerWithPnuematics() {
-
-    climb = ClimbSystem.getInstance();
+public class TurboDrive extends Command { 
   
+
+ 
+    private DriveSystem Bob;
+  
+      public TurboDrive() {
+     
+      
+        Bob = DriveSystem.getInstance();
+
   }
 
   // Called just before this Command runs the first time
@@ -32,19 +35,26 @@ public class LowerWithPnuematics extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      climb.hookIn();
+      if(Bob.isInTurboMode()) {
+        System.out.println("Setting Slow to " + Bob.isInTurboMode());
+        Bob.setTurbo(false);  
+
+      }else {
+        Bob.setTurbo(true);
+        System.out.println("Setting Slow to "+ Bob.isInTurboMode());
+      }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+      System.out.println("Is Finished");
     return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-      climb.hookIn();
   }
 
   // Called when another command which requires one or more of the same

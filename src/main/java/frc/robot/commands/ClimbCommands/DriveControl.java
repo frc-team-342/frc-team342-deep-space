@@ -44,7 +44,6 @@ public class DriveControl extends Command {
   protected void execute() {
 
     drive.driveWinch(0.5);
-    drive.drive(0.5, -0.5);
     
   }
 
@@ -57,7 +56,6 @@ public class DriveControl extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    drive.stopDrive();
     drive.driveWinch(0.0);
   }
 
@@ -65,6 +63,7 @@ public class DriveControl extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 
 }

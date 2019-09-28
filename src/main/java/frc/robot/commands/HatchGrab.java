@@ -61,18 +61,23 @@ public class HatchGrab extends Command {
     // System.out.println("\t\t x: " + accelerometer[0] + "\t y: " +
     // accelerometer[1] + "\t z: " + accelerometer[2]);
     current_time = System.currentTimeMillis() - start_time;
-    //System.out.println("Time is: "+current_time);
+
 
     // System.out.println("Limit Switch Test");
     if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR) && !Cylinder.isOpening()) {
       Cylinder.pneumaticOut();
+      
+      //TEST THIS BEFORE UNCOMMENTING TO CHECK HATCHMODE
+      //lift.setHatchMode(true);
+
+      
       if(trigger_time + duration_ms > current_time){
         oi.DriveRumble(1.0);
-        System.out.println("Tarantula");
+        
       }
       else{
         oi.DriveRumble(0.0);
-        System.out.println("cow");
+        
       }
     }
     else{

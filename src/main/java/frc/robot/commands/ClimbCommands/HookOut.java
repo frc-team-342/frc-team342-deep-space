@@ -10,17 +10,21 @@ package frc.robot.commands.ClimbCommands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.ClimbSystem;
+import frc.robot.subsystems.LiftSystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class RiseWithPnuematics extends Command {
+public class HookOut extends Command {
 
     private ClimbSystem climb;
+    private LiftSystem lift;
 
-  public RiseWithPnuematics() {
+  public HookOut() {
 
     climb = ClimbSystem.getInstance();
+    lift = LiftSystem.getInstance();
   
   
   }
@@ -33,7 +37,9 @@ public class RiseWithPnuematics extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      climb.hookOut();
+  
+    //nothing should be here
+     
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -45,7 +51,10 @@ public class RiseWithPnuematics extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    
+    if (!lift.getBottomLimitSwitch()||lift.getOverride()){
       climb.hookOut();
+    }
 
   }
 
@@ -53,5 +62,6 @@ public class RiseWithPnuematics extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

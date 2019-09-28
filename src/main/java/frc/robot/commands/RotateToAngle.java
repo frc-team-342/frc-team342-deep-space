@@ -1,21 +1,24 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.DriveSystem;
 
 public class RotateToAngle extends Command {
 	
 	private DriveSystem drive;
-	
+
 	private double angle;
 	private double gyro_angle;
 	
 	private boolean TurnRight;
 	
 	private static final double RotateSpeed = 1.0;
-	private static final double RotateSlowSpeed=0.4;
-	private static final double margin = 10;
-	private static final double slowmargin=120;
+	private static final double RotateSlowSpeed=0.5;
+	private static final double margin = 5;
+	private static final double slowmargin=45;
+	private static final double SPEED = 0.7;
 	
 	/**
 	 * @param angle
@@ -33,17 +36,9 @@ public class RotateToAngle extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		
-		drive.resetGyro();
+		//drive.resetGyro();
 		
-		gyro_angle = drive.getGyro(false);
-
-		if (Math.abs(angle) > 180) {
-
-			TurnRight = false;
-		} else {
-			TurnRight = true;
-
-		}
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -51,8 +46,22 @@ public class RotateToAngle extends Command {
 		
 		double CurrentDriveSpeed;
 		boolean slowdown = (gyro_angle) <= (angle) + slowmargin && (gyro_angle) >= (angle) - slowmargin;
-		
+	
 		gyro_angle = drive.getGyro(false);
+
+		double diff = angle - gyro_angle;
+		if(diff<0){
+			diff = diff + 360;
+		}
+
+		if (diff > 180) {
+
+			TurnRight = false;
+		} else {
+			TurnRight = true;
+
+		}
+		System.out.println("Gyro Angle: "+gyro_angle);
 		
 		if (slowdown) {
 			CurrentDriveSpeed=RotateSlowSpeed;
@@ -61,10 +70,11 @@ public class RotateToAngle extends Command {
 		}
 	
 		if (TurnRight) {
-			drive.drive(CurrentDriveSpeed, CurrentDriveSpeed * -1.0);
+			drive.drive(CurrentDriveSpeed * SPEED, CurrentDriveSpeed * SPEED);
 		} else {
-			drive.drive(CurrentDriveSpeed * -1.0, CurrentDriveSpeed);
+			drive.drive(-CurrentDriveSpeed * SPEED, -CurrentDriveSpeed * SPEED);
 		}
+		
 	}
 		
 

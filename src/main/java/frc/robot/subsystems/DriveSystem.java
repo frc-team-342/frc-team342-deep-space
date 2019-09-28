@@ -56,6 +56,7 @@ public class DriveSystem extends Subsystem {
   // Stuff For Slow Button
   private static final double SLOW_DOWN_SCALAR = 2.0;
   private boolean slow;
+  private boolean turbo;
 
   // Encoder Positions
   public static int init_Left;
@@ -68,6 +69,7 @@ public class DriveSystem extends Subsystem {
   public DriveSystem() {
 
     NavX = new AHRS(SPI.Port.kMXP);
+    System.out.println("Constructer NavX: " +NavX.getAngle());
     // Instantiate Motor Controllers
     leftMaster = new TalonSRX(RobotMap.DRV_LEFT_MASTER);
     rightMaster = new TalonSRX(RobotMap.DRV_RIGHT_MASTER);
@@ -200,20 +202,21 @@ public class DriveSystem extends Subsystem {
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.set(ControlMode.PercentOutput, 0.0);
     leftSlave1.follow(leftMaster);
-    // leftSlave2.set(ControlMode.PercentOutput, 0.0);
-    // leftSlave2.follow(leftMaster);
+    leftSlave2.set(ControlMode.PercentOutput, 0.0);
+    leftSlave2.follow(leftMaster);
     // leftSlave3.set(ControlMode.PercentOutput, 0.0);
     /// leftSlave3.follow(leftMaster);
 
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.set(ControlMode.PercentOutput, 0.0);
     rightSlave1.follow(rightMaster);
-    // rightSlave2.set(ControlMode.PercentOutput, 0.0);
-    // rightSlave2.follow(leftMaster);
+    rightSlave2.set(ControlMode.PercentOutput, 0.0);
+    rightSlave2.follow(leftMaster);
     // rightSlave3.set(ControlMode.PercentOutput, 0.0);
     // rightSlave3.follow(leftMaster);
 
     slow = false;
+    turbo =false;
 
     init_Left = getLeftMasterEncoder();
     init_Right = getRightMasterEncoder();
@@ -226,20 +229,30 @@ public class DriveSystem extends Subsystem {
       System.out.println("Changing Speeds to Slow Speeds");
       LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;
       RightSpeed = RightSpeed / SLOW_DOWN_SCALAR;
+    }else if(turbo){
+      System.out.println("Changing Speeds to turbo Speeds");
+      LeftSpeed = LeftSpeed *1;
+      RightSpeed = RightSpeed *1;
+    }else {
+      RightSpeed = RightSpeed * .8;
+      LeftSpeed = LeftSpeed * .8;
     }
+// System.out.println(RightSpeed);
 
-    // System.out.println(RightSpeed);
-    RightSpeed = RightSpeed * 1;
-    rightMaster.set(ControlMode.PercentOutput, RightSpeed);
-    rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
-    rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
-    // rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
+    
+rightMaster.set(ControlMode.PercentOutput, RightSpeed);
+rightSlave1.set(ControlMode.PercentOutput, RightSpeed);
+rightSlave2.set(ControlMode.PercentOutput, RightSpeed);
+// rightSlave3.set(ControlMode.PercentOutput, RightSpeed);
 
-    LeftSpeed = LeftSpeed * 1;
-    leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
-    // leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
-    // leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
-    // leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
+
+leftMaster.set(ControlMode.PercentOutput, LeftSpeed);
+leftSlave1.set(ControlMode.PercentOutput, LeftSpeed);
+leftSlave2.set(ControlMode.PercentOutput, LeftSpeed);
+// leftSlave3.set(ControlMode.PercentOutput, LeftSpeed);
+    
+
+    
 
   }
 
@@ -284,14 +297,33 @@ public class DriveSystem extends Subsystem {
     return slow;
   }
 
+  public void setTurbo(boolean turboSetting) {
+
+    this.turbo = turboSetting;
+  }
+
+  public boolean isInTurboMode() {
+
+    return turbo;
+  }
+
   public double getGyro(boolean backwards) {
     double angle;
+
+      /*
+     System.out.println("angle "+ NavX.getAngle());
+     System.out.println("pitch "+ NavX.getPitch());
+     System.out.println("roll "+ NavX.getRoll());
+     System.out.println("Yaw "+ NavX.getYaw());
+     System.out.println("Rotating" + NavX.isRotating());
+    */
 
     if (backwards) {
       angle = (((((NavX.getAngle() + 180)) % 360) + 360) % 360);
     } else {
       angle = ((((NavX.getAngle()) % 360) + 360) % 360);
     }
+   // System.out.println("angle "+ angle);
     return angle;
   }
 
@@ -313,7 +345,7 @@ public class DriveSystem extends Subsystem {
   }
 
   public void driveWinch(double speed) {
-    climbDrive.set(ControlMode.PercentOutput, speed);
+    climbDrive.set(ControlMode.PercentOutput, -speed);
   }
 
   public double getTilt() {

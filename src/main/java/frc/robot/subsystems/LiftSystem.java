@@ -181,6 +181,10 @@ public class LiftSystem extends Subsystem {
     }
   }
 
+  public boolean getBottomLimitSwitch (){
+    return  limitSwitch1.get();
+  }
+
  
 //TODO Change For Override
   public void wristDown(double speed){
@@ -291,5 +295,9 @@ public class LiftSystem extends Subsystem {
 
   public void setOverride(boolean choice){
     this.Override = choice;
+  }
+
+  public boolean getOverride(){
+    return Override;
   }
 }
