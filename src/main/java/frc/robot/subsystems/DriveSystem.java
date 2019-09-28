@@ -206,7 +206,7 @@ public class DriveSystem extends Subsystem {
       LeftSpeed = LeftSpeed * .8;
     }
     System.out.println("Right Speeds: " + RightSpeed + "\nLeft Speeds: " + LeftSpeed);
-    rightLead.set(0.3);
+    rightLead.set(RightSpeed);
     //rightFollow1.set(RightSpeed);
     //rightFollow2.set(RightSpeed);
 

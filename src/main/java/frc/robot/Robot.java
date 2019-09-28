@@ -30,7 +30,6 @@ import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import frc.robot.commands.FistIntake;
-import frc.robot.commands.ClimbCommands.WenchControl;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -56,7 +55,7 @@ public class Robot extends TimedRobot {
   private LiftSystem lift;
   private DriveSystem drive;
   private Command fistIntake;
-  private Command wenchControl;
+  //private Command wenchControl;
   AHRS NavX;
 
   
@@ -101,7 +100,6 @@ public class Robot extends TimedRobot {
     HatchGrab = new HatchGrab();
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
-    wenchControl = new WenchControl();
     lift.SetTrueZero();
 
     //NavX = new AHRS(SPI.Port.kMXP);
@@ -218,14 +216,14 @@ public class Robot extends TimedRobot {
      * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
      */
     lift.resetHoldPosition();
-    wenchControl.start();
+    //wenchControl.start();
     System.out.println("Starting Commands: ");
     driveNow.start();
     liftNow.start();
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
-    wenchControl.start();
+    //wenchControl.start();
     
 
     //HatchGrab.start();

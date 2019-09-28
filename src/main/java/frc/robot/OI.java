@@ -17,9 +17,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
 import frc.robot.commands.XboxRumble;
-import frc.robot.commands.ClimbCommands.DriveControl;
-import frc.robot.commands.ClimbCommands.HookIn;
-import frc.robot.commands.ClimbCommands.HookOut;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
@@ -94,14 +91,11 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
    private Command liftToTop = new LiftToTop();
    private Command liftToMiddle = new LiftToMiddle();
    private Command liftToLow = new LiftToBottom();
-   private Command driveControl = new DriveControl();
    private Command engageOveride = new EngageOveride();
 
  
     private Command HatchRelease = new HatchRelease();
-    private Command hookOut = new HookOut();
-    private Command hookIn = new HookIn();
- 
+
 
 
     private Command wristToPositionCargo = new WristToPosition(WristPosition.Cargo);
@@ -199,9 +193,6 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
       //  xbox_drive_B.whileHeld(RotateToAngle90);
       //  xbox_drive_X.whileHeld(RotateToAngle270);
       //  xbox_drive_Y.whileHeld(RotateToAngle0);
-
-      xbox_drive_startbutton.whileHeld(driveControl);
-      xbox_drive_backbutton.whenPressed(hookOut);
 
 
 
