@@ -22,7 +22,6 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HatchGrab;
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftWithJoystick;
-import frc.robot.commands.Autonomous.DriveOffPlatform;
 import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
@@ -31,7 +30,6 @@ import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import frc.robot.commands.FistIntake;
-import frc.robot.commands.ClimbCommands.WenchControl;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -57,7 +55,7 @@ public class Robot extends TimedRobot {
   private LiftSystem lift;
   private DriveSystem drive;
   private Command fistIntake;
-  private Command wenchControl;
+  //private Command wenchControl;
   AHRS NavX;
 
   
@@ -102,7 +100,6 @@ public class Robot extends TimedRobot {
     HatchGrab = new HatchGrab();
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
-    wenchControl = new WenchControl();
     lift.SetTrueZero();
 
     //NavX = new AHRS(SPI.Port.kMXP);
@@ -177,7 +174,6 @@ public class Robot extends TimedRobot {
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
-    System.out.println("You mad bro?: ");
     /*m_autonomousCommand = m_chooser.getSelected();
 
    
@@ -220,15 +216,14 @@ public class Robot extends TimedRobot {
      * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
      */
     lift.resetHoldPosition();
-    wenchControl.start();
+    //wenchControl.start();
     System.out.println("Starting Commands: ");
     driveNow.start();
     liftNow.start();
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
-    wenchControl.start();
-    System.out.println("You mad bro?: ");
+    //wenchControl.start();
     
 
     //HatchGrab.start();
