@@ -53,6 +53,7 @@ public class LiftSystem extends Subsystem {
   
   DigitalInput limitSwitch1;
   DigitalInput limitSwitch2;
+  DigitalInput limitSwitchStop; 
 
   private static final int TIMEOUT_MS = 1;
 
@@ -66,6 +67,7 @@ public class LiftSystem extends Subsystem {
     initializeLiftSystem();
     limitSwitch1 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_UP);
     limitSwitch2 =  new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_DOWN);
+    limitSwitchStop = new DigitalInput(RobotMap.LIFT_STOP); 
     
 
   }
@@ -258,10 +260,14 @@ public class LiftSystem extends Subsystem {
     //System.out.println("lim1"+limitSwitch1.get()+"lim2"+limitSwitch2.get());
     if(limitSwitch1.get() && limitSwitch2.get()){
       liftMaster.set(ControlMode.Position, holdPosition);
-    }
-    else{
-    liftMaster.set(ControlMode.PercentOutput, 0.0);
-      }
+
+    } else if (limitSwitchStop.get()) {
+       liftMaster.set(ControlMode.PercentOutput, 0.0); 
+       
+    } else {
+      liftMaster.set(ControlMode.PercentOutput, 0.0);
+    } 
+   
     
   }
 
@@ -300,4 +306,7 @@ public class LiftSystem extends Subsystem {
   public boolean getOverride(){
     return Override;
   }
+
+
+
 }
