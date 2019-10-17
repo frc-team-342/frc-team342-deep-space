@@ -195,15 +195,15 @@ public class DriveSystem extends Subsystem {
     setArcadeDrive(arcade_chooser.getSelected());
     if (slow) {
       //System.out.println("Changing Speeds to Slow Speeds");
-      LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;
-      RightSpeed = RightSpeed / SLOW_DOWN_SCALAR;
+      LeftSpeed = (LeftSpeed * .3) / SLOW_DOWN_SCALAR;
+      RightSpeed = (RightSpeed * .3) / SLOW_DOWN_SCALAR;
     }else if(turbo){
       //System.out.println("Changing Speeds to turbo Speeds");
-      LeftSpeed = LeftSpeed *1;
-      RightSpeed = RightSpeed *1;
+      LeftSpeed = LeftSpeed *.8;
+      RightSpeed = RightSpeed *.8;
     }else {
-      RightSpeed = RightSpeed * .8;
-      LeftSpeed = LeftSpeed * .8;
+      RightSpeed = RightSpeed * .3;
+      LeftSpeed = LeftSpeed * .3;
     }
     System.out.println("Right Speeds: " + RightSpeed + "\nLeft Speeds: " + LeftSpeed);
     rightLead.set(RightSpeed);

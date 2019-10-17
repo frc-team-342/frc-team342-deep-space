@@ -51,8 +51,8 @@ public class HatchGrab extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("Checking: " +
-    // canifierLimits.getGeneralInput(GeneralPin.LIMF));
+    //System.out.println("Checking1: " + canifierLimits.getGeneralInput(GeneralPin.LIMF));
+   // System.out.println("Checking2: " + canifierLimits.getGeneralInput(GeneralPin.LIMR));
     // System.out.println("pigeon testing:");
     // System.out.println("\t compasheading :" + pigeon.getCompassHeading());
     // System.out.println("\t accelorometer data :");
