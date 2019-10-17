@@ -40,8 +40,7 @@ public class PneumaticsWithCANifier extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("Checking: " +
-    // canifierLimits.getGeneralInput(GeneralPin.LIMF));
+  
     // System.out.println("pigeon testing:");
     // System.out.println("\t compasheading :" + pigeon.getCompassHeading());
     // System.out.println("\t accelorometer data :");
@@ -51,6 +50,7 @@ public class PneumaticsWithCANifier extends Command {
     // accelerometer[1] + "\t z: " + accelerometer[2]);
 
     // System.out.println("Limit Switch Test");
+    
     if (!canifierLimits.getGeneralInput(GeneralPin.LIMF) && !canifierLimits.getGeneralInput(GeneralPin.LIMR)) {
       Cylinder.pneumaticOut();
       // System.out.println("One of the two limit switches are being pressed");
