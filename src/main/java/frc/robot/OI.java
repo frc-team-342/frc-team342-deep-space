@@ -207,10 +207,10 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
       
        
 
-       logitech_manipulator_A.whileHeld(liftToLow);
-       logitech_manipulator_B.whileHeld(liftToMiddle);
-       logitech_manipulator_Y.whileHeld(liftToTop);
-       logitech_manipulator_X.whileHeld(liftToHeightPIDLowHatch);
+       //logitech_manipulator_A.whileHeld(liftToLow);
+       //logitech_manipulator_B.whileHeld(liftToMiddle);
+       //logitech_manipulator_Y.whileHeld(liftToTop);
+       //logitech_manipulator_X.whileHeld(liftToHeightPIDLowHatch);
 
         logitech_manipulator_leftBumper.whenPressed(toggleSlowDrive);
         logitech_manipulator_rightBumper.whileHeld(HatchRelease);
