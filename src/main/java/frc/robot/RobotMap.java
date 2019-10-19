@@ -92,4 +92,19 @@ public class RobotMap {
   public static final int LIFT_STOP = 2;
   public static final int CLIMB_LIMIT_SWITCH = 2;
 
+  // CLIMB
+  public static final int pneuCanID = 17;
+  public static final int stopPneuIn = 2;
+  public static final int stopPneuOut = 3;
+
+  public static final int xbox_x = 2;
+  public static final int xbox_y = 4;
+  public static final int xbox_b = 2;
+  public static final int xbox_a = 1;
+
+  public static final int ski_right = 14;
+  public static final int ski_left = 15;
+  public static final int back = 13;
+  public static final int wheel = 12;
+
 }
