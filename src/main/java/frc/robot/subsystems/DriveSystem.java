@@ -80,7 +80,7 @@ public class DriveSystem extends Subsystem {
     rightSlave1 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_1);
     rightSlave2 = new TalonSRX(RobotMap.DRV_RIGHT_FOLLOW_2);
 
-    climbDrive = new VictorSPX(RobotMap.CLIMBDRIVE);
+    climbDrive = new VictorSPX(RobotMap.CLIMB_REAR);
 
     inititalizeDriveSystem();
 

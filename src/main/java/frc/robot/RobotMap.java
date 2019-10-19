@@ -59,13 +59,14 @@ public class RobotMap {
   public static final int LFT_FOLLOW_1 = 8;
   public static final int LFT_WRIST = 9;
 
-  public static final int INTAKE_T = 10;
-  public static final int INTAKE_B = 11;
+  public static final int TOP_ROLLER = 10;
+  public static final int BOTTOM_ROLLER = 11;
 
-  public static final int CLIMB = 12;
+  public static final int REAR_DRIVE = 12;
+  public static final int CLIMB_REAR = 13;
 
-
-  public static final int CLIMBDRIVE = 13;
+  public static final int SKI_RIGHT = 14;
+  public static final int SKI_LEFT = 15; 
 
   // Support
 
@@ -87,6 +88,8 @@ public class RobotMap {
   // LIMIT SWITCHES
   public static final int ELEVATOR_LIMIT_SWITCH_UP = 1;
   public static final int ELEVATOR_LIMIT_SWITCH_DOWN = 0;
+  //figure out the actual value later
+  public static final int LIFT_STOP = 2;
   public static final int CLIMB_LIMIT_SWITCH = 2;
 
 }
