@@ -108,7 +108,7 @@ public class DriveWithJoystick extends Command {
         Bob.drive(speed_y_left, speed_y_right);
       }
       else {
-        Bob.drive(0.0,0.0);
+        Bob.stopDrive();
       }
   }
 
