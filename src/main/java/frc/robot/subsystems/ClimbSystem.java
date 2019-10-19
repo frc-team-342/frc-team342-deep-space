@@ -34,7 +34,7 @@ public class ClimbSystem extends Subsystem {
   private DriveSystem drive;
 
   public ClimbSystem() {
-    wench = new TalonSRX(RobotMap.CLIMB);
+    wench = new TalonSRX(RobotMap.REAR_DRIVE);
     limitSwitch3 = new DigitalInput(RobotMap.CLIMB_LIMIT_SWITCH);
     initializeClimbSystem();
     oi = OI.getInstance();
