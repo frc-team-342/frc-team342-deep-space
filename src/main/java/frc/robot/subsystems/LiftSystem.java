@@ -103,19 +103,19 @@ public class LiftSystem extends Subsystem {
     liftWrist.enableCurrentLimit(true);
 
       // Setting the PID loop for the master controllers
-		liftMaster.config_kP(0,1, TIMEOUT_MS);
-		liftMaster.config_kI(0,0.002, TIMEOUT_MS);
-		liftMaster.config_kD(0,0.1, TIMEOUT_MS);
-    liftMaster.config_kF(0,0.06, TIMEOUT_MS);
-    liftMaster.configAllowableClosedloopError(1, 1, 10);
-    liftMaster.configAllowableClosedloopError(0, 1, 10);
+		liftMaster.config_kP(0, 0.1, TIMEOUT_MS);
+		liftMaster.config_kI(0, 0.001, TIMEOUT_MS);
+		liftMaster.config_kD(0, 0.1, TIMEOUT_MS);
+    liftMaster.config_kF(0, 0.06, TIMEOUT_MS);
+    liftMaster.configAllowableClosedloopError(1, 1, 2);
+    liftMaster.configAllowableClosedloopError(0, 1, 2);
     liftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    liftFollow.configAllowableClosedloopError(1, 1, 10);
-    liftFollow.configAllowableClosedloopError(0, 1, 10);
-    liftFollow.config_kP(0,1, TIMEOUT_MS);
-		liftFollow.config_kI(0,0.002, TIMEOUT_MS);
-		liftFollow.config_kD(0,0.1, TIMEOUT_MS);
-		liftFollow.config_kF(0,0.06, TIMEOUT_MS);
+    liftFollow.configAllowableClosedloopError(1, 1, 2);
+    liftFollow.configAllowableClosedloopError(0, 1, 2);
+    liftFollow.config_kP(0, 0.1, TIMEOUT_MS);
+		liftFollow.config_kI(0, 0.001, TIMEOUT_MS);
+		liftFollow.config_kD(0, 0.1, TIMEOUT_MS);
+		liftFollow.config_kF(0, 0.06, TIMEOUT_MS);
 
     
   }
