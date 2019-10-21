@@ -22,7 +22,7 @@ public class LiftRobot extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    climbRobot.setTargetFrontHeight();
+    //climbRobot.setTargetFrontHeight();
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -44,7 +44,7 @@ public class ClimbSystem extends Subsystem {
 
   private ClimbSystem(){
     // NavX Instantiation and Angle Print
-    NavX = new AHRS(SPI.Port.kMXP);
+    NavX = DriveSystem.getInstance().getNavX();
     System.out.println("Constructer NavX: " + NavX.getAngle());
 
     // Talon Instantiation
@@ -79,17 +79,21 @@ public class ClimbSystem extends Subsystem {
     frontRight.setInverted(false);
     frontRight.setSensorPhase(true);
     frontRight.selectProfileSlot(0, 0);
+
+    setTargetFrontHeight();
   }
 
   public void setTargetFrontHeight(){
     
-    double leftEncoder = frontLeft.getSensorCollection().getQuadraturePosition();
-    double rightEncoder = frontRight.getSensorCollection().getQuadraturePosition();
+    double leftEncoder = frontLeft.getSensorCollection().getPulseWidthPosition();
+    double rightEncoder = frontRight.getSensorCollection().getPulseWidthPosition();
 
     targetLeftFrontHeight = leftEncoder;
     targetRightFrontHeight = rightEncoder;
 
     System.out.println("Resetting");
+    System.out.println("Left Target: " + targetLeftFrontHeight);
+    System.out.println("Right Target: " + targetRightFrontHeight);
   }
 
   public void setPositionZero(){
@@ -97,43 +101,43 @@ public class ClimbSystem extends Subsystem {
     //frontRight.set(ControlMode.Position, 0);
 
     System.out.println(frontLeft.getSelectedSensorPosition());
-    //System.out.println(frontRight.getSensorCollection().getQuadraturePosition());
+    //System.out.println(frontRight.getSensorCollection().getPulseWidthPosition());
   }
-
+  // 0 = between 2 and 0
   public void liftFrontMotors(){
     double temp = NavX.getRoll();
-    double temp2 = frontLeft.getSensorCollection().getQuadraturePosition();
-    double temp3 = frontRight.getSensorCollection().getQuadraturePosition();
+    double temp2 = frontLeft.getSensorCollection().getPulseWidthPosition();
+    double temp3 = frontRight.getSensorCollection().getPulseWidthPosition();
 
     System.out.println("Target Left Front Height: " +targetLeftFrontHeight);
     System.out.println("Left Encoder: "+temp2);
     System.out.println("Right Encoder: "+temp3);
 
     // If the pitch is greater than 5 degrees, move the talons down 10 ticks
-    if(NavX.getRoll() > 5){
+    if(NavX.getRoll() < -1){
       
       targetLeftFrontHeight -= 10;
       targetRightFrontHeight -= 10;
      
-      frontLeft.set(ControlMode.Position, targetLeftFrontHeight);
-      frontRight.set(ControlMode.Position, targetRightFrontHeight); 
+      frontLeft.set(ControlMode.Position, -targetLeftFrontHeight / 2.0);
+      frontRight.set(ControlMode.Position, -targetRightFrontHeight / 2.0); 
       
       System.out.println("Dropping: "+temp);
     }
     // If the pitch is less than -5 degrees, move the talons up 10 ticks
-    else if(NavX.getRoll() < -5){
+    else if(NavX.getRoll() > 3){
       
       targetLeftFrontHeight += 10;
       targetRightFrontHeight += 10;
 
-      frontLeft.set(ControlMode.Position, targetLeftFrontHeight);
-      frontRight.set(ControlMode.Position, targetRightFrontHeight);
+      frontLeft.set(ControlMode.Position,  -targetLeftFrontHeight / 2.0);
+      frontRight.set(ControlMode.Position, -targetRightFrontHeight / 2.0);
 
       System.out.println("Lifting: " +temp);
     }
     else{
-      //frontLeft.set(ControlMode.Position, targetLeftFrontHeight);
-      //frontRight.set(ControlMode.Position, targetRightFrontHeight);
+      frontLeft.set(ControlMode.Position, -targetLeftFrontHeight / 2.0);
+      frontRight.set(ControlMode.Position, -targetRightFrontHeight / 2.0);
       System.out.println("At Target: " +temp);
     }
    
@@ -146,7 +150,7 @@ public class ClimbSystem extends Subsystem {
  
   public void climbStop(){
 
-    frontLeft.set(ControlMode.Position, frontLeft.getSensorCollection().getQuadraturePosition());
+    frontLeft.set(ControlMode.Position, frontLeft.getSensorCollection().getPulseWidthPosition());
 
   }
   public void spinBackMotor(){

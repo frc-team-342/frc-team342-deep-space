@@ -97,7 +97,7 @@ public class RobotMap {
   public static final int stopPneuIn = 2;
   public static final int stopPneuOut = 3;
 
-  public static final int xbox_x = 2;
+  public static final int xbox_x = 3;
   public static final int xbox_y = 4;
   public static final int xbox_b = 2;
   public static final int xbox_a = 1;
