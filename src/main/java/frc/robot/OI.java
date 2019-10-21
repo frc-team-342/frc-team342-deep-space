@@ -44,7 +44,7 @@ import frc.robot.commands.Launch;
 import frc.robot.commands.EngageOveride;
 
 
-import frc.robot.commands.TurboDrive;;
+import frc.robot.commands.TurboDrive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -86,11 +86,11 @@ public class OI {
     private Command xboxRumble = new XboxRumble();
 
 
-   
-private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.HatchLowRocket);
-   private Command liftToTop = new LiftToTop();
-   private Command liftToMiddle = new LiftToMiddle();
-   private Command liftToLow = new LiftToBottom();
+   // Disabled lift to height buttons for SCRIW because of possibility of robot tipping
+   // private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.HatchLowRocket);
+   // private Command liftToTop = new LiftToTop();
+   // private Command liftToMiddle = new LiftToMiddle();
+   // private Command liftToLow = new LiftToBottom();
    private Command engageOveride = new EngageOveride();
 
  
