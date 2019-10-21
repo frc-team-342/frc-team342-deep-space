@@ -76,6 +76,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
     blockPneu = BlockPneumatics.getInstance();
     m_oi = OI.getInstance();
    // cameravisionsystem = CameraVisionSystem.getInstance();
@@ -102,7 +103,7 @@ public class Robot extends TimedRobot {
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
     lift.SetTrueZero();
-
+    NavX = drive.getNavX();
     //NavX = new AHRS(SPI.Port.kMXP);
     //NavX.reset();
   
@@ -151,6 +152,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    SmartDashboard.putNumber("Roll: ", NavX.getRoll());
     Scheduler.getInstance().run();
   }
 
@@ -241,6 +243,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putNumber("Roll: ", NavX.getRoll());
     Scheduler.getInstance().run();
   }
 
