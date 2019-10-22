@@ -116,8 +116,8 @@ public class ClimbSystem extends Subsystem {
     // If the pitch is greater than 5 degrees, move the talons down 10 ticks
     if(NavX.getRoll() < -1){
       
-      targetLeftFrontHeight -= 10;
-      targetRightFrontHeight -= 10;
+      targetLeftFrontHeight -= 15;
+      targetRightFrontHeight -= 15;
      
       frontLeft.set(ControlMode.Position, -targetLeftFrontHeight / 2.0);
       frontRight.set(ControlMode.Position, -targetRightFrontHeight / 2.0); 
@@ -127,8 +127,8 @@ public class ClimbSystem extends Subsystem {
     // If the pitch is less than -5 degrees, move the talons up 10 ticks
     else if(NavX.getRoll() > 3){
       
-      targetLeftFrontHeight += 10;
-      targetRightFrontHeight += 10;
+      targetLeftFrontHeight += 15;
+      targetRightFrontHeight += 15;
 
       frontLeft.set(ControlMode.Position,  -targetLeftFrontHeight / 2.0);
       frontRight.set(ControlMode.Position, -targetRightFrontHeight / 2.0);
@@ -145,7 +145,7 @@ public class ClimbSystem extends Subsystem {
     
   }
   public void liftBackMotor(){
-    back.set(ControlMode.PercentOutput, .5);
+    back.set(ControlMode.PercentOutput, .3);
   }
  
   public void climbStop(){
