@@ -17,9 +17,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.ToggleSlowDrive;
 import frc.robot.commands.WristToPosition;
 import frc.robot.commands.XboxRumble;
-import frc.robot.commands.ClimbCommands.DriveControl;
-import frc.robot.commands.ClimbCommands.HookIn;
-import frc.robot.commands.ClimbCommands.HookOut;
+import frc.robot.commands.ClimbCommands.BlockIn;
+import frc.robot.commands.ClimbCommands.BlockOut;
+import frc.robot.commands.ClimbCommands.LiftRobot;
+import frc.robot.commands.ClimbCommands.LiftWheel;
 import frc.robot.commands.LiftToHeight.LiftHeight;
 import frc.robot.commands.LiftToHeightPID.LiftPosition;
 import frc.robot.commands.WristToPosition.WristPosition;
@@ -62,7 +63,15 @@ public class OI {
     private Joystick angle_pad = new Joystick(2);
     private LiftSystem lift;
 
+    private Button xboxB;
+    private Button xboxX;
+    private Button xboxY;
+    private Button xboxA;
 
+    private Command liftRobot = new LiftRobot();
+    private Command blIn = new BlockIn();
+    private Command blOut = new BlockOut();
+    private Command backWheel = new LiftWheel();
 
     private Command toggleSlowDrive = new ToggleSlowDrive();
 
@@ -94,13 +103,10 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
    private Command liftToTop = new LiftToTop();
    private Command liftToMiddle = new LiftToMiddle();
    private Command liftToLow = new LiftToBottom();
-   private Command driveControl = new DriveControl();
    private Command engageOveride = new EngageOveride();
 
  
     private Command HatchRelease = new HatchRelease();
-    private Command hookOut = new HookOut();
-    private Command hookIn = new HookIn();
  
 
 
@@ -109,10 +115,6 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
     private Command turboDrive = new TurboDrive();
     private Button xbox_drive_leftBumper;
     private Button xbox_drive_rightBumper;
-    private Button xbox_drive_B;
-    private Button xbox_drive_X;
-    private Button xbox_drive_A;
-    private Button xbox_drive_Y;
     private Button xbox_drive_startbutton;
     private Button xbox_drive_backbutton;
 
@@ -153,14 +155,13 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
 
         xbox_drive_leftBumper = new JoystickButton(xbox_drive, 5);
         xbox_drive_rightBumper = new JoystickButton(xbox_drive, 6);
-        xbox_drive_B = new JoystickButton(xbox_drive, 2);
-        xbox_drive_Y = new JoystickButton(xbox_drive, 4);
-        xbox_drive_A = new JoystickButton(xbox_drive,1);
-        xbox_drive_X = new JoystickButton(xbox_drive,3);
         xbox_drive_startbutton = new JoystickButton(xbox_drive,8);
         xbox_drive_backbutton = new JoystickButton(xbox_drive,7);
 
-        
+        xboxX = new JoystickButton(xbox_drive, RobotMap.xbox_x);
+        xboxY = new JoystickButton(xbox_drive, RobotMap.xbox_y);
+        xboxB = new JoystickButton(xbox_drive, RobotMap.xbox_b);
+        xboxA = new JoystickButton(xbox_drive, RobotMap.xbox_a);
         
         angle_pad_1 = new JoystickButton(angle_pad, 1); 
         angle_pad_2 = new JoystickButton(angle_pad, 2); 
@@ -200,10 +201,11 @@ private Command liftToHeightPIDLowHatch = new LiftToHeightPID(LiftPosition.Hatch
       //  xbox_drive_X.whileHeld(RotateToAngle270);
       //  xbox_drive_Y.whileHeld(RotateToAngle0);
 
-      xbox_drive_startbutton.whileHeld(driveControl);
-      xbox_drive_backbutton.whenPressed(hookOut);
 
-
+        xboxY.whenPressed(blIn);
+        xboxX.whenPressed(blOut);
+       // xboxB.whileHeld(liftRobot);
+       // xboxA.whileHeld(backWheel);
 
 
 

@@ -23,6 +23,7 @@ import frc.robot.commands.HatchGrab;
 import frc.robot.commands.PneumaticsWithCANifier;
 import frc.robot.commands.LiftWithJoystick;
 import frc.robot.commands.Autonomous.DriveOffPlatform;
+import frc.robot.subsystems.BlockPneumatics;
 import frc.robot.subsystems.CameraVisionSystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.LiftToHeight;
@@ -31,7 +32,6 @@ import frc.robot.subsystems.LiftSystem;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import frc.robot.commands.FistIntake;
-import frc.robot.commands.ClimbCommands.WenchControl;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -42,7 +42,7 @@ import edu.wpi.first.wpilibj.SPI;
 
 
 public class Robot extends TimedRobot {
-
+  public static BlockPneumatics blockPneu;
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi; 
   //private static CameraVisionSystem cameravisionsystem;
@@ -57,7 +57,6 @@ public class Robot extends TimedRobot {
   private LiftSystem lift;
   private DriveSystem drive;
   private Command fistIntake;
-  private Command wenchControl;
   AHRS NavX;
 
   
@@ -77,7 +76,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
+    
+    blockPneu = BlockPneumatics.getInstance();
     m_oi = OI.getInstance();
    // cameravisionsystem = CameraVisionSystem.getInstance();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
@@ -102,9 +102,8 @@ public class Robot extends TimedRobot {
     HatchGrab = new HatchGrab();
     wristNow = new WristWithJoystick();
     fistIntake = new FistIntake();
-    wenchControl = new WenchControl();
     lift.SetTrueZero();
-
+    NavX = drive.getNavX();
     //NavX = new AHRS(SPI.Port.kMXP);
     //NavX.reset();
   
@@ -153,6 +152,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    SmartDashboard.putNumber("Roll: ", NavX.getRoll());
     Scheduler.getInstance().run();
   }
 
@@ -220,14 +220,12 @@ public class Robot extends TimedRobot {
      * ((DriveWithJoystick) driveNow).setArcadeDrive(arcade_chooser.getSelected());
      */
     lift.resetHoldPosition();
-    wenchControl.start();
     System.out.println("Starting Commands: ");
     driveNow.start();
     liftNow.start();
     HatchGrab.start();
     wristNow.start();
     fistIntake.start();
-    wenchControl.start();
     System.out.println("You mad bro?: ");
     
 
@@ -245,6 +243,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putNumber("Roll: ", NavX.getRoll());
     Scheduler.getInstance().run();
   }
 

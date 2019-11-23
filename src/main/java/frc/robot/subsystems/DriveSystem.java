@@ -227,13 +227,19 @@ public class DriveSystem extends Subsystem {
     setArcadeDrive(arcade_chooser.getSelected());
     if (slow) {
       System.out.println("Changing Speeds to Slow Speeds");
+      SmartDashboard.putBoolean("Slow Mode: ", true);
+      SmartDashboard.putBoolean("Turbo: ", false);
       LeftSpeed = LeftSpeed / SLOW_DOWN_SCALAR;
       RightSpeed = RightSpeed / SLOW_DOWN_SCALAR;
     }else if(turbo){
       System.out.println("Changing Speeds to turbo Speeds");
+      SmartDashboard.putBoolean("Turbo: ", true);
+      SmartDashboard.putBoolean("Slow Mode: ", false);
       LeftSpeed = LeftSpeed *1;
       RightSpeed = RightSpeed *1;
     }else {
+      SmartDashboard.putBoolean("Slow Mode: ", false);
+      SmartDashboard.putBoolean("Turbo: ", false);
       RightSpeed = RightSpeed * .8;
       LeftSpeed = LeftSpeed * .8;
     }
